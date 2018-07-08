@@ -16,10 +16,26 @@ view model =
   div [ class "container", style [("margin-top", "30px"), ( "text-align", "center" )] ][    -- inline CSS (literal)
     div [ class "row" ][
       div [ class "col-xs-12" ][
-        h1 [] [text ("GitHub Search for " ++ model.name)]
+        h1 [] [
+          text ("GitHub Search for " ++ model.name)
+
+          , h2 []
+            [
+              text <| if (model.searching) then "Searching" else "Not searching"
+            ]
+
+          , Html.form []  [
+              div [class "form-group"] [
+                button [class "btn btn-primary btn-lg"] [text "Search"]
+              ]
+              , div [class "form-group"] [
+                button [class "btn btn-primary btn-lg"] [text "Cancel"]
+              ]
+            ]
+          ]
+        ]
       ]
     ]
-  ]
 
 
 -- CSS STYLES
