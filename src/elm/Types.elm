@@ -2,10 +2,17 @@ module Types exposing (..)
 
 init : ( Model, Cmd Msg )
 init =
-    (10, Cmd.none )
+    (
+        {
+            name = "Howard"
+        }
+    , Cmd.none )
 
 -- MODEL
-type alias Model = Int
+type alias Model = {
+    name: String
+}
 
 -- Messages
-type Msg = NoOp | Increment
+type Msg =
+    NoOp

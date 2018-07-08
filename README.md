@@ -105,3 +105,9 @@ npm run build
 * Use `html-webpack-plugin` to generate `index.html`
 * Apply hash filenames for bundled JS and CSS (prevents caching)
 * Image and favicon assets copied to `dist/`
+-----
+# GitHub API Notes
+
+Repository search:
+https://api.github.com/search/repositories?q=react&per_page=10
+Note that prev and next links are sent back as a Links header
