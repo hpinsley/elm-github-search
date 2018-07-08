@@ -6,7 +6,7 @@ import String
 
 -- hello component
 hello : Int -> Html a
-hello model =
+hello repeatTimes =
   div
     [ class "h1" ]
-    [ text ( "Hello, Elm" ++ ( "!" |> String.repeat model ) ) ]
+    [ text ( "Hi, Elm" ++ ( "!" |> String.repeat repeatTimes ) ) ]
