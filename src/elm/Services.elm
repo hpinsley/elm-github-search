@@ -8,7 +8,8 @@ import Decoders exposing (..)
 searchRepos : String -> Cmd Msg
 searchRepos searchString =
     let
-        url = "https://api.github.com/search/repositories?q=" ++ searchString
+        url = "https://api.github.com/search/repositories?q=" ++ searchString ++
+                    "&per_page=3"
         -- url = "http://localhost:8080/static/test.json"
 
         x = Debug.log url
@@ -21,11 +22,11 @@ searchRepos searchString =
                     , body = Http.emptyBody
                     , headers =
                         [
-                            Http.header "Accept" "application/json"
+                              Http.header "Accept" "application/json"
                         ]
                     , expect = Http.expectJson repoSearchResultDecoder
                     , timeout = Nothing
-                    , withCredentials = True
+                    , withCredentials = False
                     }
     in
         Http.send ProcessRepoSearchResult request

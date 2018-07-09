@@ -24,6 +24,11 @@ view model =
 
           , h2 []
             [
+              text <| model.errorMessage
+            ]
+
+          , h2 []
+            [
               text <| "Result count " ++ (toString model.result_count)
             ]
 

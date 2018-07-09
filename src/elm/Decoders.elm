@@ -9,4 +9,4 @@ repoSearchResultDecoder : Decoder RepoQueryResult
 repoSearchResultDecoder =
     decode RepoQueryResult
         |> required "total_count" int
-        |> required "incomplete_result" bool
+        |> required "incomplete_results" bool

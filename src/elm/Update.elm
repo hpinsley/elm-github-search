@@ -2,6 +2,7 @@ module Update exposing (..)
 
 import Types exposing (..)
 import Services exposing (..)
+import Utils exposing (..)
 
 -- UPDATE
 
@@ -24,8 +25,11 @@ update msg model =
       case results of
         Ok searchResult ->
           { model | searching = False, result_count = searchResult.total_count } ! []
-        Err errmsg ->
-          { model | searching = False, result_count = -1 } ! []
+        Err httpError ->
+          { model
+            | searching = False
+            , errorMessage = Utils.httpErrorMessage httpError
+            , result_count = -1 } ! []
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

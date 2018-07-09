@@ -10,6 +10,7 @@ init =
             name = "Howard"
             , searchTerm = ""
             , searching = False
+            , errorMessage = ""
             , result_count = 0
         }
         ,  Cmd.none
@@ -21,6 +22,7 @@ type alias Model =
           name: String
         , searchTerm: String
         , searching: Bool
+        , errorMessage: String
         , result_count: Int
     }
 
