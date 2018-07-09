@@ -2,11 +2,9 @@ module View exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing ( onClick )
+import Html.Events exposing (..)
 
 import Types exposing (..)
--- Component import example
-import Components.Hello exposing ( hello )
 
 -- VIEW
 -- Html is defined as: elem [ attribs ][ children ]
@@ -24,19 +22,41 @@ view model =
               text <| if (model.searching) then "Searching" else "Not searching"
             ]
 
-          , Html.form []  [
-              div [class "form-group"] [
-                button [class "btn btn-primary btn-lg"] [text "Search"]
-              ]
-              , div [class "form-group"] [
-                button [class "btn btn-primary btn-lg"] [text "Cancel"]
-              ]
+          , h2 []
+            [
+              text <| "Result count " ++ (toString model.result_count)
+            ]
+
+          , Html.div []  [
+                getSearchTerm model
+              , getButtons model
             ]
           ]
         ]
       ]
     ]
 
+getButtons: Model -> Html Msg
+getButtons model =
+        div [class "form-group"] [
+            button [
+                      class "btn btn-primary btn-lg"
+                    , onClick StartSearch
+            ] [text "Search"]
+          , button [class "btn btn-warning btn-lg"] [text "Cancel"]
+        ]
+
+getSearchTerm: Model -> Html Msg
+getSearchTerm model =
+        div [class "form-group"] [
+            label [] [text "Search term:"]
+          , input [
+                type_ "text"
+              , class "form-control"
+              , value model.searchTerm
+              , onInput OnSearchTermChange
+              ] []
+        ]
 
 -- CSS STYLES
 styles : { img : List ( String, String ) }
