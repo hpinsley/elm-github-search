@@ -5,12 +5,11 @@ import Http
 import Types exposing (..)
 import Decoders exposing (..)
 
-searchRepos : String -> Cmd Msg
-searchRepos searchString =
+searchRepos : SearchRequest -> Cmd Msg
+searchRepos searchRequest =
     let
-        url = "https://api.github.com/search/repositories?q=" ++ searchString ++
-                    "&per_page=3"
-        -- url = "http://localhost:8080/static/test.json"
+        url = "https://api.github.com/search/repositories?q=" ++ searchRequest.searchTerm ++
+                    "&per_page=" ++ (toString searchRequest.items_per_page)
 
         x = Debug.log url
 

@@ -19,14 +19,19 @@ update msg model =
         { model
           | searching = False
           , page = SearchPage
+          , errorMessage = ""
           , searchTerm = ""
         } ! []
 
     StartSearch ->
       let
-        cmd = searchRepos model.searchTerm
+        cmd = searchRepos { searchTerm = model.searchTerm, items_per_page = model.items_per_page }
       in
-        { model | searching = True } ! [cmd]
+        { model
+          | searching = True
+          , errorMessage = ""
+          , page = SearchingPage
+        } ! [cmd]
 
     ProcessRepoSearchResult results ->
       case results of

@@ -8,8 +8,8 @@ init =
     (
         {
               page = SearchPage
-            , name = "Howard"
             , searchTerm = ""
+            , items_per_page = 10
             , searching = False
             , errorMessage = ""
             , result_count = 0
@@ -22,13 +22,20 @@ init =
 
 type Page
     = SearchPage
+    | SearchingPage
     | ResultsPage
 
+type alias SearchRequest =
+    {
+          searchTerm: String
+        , items_per_page: Int
+    }
+    
 type alias Model =
     {
           page: Page
-        , name: String
         , searchTerm: String
+        , items_per_page: Int
         , searching: Bool
         , errorMessage: String
         , result_count: Int
