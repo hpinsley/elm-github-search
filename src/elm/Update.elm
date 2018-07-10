@@ -15,6 +15,13 @@ update msg model =
     OnSearchTermChange newSearchTerm ->
       { model | searchTerm = newSearchTerm } ! []
 
+    StartNewSearch ->
+        { model
+          | searching = False
+          , page = SearchPage
+          , searchTerm = ""
+        } ! []
+
     StartSearch ->
       let
         cmd = searchRepos model.searchTerm
@@ -24,7 +31,12 @@ update msg model =
     ProcessRepoSearchResult results ->
       case results of
         Ok searchResult ->
-          { model | searching = False, result_count = searchResult.total_count } ! []
+          { model
+            | searching = False
+            , page = ResultsPage
+            , result_count = searchResult.total_count
+            , matching_repos = searchResult.items
+          } ! []
         Err httpError ->
           { model
             | searching = False

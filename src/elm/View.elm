@@ -11,7 +11,21 @@ import Types exposing (..)
 -- CSS can be applied via class names or inline style attrib
 view : Model -> Html Msg
 view model =
-  div [ class "container", style [("margin-top", "30px"), ( "text-align", "center" )] ][    -- inline CSS (literal)
+  div [ class "container", style [("margin-top", "30px"), ( "text-align", "center" )] ]
+    [
+      displayPage model
+    ]
+
+displayPage: Model -> Html Msg
+displayPage model =
+  case model.page of
+    SearchPage ->
+      displaySearchPage model
+    ResultsPage ->
+      displayResultsPage model
+
+displaySearchPage: Model -> Html Msg
+displaySearchPage model =
     div [ class "row" ][
       div [ class "col-xs-12" ][
         h1 [] [
@@ -39,6 +53,15 @@ view model =
           ]
         ]
       ]
+
+displayResultsPage: Model -> Html Msg
+displayResultsPage model =
+  div []
+    [
+            button [
+                      class "btn btn-primary btn-lg"
+                    , onClick StartNewSearch
+            ] [text "New Search"]
     ]
 
 getButtons: Model -> Html Msg
