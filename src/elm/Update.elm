@@ -2,7 +2,6 @@ module Update exposing (..)
 
 import Types exposing (..)
 import Services exposing (..)
-import Utils exposing (..)
 
 -- UPDATE
 
@@ -42,10 +41,11 @@ update msg model =
             , result_count = searchResult.total_count
             , matching_repos = searchResult.items
           } ! []
-        Err httpError ->
+        Err errorMessage ->
           { model
-            | searching = False
-            , errorMessage = Utils.httpErrorMessage httpError
+            | page = SearchPage
+            , searching = False
+            , errorMessage = errorMessage
             , result_count = -1 } ! []
 
 subscriptions : Model -> Sub Msg

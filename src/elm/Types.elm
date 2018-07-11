@@ -30,7 +30,7 @@ type alias SearchRequest =
           searchTerm: String
         , items_per_page: Int
     }
-    
+
 type alias Model =
     {
           page: Page
@@ -47,5 +47,5 @@ type Msg
     = NoOp
     | OnSearchTermChange String
     | StartSearch
-    | ProcessRepoSearchResult (Result Http.Error RepoQueryResult)
+    | ProcessRepoSearchResult (Result String RepoQueryResult)
     | StartNewSearch

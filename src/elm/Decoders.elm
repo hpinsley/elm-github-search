@@ -1,7 +1,7 @@
 module Decoders exposing (..)
 
-import Json.Decode exposing (int, string, float, nullable, list, bool, succeed, Decoder)
-import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
+import Json.Decode exposing (..)
+import Json.Decode.Pipeline exposing (..)
 
 import GithubTypes exposing (..)
 
@@ -11,6 +11,7 @@ repoSearchResultDecoder =
         |> required "total_count" int
         |> required "incomplete_results" bool
         |> required "items" (list repoItemDecoder)
+        |> optional "linkHeader" (maybe string) (Just "")
 
 repoItemDecoder : Decoder RepoItem
 repoItemDecoder =

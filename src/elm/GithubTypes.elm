@@ -5,6 +5,7 @@ type alias RepoQueryResult =
           total_count: Int
         , incomplete_result: Bool
         , items: List RepoItem
+        , linkHeader: Maybe String
     }
 
 type alias RepoItem =

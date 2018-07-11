@@ -6,10 +6,10 @@ httpErrorMessage : Http.Error -> String
 httpErrorMessage error =
     case error of
         Http.BadUrl url ->
-            "Bad Url"
+            "Bad Url " ++ url
 
         Http.Timeout ->
-            "Timeout"
+             "Timeout"
 
         Http.NetworkError ->
             "Network Error"
@@ -17,5 +17,5 @@ httpErrorMessage error =
         Http.BadStatus _ ->
             "Bad Status"
 
-        Http.BadPayload _ _ ->
-            "Bad Payload"
+        Http.BadPayload errmsg _ ->
+            "Bad Payload: " ++ errmsg
