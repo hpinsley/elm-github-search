@@ -40,7 +40,7 @@ update msg model =
             , page = ResultsPage
             , result_count = searchResult.total_count
             , matching_repos = searchResult.items
-            , linkHeader = searchResult.linkHeader
+            , links = extractLinksFromHeader searchResult.linkHeader
           } ! []
         Err errorMessage ->
           { model
@@ -48,9 +48,16 @@ update msg model =
             , searching = False
             , errorMessage = errorMessage
             , matching_repos = []
-            , linkHeader = Nothing
+            , links = []
             , result_count = -1 } ! []
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+
+extractLinksFromHeader: Maybe String -> List Link
+extractLinksFromHeader linkHeader =
+  [
+      { rel = "Prev", link = "This is a prev link"}
+    , { rel = "Next", link = "This is a next link"}
+  ]

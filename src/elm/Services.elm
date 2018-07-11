@@ -2,7 +2,7 @@ module Services exposing (..)
 
 import Http
 import Json.Decode
-
+import Dict
 import Types exposing (..)
 import GithubTypes exposing (..)
 import Decoders exposing (..)
@@ -46,7 +46,7 @@ responseToResult response =
                         Ok goodResponse ->
                             let withLinks = {
                                 goodResponse
-                                    | linkHeader = Just "Sample Link"}
+                                    | linkHeader = extractLinks response}
                             in
                                 Ok withLinks
                         Err msg ->
@@ -56,9 +56,6 @@ responseToResult response =
             -- The error string ends up embedded in a HttpError.BadPayload
             Err response.status.message
 
--- parseHttpResult: (Result Http.Error String) -> Msg
--- parseHttpResult httpResult =
---     httpResult
---         |> Result.mapError Utils.httpErrorMessage
---         |> Result.andThen (Json.Decode.decodeString repoSearchResultDecoder)
---         |> ProcessRepoSearchResult
+extractLinks: Http.Response String -> Maybe String
+extractLinks response =
+    Dict.get "link" response.headers

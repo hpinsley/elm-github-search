@@ -6,6 +6,7 @@ import Html.Events exposing (..)
 import Types exposing (..)
 import GithubTypes exposing (..)
 
+
 view : Model -> Html Msg
 view model =
     div []
@@ -25,31 +26,40 @@ view model =
 displayResultsTable : Model -> Html Msg
 displayResultsTable model =
     table [ class "table table-dark" ]
-        [   tableHeader model
-          , tableBody model
+        [ tableHeader model
+        , tableBody model
         ]
 
-displayLinks: Model -> Html Msg
+
+displayLinks : Model -> Html Msg
 displayLinks model =
-    div [] [
-          h3 [][text "Links"]
-        , text <| Maybe.withDefault "" model.linkHeader
-    ]
-    
+    div []
+        [ h3 [] [ text "Links" ]
+        , div [] (List.map displayLink model.links)
+        ]
+
+displayLink : Link -> Html Msg
+displayLink link =
+    div []
+        [ text <| link.rel ++ " " ++ link.link
+        ]
+
+
 tableBody : Model -> Html Msg
 tableBody model =
     tbody []
-    (List.map getDataRow model.matching_repos)
+        (List.map getDataRow model.matching_repos)
+
 
 getDataRow : RepoItem -> Html Msg
 getDataRow item =
-  tr []
-  [
-      td [][text (toString item.id)]
-    , td [][text item.name]
-    , td [][text item.full_name]
-    , td [][text (toString item.private)]
-  ]
+    tr []
+        [ td [] [ text (toString item.id) ]
+        , td [] [ text item.name ]
+        , td [] [ text item.full_name ]
+        , td [] [ text (toString item.private) ]
+        ]
+
 
 tableHeader : Model -> Html Msg
 tableHeader model =

@@ -14,7 +14,7 @@ init =
             , errorMessage = ""
             , result_count = 0
             , matching_repos = []
-            , linkHeader = Nothing
+            , links = []
         }
         ,  Cmd.none
     )
@@ -32,6 +32,12 @@ type alias SearchRequest =
         , items_per_page: Int
     }
 
+type alias Link =
+    {
+        rel: String,
+        link: String
+    }
+
 type alias Model =
     {
           page: Page
@@ -41,7 +47,7 @@ type alias Model =
         , errorMessage: String
         , result_count: Int
         , matching_repos: List RepoItem
-        , linkHeader: Maybe String
+        , links: List Link
     }
 
 -- Messages
