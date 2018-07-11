@@ -39,7 +39,19 @@ responseToResult response =
 
     case response.status.code of
         200 ->
-            Json.Decode.decodeString repoSearchResultDecoder response.body
+            let
+                decodedResponse = Json.Decode.decodeString repoSearchResultDecoder response.body
+            in
+                    case decodedResponse of
+                        Ok goodResponse ->
+                            let withLinks = {
+                                goodResponse
+                                    | linkHeader = Just "Sample Link"}
+                            in
+                                Ok withLinks
+                        Err msg ->
+                                Err msg
+
         _ ->
             -- The error string ends up embedded in a HttpError.BadPayload
             Err response.status.message

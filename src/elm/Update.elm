@@ -40,12 +40,15 @@ update msg model =
             , page = ResultsPage
             , result_count = searchResult.total_count
             , matching_repos = searchResult.items
+            , linkHeader = searchResult.linkHeader
           } ! []
         Err errorMessage ->
           { model
             | page = SearchPage
             , searching = False
             , errorMessage = errorMessage
+            , matching_repos = []
+            , linkHeader = Nothing
             , result_count = -1 } ! []
 
 subscriptions : Model -> Sub Msg

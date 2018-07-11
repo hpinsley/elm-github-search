@@ -14,6 +14,7 @@ init =
             , errorMessage = ""
             , result_count = 0
             , matching_repos = []
+            , linkHeader = Nothing
         }
         ,  Cmd.none
     )
@@ -40,6 +41,7 @@ type alias Model =
         , errorMessage: String
         , result_count: Int
         , matching_repos: List RepoItem
+        , linkHeader: Maybe String
     }
 
 -- Messages

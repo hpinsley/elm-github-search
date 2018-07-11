@@ -13,6 +13,7 @@ view model =
             [ text <| "Result count " ++ (toString model.result_count)
             ]
         , displayResultsTable model
+        , displayLinks model
         , button
             [ class "btn btn-primary btn-lg"
             , onClick StartNewSearch
@@ -28,6 +29,13 @@ displayResultsTable model =
           , tableBody model
         ]
 
+displayLinks: Model -> Html Msg
+displayLinks model =
+    div [] [
+          h3 [][text "Links"]
+        , text <| Maybe.withDefault "" model.linkHeader
+    ]
+    
 tableBody : Model -> Html Msg
 tableBody model =
     tbody []
