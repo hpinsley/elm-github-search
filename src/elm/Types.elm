@@ -55,5 +55,6 @@ type Msg
     = NoOp
     | OnSearchTermChange String
     | StartSearch
+    | SearchReposViaUrl String
     | ProcessRepoSearchResult (Result String RepoQueryResult)
     | StartNewSearch

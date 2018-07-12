@@ -13,7 +13,12 @@ searchRepos searchRequest =
     let
         url = "https://api.github.com/search/repositories?q=" ++ searchRequest.searchTerm ++
                     "&per_page=" ++ (toString searchRequest.items_per_page)
+    in
+        searchViaUrl url
 
+searchViaUrl : String -> Cmd Msg
+searchViaUrl url =
+    let
         x = Debug.log "url is " url
 
         request =
