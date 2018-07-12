@@ -2,6 +2,12 @@ module Utils exposing (..)
 
 import Http exposing (..)
 
+initialCap: String -> String
+initialCap input =
+    (++)
+        (input|> String.left 1 |> String.toUpper)
+        (String.dropLeft 1 input)
+
 httpErrorMessage : Http.Error -> String
 httpErrorMessage error =
     case error of

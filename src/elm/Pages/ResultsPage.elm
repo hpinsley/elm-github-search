@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import GithubTypes exposing (..)
+import Utils
 
 
 view : Model -> Html Msg
@@ -15,7 +16,14 @@ view model =
             ]
         , displayResultsTable model
         , displayLinks model
-        , button
+        , displayAdditionalButtons model
+        ]
+
+
+displayAdditionalButtons : Model -> Html Msg
+displayAdditionalButtons model =
+    div [class "buttonGroup"]
+        [ button
             [ class "btn btn-primary btn-lg"
             , onClick StartNewSearch
             ]
@@ -33,10 +41,7 @@ displayResultsTable model =
 
 displayLinks : Model -> Html Msg
 displayLinks model =
-    div []
-        [ h3 [] [ text "Links" ]
-        , div [] (List.map displayLink model.links)
-        ]
+    div [ class "buttonGroup" ] (List.map displayLink model.links)
 
 
 displayLink : Link -> Html Msg
@@ -45,7 +50,7 @@ displayLink link =
         [ class "btn btn-primary btn-lg"
         , onClick (SearchReposViaUrl link.link)
         ]
-        [ text link.rel ]
+        [ text <| Utils.initialCap link.rel ]
 
 
 tableBody : Model -> Html Msg

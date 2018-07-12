@@ -27,7 +27,7 @@ view model =
 
 getButtons: Model -> Html Msg
 getButtons model =
-        div [class "form-group"] [
+        div [class "buttonGroup form-group"] [
             button [
                       class "btn btn-primary btn-lg"
                     , onClick StartSearch
