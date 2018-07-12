@@ -73,7 +73,7 @@ extractLinksFromHeader linkHeader =
 extractLinkFromSingle: String -> Maybe Link
 extractLinkFromSingle linkText =
   let
-      pattern = Regex.regex "<(.*)>; rel=(.*)"
+      pattern = Regex.regex "<(.*)>; rel=\"(.*)\""
       matches = Regex.find (Regex.AtMost 1) pattern linkText
       y = Debug.log "matches" matches
   in
