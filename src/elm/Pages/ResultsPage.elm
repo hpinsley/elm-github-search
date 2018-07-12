@@ -22,7 +22,7 @@ view model =
 
 displayAdditionalButtons : Model -> Html Msg
 displayAdditionalButtons model =
-    div [class "buttonGroup"]
+    div [ class "buttonGroup" ]
         [ button
             [ class "btn btn-primary btn-lg"
             , onClick StartNewSearch
@@ -65,7 +65,20 @@ getDataRow item =
         [ td [] [ text (toString item.id) ]
         , td [] [ text item.name ]
         , td [] [ text item.full_name ]
-        , td [] [ text (toString item.private) ]
+        , td [] [ text item.owner.login ]
+        , td []
+            [ case item.owner.avatar_url of
+                Nothing ->
+                    text "Missing"
+
+                Just avatar_url ->
+                    img
+                        [ class "avatar"
+                        , src avatar_url
+                        ]
+                        []
+            ]
+        , td [] [ text (item.url) ]
         ]
 
 
@@ -76,7 +89,9 @@ tableHeader model =
             [ colHeader "Id"
             , colHeader "Name"
             , colHeader "Full Name"
-            , colHeader "Private"
+            , colHeader "Owner"
+            , colHeader "Avatar"
+            , colHeader "Url"
             ]
         ]
 

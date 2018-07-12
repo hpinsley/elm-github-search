@@ -28,3 +28,4 @@ repoItemDecoder =
         |> required "private" bool
         |> required "url" string
         |> required "owner" ownerDecoder
+        |> optional "description" (maybe string) Nothing

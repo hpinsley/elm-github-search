@@ -21,4 +21,5 @@ type alias RepoItem =
         , private: Bool
         , url: String
         , owner: Owner
+        , description: Maybe String
     }
