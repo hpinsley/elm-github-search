@@ -38,11 +38,14 @@ displayLinks model =
         , div [] (List.map displayLink model.links)
         ]
 
+
 displayLink : Link -> Html Msg
 displayLink link =
-    div []
-        [ text <| link.rel ++ " " ++ link.link
+    button
+        [ class "btn btn-primary btn-lg"
+        , onClick (SearchReposViaUrl link.link)
         ]
+        [ text link.rel ]
 
 
 tableBody : Model -> Html Msg
