@@ -5,6 +5,12 @@ import Json.Decode.Pipeline exposing (..)
 
 import GithubTypes exposing (..)
 
+ownerDecoder : Decoder Owner
+ownerDecoder =
+    decode Owner
+        |> required "login" string
+        |> optional "avatar_url" (maybe string) Nothing
+
 repoSearchResultDecoder : Decoder RepoQueryResult
 repoSearchResultDecoder =
     decode RepoQueryResult
@@ -20,3 +26,5 @@ repoItemDecoder =
         |> required "name" string
         |> required "full_name" string
         |> required "private" bool
+        |> required "url" string
+        |> required "owner" ownerDecoder

@@ -8,10 +8,17 @@ type alias RepoQueryResult =
         , linkHeader: Maybe String
     }
 
+type alias Owner = {
+      login: String
+    , avatar_url: Maybe String
+}
+
 type alias RepoItem =
     {
           id: Int
         , name: String
         , full_name: String
         , private: Bool
+        , url: String
+        , owner: Owner
     }
