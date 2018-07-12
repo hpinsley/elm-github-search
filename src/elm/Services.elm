@@ -14,7 +14,7 @@ searchRepos searchRequest =
         url = "https://api.github.com/search/repositories?q=" ++ searchRequest.searchTerm ++
                     "&per_page=" ++ (toString searchRequest.items_per_page)
 
-        x = Debug.log url
+        x = Debug.log "url is " url
 
         request =
             Http.request <|

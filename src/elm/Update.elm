@@ -2,6 +2,7 @@ module Update exposing (..)
 
 import Types exposing (..)
 import Services exposing (..)
+import Regex
 
 -- UPDATE
 
@@ -57,7 +58,31 @@ subscriptions model =
 
 extractLinksFromHeader: Maybe String -> List Link
 extractLinksFromHeader linkHeader =
-  [
-      { rel = "Prev", link = "This is a prev link"}
-    , { rel = "Next", link = "This is a next link"}
-  ]
+  case linkHeader of
+    Nothing ->
+      []
+    Just links ->
+        String.split "," links
+          |> List.map extractLinkFromSingle
+          |> List.filterMap identity
+
+-- The format of these links is:
+-- <https://api.github.com/search/repositories?q=trains&per_page=10&page=100>; rel="last"
+-- Use a RegEx
+
+extractLinkFromSingle: String -> Maybe Link
+extractLinkFromSingle linkText =
+  let
+      pattern = Regex.regex "<(.*)>; rel=(.*)"
+      matches = Regex.find (Regex.AtMost 1) pattern linkText
+      y = Debug.log "matches" matches
+  in
+      case matches of
+        [] -> Nothing
+        match::xs ->
+          case match.submatches of
+            [] -> Nothing
+            link::rel::_ ->
+              Just { rel = Maybe.withDefault "" rel, link = Maybe.withDefault "" link}
+            _ -> Nothing
+
