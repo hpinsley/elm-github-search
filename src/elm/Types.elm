@@ -9,7 +9,7 @@ init =
         {
               page = SearchPage
             , searchTerm = ""
-            , items_per_page = 10
+            , items_per_page = 5
             , searching = False
             , errorMessage = ""
             , result_count = 0
