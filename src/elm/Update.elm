@@ -38,6 +38,19 @@ update msg model =
                 }
                     ! [ cmd ]
 
+        StartOwnerSearch login url avatar_url ->
+            let
+                _ = Debug.log "StartOwnerSearch" (login, url, avatar_url)
+            in
+                { model
+                    | searching = True
+                    , errorMessage = ""
+                    , page = SearchingForOwnerPage
+                    , searchOwnerLogin = login
+                    , searchOwnerAvatarUrl = avatar_url
+                }
+                    ! []
+
         SearchReposViaUrl url ->
             let
                 cmd =

@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Types exposing (..)
 import Pages.SearchPage exposing (view)
 import Pages.SearchingPage exposing (view)
+import Pages.SearchingForOwnerPage exposing (view)
 import Pages.ResultsPage exposing (view)
 
 -- VIEW
@@ -27,3 +28,5 @@ displayPage model =
       Pages.SearchingPage.view model
     ResultsPage ->
       Pages.ResultsPage.view model
+    SearchingForOwnerPage ->
+      Pages.SearchingForOwnerPage.view model

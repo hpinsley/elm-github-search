@@ -9,6 +9,7 @@ ownerDecoder : Decoder Owner
 ownerDecoder =
     decode Owner
         |> required "login" string
+        |> required "url" string
         |> optional "avatar_url" (maybe string) Nothing
 
 repoSearchResultDecoder : Decoder RepoQueryResult

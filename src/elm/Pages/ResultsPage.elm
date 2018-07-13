@@ -75,10 +75,12 @@ renderRepo item =
 getMainRepoItemRow : RepoItem -> Html Msg
 getMainRepoItemRow item =
     tr []
-        [ td [] [ text (toString item.id) ]
-        , td [class "repoName"] [ text item.name ]
+        [ td [ class "repoName" ] [ text item.name ]
         , td [] [ text item.full_name ]
-        , td [] [ text item.owner.login ]
+        , td []
+            [ a [ onClick (StartOwnerSearch item.owner.login item.owner.url item.owner.avatar_url) ]
+                [ text item.owner.login ]
+            ]
         , td []
             [ case item.owner.avatar_url of
                 Nothing ->
@@ -91,7 +93,7 @@ getMainRepoItemRow item =
                         ]
                         []
             ]
-        , td [] [ a [href item.html_url] [text "View on Github"] ]
+        , td [] [ a [ href item.html_url ] [ text "View on Github" ] ]
         ]
 
 
@@ -100,7 +102,7 @@ getDescriptionRepoItemRow item =
     tr
         []
         [ td
-            [ colspan 6 ]
+            [ colspan 5 ]
             [ text (Maybe.withDefault "(no description)" item.description) ]
         ]
 
@@ -109,8 +111,7 @@ tableHeader : Model -> Html Msg
 tableHeader model =
     thead []
         [ tr []
-            [ colHeader "Id"
-            , colHeader "Name"
+            [ colHeader "Name"
             , colHeader "Full Name"
             , colHeader "Owner"
             , colHeader "Avatar"

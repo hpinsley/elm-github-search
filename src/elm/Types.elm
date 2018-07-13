@@ -9,6 +9,8 @@ init =
         {
               page = SearchPage
             , searchTerm = "angular-mashup"
+            , searchOwnerLogin = ""
+            , searchOwnerAvatarUrl = Nothing
             , items_per_page = 5
             , searching = False
             , errorMessage = ""
@@ -24,6 +26,7 @@ init =
 type Page
     = SearchPage
     | SearchingPage
+    | SearchingForOwnerPage
     | ResultsPage
 
 type alias SearchRequest =
@@ -42,6 +45,8 @@ type alias Model =
     {
           page: Page
         , searchTerm: String
+        , searchOwnerLogin: String
+        , searchOwnerAvatarUrl: Maybe String
         , items_per_page: Int
         , searching: Bool
         , errorMessage: String
@@ -58,3 +63,5 @@ type Msg
     | SearchReposViaUrl String
     | ProcessRepoSearchResult (Result String RepoQueryResult)
     | StartNewSearch
+    | StartOwnerSearch String String (Maybe String)
+

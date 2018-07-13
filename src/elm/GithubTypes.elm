@@ -10,6 +10,7 @@ type alias RepoQueryResult =
 
 type alias Owner = {
       login: String
+    , url: String
     , avatar_url: Maybe String
 }
 

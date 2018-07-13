@@ -14,29 +14,3 @@ view model =
                 ]
             ]
         ]
-
-
-getButtons : Model -> Html Msg
-getButtons model =
-    div [ class "form-group" ]
-        [ button
-            [ class "btn btn-primary btn-lg"
-            , onClick StartSearch
-            ]
-            [ text "Search" ]
-        , button [ class "btn btn-warning btn-lg" ] [ text "Cancel" ]
-        ]
-
-
-getSearchTerm : Model -> Html Msg
-getSearchTerm model =
-    div [ class "form-group" ]
-        [ label [] [ text "Search term:" ]
-        , input
-            [ type_ "text"
-            , class "form-control"
-            , value model.searchTerm
-            , onInput OnSearchTermChange
-            ]
-            []
-        ]
