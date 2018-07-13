@@ -18,22 +18,39 @@ img.avatar {
 
 table#repo-results-table {
 
+    thead {
+        tr {
+            border-left: solid black 1px;
+            border-right: solid black 1px;
+            border-top: solid black 1px;
+            border-bottom: solid black 1px;
+
+            th {
+                background-color: black;
+                color: gold;
+                border-bottom: solid black 1px;
+            }
+        }
+    }
     tbody {
         tr {
-            &:nth-child(even) {
-                // border-top: none;
-                // background-color: red;
-                td {
-                    border-top: none;
-                    &.repoName {
-                        color: brown;
-                    }
+            border-left: solid black 1px;
+            border-right: solid black 1px;
+
+            td {
+                border: none;
+                &.repoName {
+                    color: darkslateblue;
+                    font-weight: bold;
+                    font-size: 1.5em;
                 }
             }
-            td {
-                &.repoName {
-                    color: brown;
-                }
+
+            &:nth-child(2n+1) {
+                border-top: solid black 1px;
+            }
+            &:nth-child(4n), &:nth-child(4n-1) {
+                background-color: white;
             }
         }
     }
