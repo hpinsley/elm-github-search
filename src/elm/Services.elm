@@ -7,6 +7,9 @@ import Types exposing (..)
 import GithubTypes exposing (..)
 import Decoders exposing (..)
 import Utils exposing (..)
+import Base64
+
+import Secrets exposing (username, password)
 
 searchRepos : SearchRequest -> Cmd Msg
 searchRepos searchRequest =
@@ -20,6 +23,10 @@ searchViaUrl : String -> Cmd Msg
 searchViaUrl url =
     let
         x = Debug.log "url is " url
+        userPlusPwd = username ++ ":" ++ password
+        _ = Debug.log "user+pwd" userPlusPwd
+        encoded = Base64.encode userPlusPwd
+        _ = Debug.log "(encoded)" encoded
 
         request =
             Http.request <|
@@ -29,7 +36,8 @@ searchViaUrl url =
                     , body = Http.emptyBody
                     , headers =
                         [
-                              Http.header "Accept" "application/json"
+                                Http.header "Accept" "application/json"
+                              , Http.header "Authorization" ("Basic " ++ encoded)
                         ]
                     --, expect = Http.expectJson repoSearchResultDecoder
                     , expect = Http.expectStringResponse responseToResult
