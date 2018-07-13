@@ -33,7 +33,10 @@ displayAdditionalButtons model =
 
 displayResultsTable : Model -> Html Msg
 displayResultsTable model =
-    table [ class "table table-dark" ]
+    table
+        [ id "repo-results-table"
+        , class "table table-dark"
+        ]
         [ tableHeader model
         , tableBody model
         ]
@@ -97,7 +100,7 @@ getDescriptionRepoItemRow item =
     tr
         []
         [ td
-            [ colspan 6]
+            [ colspan 6 ]
             [ text (Maybe.withDefault "(no description)" item.description) ]
         ]
 
