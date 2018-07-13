@@ -8,7 +8,7 @@ init =
     (
         {
               page = SearchPage
-            , searchTerm = ""
+            , searchTerm = "angular-mashup"
             , items_per_page = 5
             , searching = False
             , errorMessage = ""

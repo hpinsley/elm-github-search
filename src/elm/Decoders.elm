@@ -27,5 +27,6 @@ repoItemDecoder =
         |> required "full_name" string
         |> required "private" bool
         |> required "url" string
+        |> required "html_url" string
         |> required "owner" ownerDecoder
         |> optional "description" (maybe string) Nothing

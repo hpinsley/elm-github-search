@@ -19,10 +19,21 @@ img.avatar {
 table#repo-results-table {
 
     tbody {
-        tr:nth-child(even) {
-            border-top: none;
+        tr {
+            &:nth-child(even) {
+                // border-top: none;
+                // background-color: red;
+                td {
+                    border-top: none;
+                    &.repoName {
+                        color: brown;
+                    }
+                }
+            }
             td {
-                border: none
+                &.repoName {
+                    color: brown;
+                }
             }
         }
     }

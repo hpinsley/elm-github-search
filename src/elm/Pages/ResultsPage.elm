@@ -76,7 +76,7 @@ getMainRepoItemRow : RepoItem -> Html Msg
 getMainRepoItemRow item =
     tr []
         [ td [] [ text (toString item.id) ]
-        , td [] [ text item.name ]
+        , td [class "repoName"] [ text item.name ]
         , td [] [ text item.full_name ]
         , td [] [ text item.owner.login ]
         , td []
@@ -91,7 +91,7 @@ getMainRepoItemRow item =
                         ]
                         []
             ]
-        , td [] [ text (item.url) ]
+        , td [] [ a [href item.html_url] [text "View on Github"] ]
         ]
 
 
@@ -114,7 +114,7 @@ tableHeader model =
             , colHeader "Full Name"
             , colHeader "Owner"
             , colHeader "Avatar"
-            , colHeader "Url"
+            , colHeader ""
             ]
         ]
 
