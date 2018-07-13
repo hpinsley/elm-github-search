@@ -22,11 +22,8 @@ searchRepos searchRequest =
 searchViaUrl : String -> Cmd Msg
 searchViaUrl url =
     let
-        x = Debug.log "url is " url
         userPlusPwd = username ++ ":" ++ password
-        _ = Debug.log "user+pwd" userPlusPwd
         encoded = Base64.encode userPlusPwd
-        _ = Debug.log "(encoded)" encoded
 
         request =
             Http.request <|

@@ -56,11 +56,21 @@ displayLink link =
 tableBody : Model -> Html Msg
 tableBody model =
     tbody []
-        (List.map getDataRow model.matching_repos)
+        (model.matching_repos
+            |> List.map renderRepo
+            |> List.concat
+        )
 
 
-getDataRow : RepoItem -> Html Msg
-getDataRow item =
+renderRepo : RepoItem -> List (Html Msg)
+renderRepo item =
+    [ getMainRepoItemRow item
+    , getDescriptionRepoItemRow item
+    ]
+
+
+getMainRepoItemRow : RepoItem -> Html Msg
+getMainRepoItemRow item =
     tr []
         [ td [] [ text (toString item.id) ]
         , td [] [ text item.name ]
@@ -79,6 +89,16 @@ getDataRow item =
                         []
             ]
         , td [] [ text (item.url) ]
+        ]
+
+
+getDescriptionRepoItemRow : RepoItem -> Html Msg
+getDescriptionRepoItemRow item =
+    tr
+        []
+        [ td
+            [ colspan 6]
+            [ text (Maybe.withDefault "(no description)" item.description) ]
         ]
 
 
