@@ -44,6 +44,11 @@ table#repo-results-table {
                     font-weight: bold;
                     font-size: 1.5em;
                 }
+                &.ownerLogin {
+                    a:hover {
+                        cursor: pointer;
+                    }
+                }
             }
 
             &:nth-child(2n+1) {

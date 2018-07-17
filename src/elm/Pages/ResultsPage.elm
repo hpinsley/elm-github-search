@@ -76,7 +76,7 @@ getMainRepoItemRow item =
     tr []
         [ td [ class "repoName" ] [ text item.name ]
         , td [] [ text item.full_name ]
-        , td []
+        , td [ class "ownerLogin"]
             [ a [ onClick (StartUserSearch item.owner.login item.owner.url item.owner.avatar_url) ]
                 [ text item.owner.login ]
             ]
