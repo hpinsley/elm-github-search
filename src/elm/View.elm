@@ -8,8 +8,8 @@ import Pages.SearchPage exposing (view)
 import Pages.SearchingPage exposing (view)
 import Pages.ResultsPage exposing (view)
 
-import Pages.SearchingForOwnerPage exposing (view)
-import Pages.OwnerPage exposing (view)
+import Pages.SearchingForUserPage exposing (view)
+import Pages.UserPage exposing (view)
 
 -- VIEW
 -- Html is defined as: elem [ attribs ][ children ]
@@ -32,7 +32,7 @@ displayPage model =
         Pages.SearchingPage.view model
       ResultsPage ->
         Pages.ResultsPage.view model
-      SearchingForOwnerPage ->
-        Pages.SearchingForOwnerPage.view model
-      OwnerPage ->
-        Pages.OwnerPage.view model
+      SearchingForUserPage ->
+        Pages.SearchingForUserPage.view model
+      UserPage ->
+        Pages.UserPage.view model

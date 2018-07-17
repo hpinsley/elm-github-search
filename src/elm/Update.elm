@@ -38,21 +38,21 @@ update msg model =
                 }
                     ! [ cmd ]
 
-        StartOwnerSearch login url avatar_url ->
+        StartUserSearch login url avatar_url ->
             let
-                _ = Debug.log "StartOwnerSearch" (login, url, avatar_url)
-                cmd = searchOwner login
+                _ = Debug.log "StartUserSearch" (login, url, avatar_url)
+                cmd = searchUser login
             in
                 { model
                     | searching = True
                     , errorMessage = ""
-                    , page = SearchingForOwnerPage
-                    , searchOwnerLogin = login
-                    , searchOwnerAvatarUrl = avatar_url
+                    , page = SearchingForUserPage
+                    , searchUserLogin = login
+                    , searchUserAvatarUrl = avatar_url
                 }
                     ! [cmd]
 
-        ProcessOwnerSearchResult result ->
+        ProcessUserSearchResult result ->
             case result of
                 Err httpError ->
                         { model
@@ -65,10 +65,10 @@ update msg model =
                         }
                             ! []
 
-                Ok owner ->
+                Ok user ->
                         { model
-                            | page = OwnerPage
-                            , owner = Just owner
+                            | page = UserPage
+                            , user = Just user
                             , searching = False
                             , errorMessage = ""
                             , matching_repos = []

@@ -10,15 +10,15 @@ init =
         {
               page = SearchPage
             , searchTerm = "angular-mashup"
-            , searchOwnerLogin = ""
-            , searchOwnerAvatarUrl = Nothing
+            , searchUserLogin = ""
+            , searchUserAvatarUrl = Nothing
             , items_per_page = 5
             , searching = False
             , errorMessage = ""
             , result_count = 0
             , matching_repos = []
             , links = []
-            , owner = Nothing
+            , user = Nothing
         }
         ,  Cmd.none
     )
@@ -28,9 +28,9 @@ init =
 type Page
     = SearchPage
     | SearchingPage
-    | SearchingForOwnerPage
+    | SearchingForUserPage
     | ResultsPage
-    | OwnerPage
+    | UserPage
 
 type alias SearchRequest =
     {
@@ -48,15 +48,15 @@ type alias Model =
     {
           page: Page
         , searchTerm: String
-        , searchOwnerLogin: String
-        , searchOwnerAvatarUrl: Maybe String
+        , searchUserLogin: String
+        , searchUserAvatarUrl: Maybe String
         , items_per_page: Int
         , searching: Bool
         , errorMessage: String
         , result_count: Int
         , matching_repos: List RepoItem
         , links: List Link
-        , owner: Maybe Owner
+        , user: Maybe User
     }
 
 -- Messages
@@ -67,6 +67,6 @@ type Msg
     | SearchReposViaUrl String
     | ProcessRepoSearchResult (Result String RepoQueryResult)
     | StartNewSearch
-    | StartOwnerSearch String String (Maybe String)
-    | ProcessOwnerSearchResult (Result Http.Error Owner)
+    | StartUserSearch String String (Maybe String)
+    | ProcessUserSearchResult (Result Http.Error User)
 

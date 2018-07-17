@@ -1,4 +1,4 @@
-module Pages.SearchingForOwnerPage exposing (view)
+module Pages.SearchingForUserPage exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -9,11 +9,11 @@ view model =
     div [ class "row" ]
         [ div [ class "col-xs-12" ]
             [ h1 []
-                [ text ("Searching for " ++ model.searchOwnerLogin ++ "...")
+                [ text ("Searching for " ++ model.searchUserLogin ++ "...")
                 ]
             , div
                 []
-                [ case model.searchOwnerAvatarUrl of
+                [ case model.searchUserAvatarUrl of
                     Nothing ->
                         text ""
 

@@ -13,6 +13,14 @@ ownerDecoder =
         |> optional "avatar_url" (maybe string) Nothing
         |> required "repos_url" string
 
+userDecoder : Decoder User
+userDecoder =
+    decode User
+        |> required "login" string
+        |> required "url" string
+        |> optional "avatar_url" (maybe string) Nothing
+        |> required "repos_url" string
+
 repoSearchResultDecoder : Decoder RepoQueryResult
 repoSearchResultDecoder =
     decode RepoQueryResult

@@ -78,10 +78,10 @@ extractLinks: Http.Response String -> Maybe String
 extractLinks response =
     Dict.get "link" response.headers
 
-searchOwner: String -> Cmd Msg
-searchOwner owner =
+searchUser: String -> Cmd Msg
+searchUser user =
     let
-        url = "https://api.github.com/users/" ++ owner
+        url = "https://api.github.com/users/" ++ user
         request =
             Http.request <|
                     { method = "GET"
@@ -93,9 +93,9 @@ searchOwner owner =
                               , authHeader
                         ]
                     --, expect = Http.expectJson repoSearchResultDecoder
-                    , expect = Http.expectJson ownerDecoder
+                    , expect = Http.expectJson userDecoder
                     , timeout = Nothing
                     , withCredentials = False
                     }
     in
-        Http.send ProcessOwnerSearchResult request
+        Http.send ProcessUserSearchResult request

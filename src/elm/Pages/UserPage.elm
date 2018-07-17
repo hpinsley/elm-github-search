@@ -1,4 +1,4 @@
-module Pages.OwnerPage exposing (view)
+module Pages.UserPage exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -8,36 +8,36 @@ import GithubTypes exposing (..)
 
 view : Model -> Html Msg
 view model =
-    case model.owner of
+    case model.user of
         Nothing ->
-            no_owner
+            no_user
 
-        Just owner ->
-            displayOwner model owner
-
-
-no_owner : Html Msg
-no_owner =
-    text "No owner"
+        Just user ->
+            displayUser model user
 
 
-displayOwner : Model -> Owner -> Html Msg
-displayOwner model owner =
+no_user : Html Msg
+no_user =
+    text "No user"
+
+
+displayUser : Model -> User -> Html Msg
+displayUser model user =
     div []
-        [ h1 [] [ text owner.login ]
-        , case owner.avatar_url of
+        [ h1 [] [ text user.login ]
+        , case user.avatar_url of
             Nothing ->
                 text ""
 
             Just image_url ->
                 img [ src image_url ] []
-        , table []
+        , table [class "userTable"]
             [ tr []
                 [ td []
                     [ text "Repos:"
                     ]
                 , td []
-                    [ text <| owner.repos_url
+                    [ text <| user.repos_url
                     ]
                 ]
             ]
