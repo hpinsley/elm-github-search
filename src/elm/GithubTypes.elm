@@ -12,6 +12,7 @@ type alias Owner = {
       login: String
     , url: String
     , avatar_url: Maybe String
+    , repos_url: String
 }
 
 type alias RepoItem =

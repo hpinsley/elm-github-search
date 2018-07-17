@@ -34,7 +34,7 @@ searchViaUrl url =
                     , headers =
                         [
                                 Http.header "Accept" "application/json"
-                              , Http.header "Authorization" ("Basic " ++ encoded)
+                              , authHeader
                         ]
                     --, expect = Http.expectJson repoSearchResultDecoder
                     , expect = Http.expectStringResponse responseToResult
@@ -43,6 +43,14 @@ searchViaUrl url =
                     }
     in
         Http.send (Result.mapError Utils.httpErrorMessage >> ProcessRepoSearchResult) request
+
+authHeader: Http.Header
+authHeader =
+        let
+            userPlusPwd = username ++ ":" ++ password
+            encoded = Base64.encode userPlusPwd
+        in
+            Http.header "Authorization" ("Basic " ++ encoded)
 
 responseToResult: Http.Response String -> Result String RepoQueryResult
 responseToResult response =
@@ -69,3 +77,25 @@ responseToResult response =
 extractLinks: Http.Response String -> Maybe String
 extractLinks response =
     Dict.get "link" response.headers
+
+searchOwner: String -> Cmd Msg
+searchOwner owner =
+    let
+        url = "https://api.github.com/users/" ++ owner
+        request =
+            Http.request <|
+                    { method = "GET"
+                    , url = url
+                    , body = Http.emptyBody
+                    , headers =
+                        [
+                                Http.header "Accept" "application/json"
+                              , authHeader
+                        ]
+                    --, expect = Http.expectJson repoSearchResultDecoder
+                    , expect = Http.expectJson ownerDecoder
+                    , timeout = Nothing
+                    , withCredentials = False
+                    }
+    in
+        Http.send ProcessOwnerSearchResult request

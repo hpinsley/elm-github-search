@@ -3,7 +3,7 @@ module Update exposing (..)
 import Types exposing (..)
 import Services exposing (..)
 import Regex
-
+import Utils
 
 -- UPDATE
 
@@ -41,6 +41,7 @@ update msg model =
         StartOwnerSearch login url avatar_url ->
             let
                 _ = Debug.log "StartOwnerSearch" (login, url, avatar_url)
+                cmd = searchOwner login
             in
                 { model
                     | searching = True
@@ -49,7 +50,32 @@ update msg model =
                     , searchOwnerLogin = login
                     , searchOwnerAvatarUrl = avatar_url
                 }
-                    ! []
+                    ! [cmd]
+
+        ProcessOwnerSearchResult result ->
+            case result of
+                Err httpError ->
+                        { model
+                            | page = SearchPage
+                            , searching = False
+                            , errorMessage = Utils.httpErrorMessage httpError
+                            , matching_repos = []
+                            , links = []
+                            , result_count = -1
+                        }
+                            ! []
+
+                Ok owner ->
+                        { model
+                            | page = OwnerPage
+                            , owner = Just owner
+                            , searching = False
+                            , errorMessage = ""
+                            , matching_repos = []
+                            , links = []
+                            , result_count = -1
+                        }
+                            ! []
 
         SearchReposViaUrl url ->
             let

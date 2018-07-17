@@ -2,6 +2,7 @@ module Types exposing (..)
 
 import Http exposing (..)
 import GithubTypes exposing (..)
+import Http
 
 init : ( Model, Cmd Msg )
 init =
@@ -17,6 +18,7 @@ init =
             , result_count = 0
             , matching_repos = []
             , links = []
+            , owner = Nothing
         }
         ,  Cmd.none
     )
@@ -28,6 +30,7 @@ type Page
     | SearchingPage
     | SearchingForOwnerPage
     | ResultsPage
+    | OwnerPage
 
 type alias SearchRequest =
     {
@@ -53,6 +56,7 @@ type alias Model =
         , result_count: Int
         , matching_repos: List RepoItem
         , links: List Link
+        , owner: Maybe Owner
     }
 
 -- Messages
@@ -64,4 +68,5 @@ type Msg
     | ProcessRepoSearchResult (Result String RepoQueryResult)
     | StartNewSearch
     | StartOwnerSearch String String (Maybe String)
+    | ProcessOwnerSearchResult (Result Http.Error Owner)
 

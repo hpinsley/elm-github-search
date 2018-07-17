@@ -7,7 +7,6 @@ import Types exposing (..)
 import GithubTypes exposing (..)
 import Utils
 
-
 view : Model -> Html Msg
 view model =
     div []
