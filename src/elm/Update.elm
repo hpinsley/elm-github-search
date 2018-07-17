@@ -5,6 +5,7 @@ import Services exposing (..)
 import Regex
 import Utils
 
+
 -- UPDATE
 
 
@@ -40,8 +41,11 @@ update msg model =
 
         StartUserSearch login url avatar_url ->
             let
-                _ = Debug.log "StartUserSearch" (login, url, avatar_url)
-                cmd = searchUser login
+                _ =
+                    Debug.log "StartUserSearch" ( login, url, avatar_url )
+
+                cmd =
+                    searchUser login
             in
                 { model
                     | searching = True
@@ -50,32 +54,35 @@ update msg model =
                     , searchUserLogin = login
                     , searchUserAvatarUrl = avatar_url
                 }
-                    ! [cmd]
+                    ! [ cmd ]
 
         ProcessUserSearchResult result ->
             case result of
                 Err httpError ->
-                        { model
-                            | page = SearchPage
-                            , searching = False
-                            , errorMessage = Utils.httpErrorMessage httpError
-                            , matching_repos = []
-                            , links = []
-                            , result_count = -1
-                        }
-                            ! []
+                    { model
+                        | page = SearchPage
+                        , searching = False
+                        , errorMessage = Utils.httpErrorMessage httpError
+                        , matching_repos = []
+                        , links = []
+                        , result_count = -1
+                    }
+                        ! []
 
                 Ok user ->
-                        { model
-                            | page = UserPage
-                            , user = Just user
-                            , searching = False
-                            , errorMessage = ""
-                            , matching_repos = []
-                            , links = []
-                            , result_count = -1
-                        }
-                            ! []
+                    { model
+                        | page = UserPage
+                        , user = Just user
+                        , searching = False
+                        , errorMessage = ""
+                    }
+                        ! []
+
+        ReturnToRepoSearchResults ->
+            { model
+                | page = ResultsPage
+            }
+                ! []
 
         SearchReposViaUrl url ->
             let

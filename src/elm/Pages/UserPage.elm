@@ -59,7 +59,7 @@ displayAdditionalButtons model =
     div [ class "buttonGroup" ]
         [ button
             [ class "btn btn-primary btn-lg"
-            , onClick StartNewSearch
+            , onClick ReturnToRepoSearchResults
             ]
-            [ text "New Search" ]
+            [ text "Return to Search Results" ]
         ]

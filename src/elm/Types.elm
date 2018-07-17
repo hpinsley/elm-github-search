@@ -69,4 +69,5 @@ type Msg
     | StartNewSearch
     | StartUserSearch String String (Maybe String)
     | ProcessUserSearchResult (Result Http.Error User)
+    | ReturnToRepoSearchResults
 
