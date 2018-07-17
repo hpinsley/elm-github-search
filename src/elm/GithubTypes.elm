@@ -1,5 +1,7 @@
 module GithubTypes exposing (..)
 
+import Date
+
 type alias RepoQueryResult =
     {
           total_count: Int
@@ -20,6 +22,11 @@ type alias User = {
     , url: String
     , avatar_url: Maybe String
     , repos_url: String
+    , bio: Maybe String
+    , public_repos: Int
+    , public_gists: Int
+    , followers: Int
+    , following: Int
 }
 
 type alias RepoItem =

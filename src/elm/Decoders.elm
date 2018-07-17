@@ -20,6 +20,11 @@ userDecoder =
         |> required "url" string
         |> optional "avatar_url" (maybe string) Nothing
         |> required "repos_url" string
+        |> optional "bio" (maybe string) Nothing
+        |> required "public_repos" int
+        |> required "public_gists" int
+        |> required "followers" int
+        |> required "following" int
 
 repoSearchResultDecoder : Decoder RepoQueryResult
 repoSearchResultDecoder =

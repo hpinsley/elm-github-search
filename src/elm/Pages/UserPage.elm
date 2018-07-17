@@ -32,14 +32,23 @@ displayUser model user =
             Just image_url ->
                 img [ src image_url ] []
         , table [class "userTable"]
-            [ tr []
-                [ td []
-                    [ text "Repos:"
+            [
+                tr []
+                    [ td []
+                        [ text "Bio:"
+                        ]
+                    , td []
+                        [ text <| Maybe.withDefault "" user.bio
+                        ]
                     ]
-                , td []
-                    [ text <| user.repos_url
+                , tr []
+                    [ td []
+                        [ text "Repos:"
+                        ]
+                    , td []
+                        [ text <| user.repos_url
+                        ]
                     ]
-                ]
             ]
         , displayAdditionalButtons model
         ]
