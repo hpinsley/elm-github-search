@@ -7,6 +7,7 @@ import Types exposing (..)
 import GithubTypes exposing (..)
 import Utils
 
+
 view : Model -> Html Msg
 view model =
     div []
@@ -73,27 +74,33 @@ renderRepo item =
 
 getMainRepoItemRow : RepoItem -> Html Msg
 getMainRepoItemRow item =
-    tr []
-        [ td [ class "repoName" ] [ text item.name ]
-        , td [] [ text item.full_name ]
-        , td [ class "ownerLogin"]
-            [ a [ onClick (StartUserSearch item.owner.login item.owner.url item.owner.avatar_url) ]
-                [ text item.owner.login ]
-            ]
-        , td []
-            [ case item.owner.avatar_url of
-                Nothing ->
-                    text "Missing"
+    let
+        userLookupCmd =
+            (StartUserSearch item.owner.login item.owner.url item.owner.avatar_url)
+    in
+        tr []
+            [ td [ class "repoName" ] [ text item.name ]
+            , td [] [ text item.full_name ]
+            , td [ class "ownerLogin" ]
+                [ a [ onClick userLookupCmd ]
+                    [ text item.owner.login ]
+                ]
+            , td [ class "avatar"]
+                [ case item.owner.avatar_url of
+                    Nothing ->
+                        text "Missing"
 
-                Just avatar_url ->
-                    img
-                        [ class "avatar"
-                        , src avatar_url
-                        ]
-                        []
+                    Just avatar_url ->
+                        a [onClick userLookupCmd]
+                            [ img
+                                [ class "avatar"
+                                , src avatar_url
+                                ]
+                                []
+                            ]
+                ]
+            , td [] [ a [ href item.html_url ] [ text "View on Github" ] ]
             ]
-        , td [] [ a [ href item.html_url ] [ text "View on Github" ] ]
-        ]
 
 
 getDescriptionRepoItemRow : RepoItem -> Html Msg

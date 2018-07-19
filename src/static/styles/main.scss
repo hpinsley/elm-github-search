@@ -49,6 +49,13 @@ table#repo-results-table {
                         cursor: pointer;
                     }
                 }
+                &.avatar {
+                    a {
+                        img {
+                            cursor: pointer;
+                        }
+                    }
+                }
             }
 
             &:nth-child(2n+1) {
