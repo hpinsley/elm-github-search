@@ -6,6 +6,7 @@ import Html.Events exposing (..)
 import Types exposing (..)
 import GithubTypes exposing (..)
 
+
 view : Model -> Html Msg
 view model =
     case model.user of
@@ -31,26 +32,27 @@ displayUser model user =
 
             Just image_url ->
                 img [ src image_url ] []
-        , table [class "userTable"]
-            [
-                tr []
-                    [ td []
-                        [ text "Bio:"
-                        ]
-                    , td []
-                        [ text <| Maybe.withDefault "" user.bio
-                        ]
-                    ]
-                , tr []
-                    [ td []
-                        [ text "Repos:"
-                        ]
-                    , td []
-                        [ text <| user.repos_url
-                        ]
-                    ]
+        , table [ class "userTable" ]
+            [ tbody []
+                [ userInfoRow "Bio:" (text <| Maybe.withDefault "" user.bio)
+                , userInfoRow "Repos:" (text user.repos_url)
+                , userInfoRow "Followers:" (text <| toString user.followers)
+                , userInfoRow "Following:" (text <| toString user.following)
+                ]
             ]
         , displayAdditionalButtons model
+        ]
+
+
+userInfoRow : String -> Html Msg -> Html Msg
+userInfoRow rowLabel valueElement =
+    tr []
+        [ td []
+            [ text rowLabel
+            ]
+        , td []
+            [ valueElement
+            ]
         ]
 
 

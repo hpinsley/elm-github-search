@@ -72,5 +72,21 @@ table#repo-results-table {
 }
 
 table.userTable {
-    background-color: yellow;
+
+    margin-top: 20px;
+    font-size: 14pt;
+
+    tbody {
+        tr {
+            td {
+                padding-top: 10px;
+
+                &:nth-child(1) {
+                    font-weight: bold;
+                    color: darkblue;
+                    padding-right: 10px;
+                }
+            }
+        }
+    }
 }
