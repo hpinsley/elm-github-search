@@ -20,6 +20,7 @@ type alias Owner = {
 type alias User = {
       login: String
     , url: String
+    , html_url: String
     , avatar_url: Maybe String
     , repos_url: String
     , bio: Maybe String

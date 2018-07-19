@@ -18,6 +18,7 @@ userDecoder =
     decode User
         |> required "login" string
         |> required "url" string
+        |> required "html_url" string
         |> optional "avatar_url" (maybe string) Nothing
         |> required "repos_url" string
         |> optional "bio" (maybe string) Nothing

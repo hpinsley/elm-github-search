@@ -34,10 +34,25 @@ displayUser model user =
                 img [ src image_url ] []
         , table [ class "userTable" ]
             [ tbody []
-                [ userInfoRow "Bio:" (text <| Maybe.withDefault "" user.bio)
+                [
+                  userInfoRow "Url:" (a [href user.html_url][text <| user.login ++ "'s User Page"])
+                , userInfoRow "Bio:" (text <| Maybe.withDefault "" user.bio)
                 , userInfoRow "Repos:" (text user.repos_url)
                 , userInfoRow "Followers:" (text <| toString user.followers)
                 , userInfoRow "Following:" (text <| toString user.following)
+                , userInfoRow "Public Repos:" (text <| toString user.public_repos)
+                , userInfoRow "Public Gists:" (text <| toString user.public_gists)
+
+    --   login: String
+    -- , url: String
+    -- , avatar_url: Maybe String
+    -- , repos_url: String
+    -- , bio: Maybe String
+    -- , public_repos: Int
+    -- , public_gists: Int
+    -- , followers: Int
+    -- , following: Int
+
                 ]
             ]
         , displayAdditionalButtons model
