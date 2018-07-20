@@ -99,3 +99,24 @@ searchUser user =
                     }
     in
         Http.send ProcessUserSearchResult request
+
+searchUserRepos: String -> Cmd Msg
+searchUserRepos url =
+    let
+        request =
+            Http.request <|
+                    { method = "GET"
+                    , url = url
+                    , body = Http.emptyBody
+                    , headers =
+                        [
+                                Http.header "Accept" "application/json"
+                              , authHeader
+                        ]
+                    --, expect = Http.expectJson repoSearchResultDecoder
+                    , expect = Http.expectJson repoListDecoder
+                    , timeout = Nothing
+                    , withCredentials = False
+                    }
+    in
+        Http.send ProcessUserReposResult request

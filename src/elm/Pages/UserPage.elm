@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import GithubTypes exposing (..)
+import Services
 
 
 view : Model -> Html Msg
@@ -35,7 +36,7 @@ displayUser model user =
         , table [ class "userTable" ]
             [ tbody []
                 [ userInfoRow "Url:" (a [ href user.html_url ] [ text <| user.login ++ "'s User Page" ])
-                , userInfoRow "Repos Url:" (a [ href user.repos_url ] [ text <| user.login ++ "'s Repos (api)" ])
+                , userInfoRow "Repos:" (a [ onClick <| StartUserRepoSearch user.login user.repos_url ] [ text <| user.login ++ "'s Repos (api)" ])
                 , userInfoRow "Bio:" (text <| Maybe.withDefault "" user.bio)
                 , userInfoRow "Repos:" (text user.repos_url)
                 , userInfoRow "Followers:" (text <| toString user.followers)

@@ -47,3 +47,7 @@ repoItemDecoder =
         |> required "html_url" string
         |> required "owner" ownerDecoder
         |> optional "description" (maybe string) Nothing
+
+repoListDecoder : Decoder (List RepoItem)
+repoListDecoder =
+    Json.Decode.list (repoItemDecoder)

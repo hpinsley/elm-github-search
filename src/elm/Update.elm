@@ -56,6 +56,17 @@ update msg model =
                 }
                     ! [ cmd ]
 
+        StartUserRepoSearch login url ->
+            let
+                cmd = searchUserRepos url
+            in
+                { model
+                    | searching = True
+                    , errorMessage = ""
+                    , page = SearchingPage
+                }
+                    ! [ cmd ]
+
         ProcessUserSearchResult result ->
             case result of
                 Err httpError ->
@@ -73,6 +84,28 @@ update msg model =
                     { model
                         | page = UserPage
                         , user = Just user
+                        , searching = False
+                        , errorMessage = ""
+                    }
+                        ! []
+
+        ProcessUserReposResult result ->
+            case result of
+                Err httpError ->
+                    { model
+                        | page = SearchPage
+                        , searching = False
+                        , errorMessage = Utils.httpErrorMessage httpError
+                        , matching_repos = []
+                        , links = []
+                        , result_count = -1
+                    }
+                        ! []
+
+                Ok userRepoList ->
+                    { model
+                        | page = UserPage
+                        , userRepoList = userRepoList
                         , searching = False
                         , errorMessage = ""
                     }
