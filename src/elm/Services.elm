@@ -121,10 +121,16 @@ searchUser user =
 searchUserRepos: String -> Cmd Msg
 searchUserRepos url =
     let
+        adjustedUrl =
+            if (String.contains url "per_page")
+                then
+                    url
+                else
+                    url ++ "?per_page=" ++ (toString 5)
         request =
             Http.request <|
                     { method = "GET"
-                    , url = url
+                    , url = adjustedUrl
                     , body = Http.emptyBody
                     , headers =
                         [
