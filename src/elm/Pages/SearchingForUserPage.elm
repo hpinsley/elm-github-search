@@ -18,7 +18,7 @@ view model =
                         text ""
 
                     Just imageUrl ->
-                        img [src imageUrl] []
+                        img [src imageUrl, class "mediumAvatar"] []
                 ]
             ]
         ]

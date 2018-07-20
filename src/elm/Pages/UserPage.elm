@@ -24,14 +24,14 @@ no_user =
 
 displayUser : Model -> User -> Html Msg
 displayUser model user =
-    div []
+    div [class "userInfo"]
         [ h1 [] [ text user.login ]
         , case user.avatar_url of
             Nothing ->
                 text ""
 
             Just image_url ->
-                img [ src image_url ] []
+                img [ src image_url, class "mediumAvatar" ] []
         , table [ class "userTable" ]
             [ tbody []
                 [

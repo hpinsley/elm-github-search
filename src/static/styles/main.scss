@@ -12,8 +12,11 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 }
 
 img.avatar {
-    width: 50px;
     height: 50px;
+}
+
+img.mediumAvatar {
+    height: 200px;
 }
 
 table#repo-results-table {
