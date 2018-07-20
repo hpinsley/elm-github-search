@@ -34,6 +34,7 @@ update msg model =
             in
                 { model
                     | searching = True
+                    , searchType = RepoQuery
                     , errorMessage = ""
                     , page = SearchingPage
                 }
@@ -49,6 +50,7 @@ update msg model =
             in
                 { model
                     | searching = True
+                    , searchType = UserLookup
                     , errorMessage = ""
                     , page = SearchingForUserPage
                     , searchUserLogin = login
@@ -62,6 +64,8 @@ update msg model =
             in
                 { model
                     | searching = True
+                    , searchType = UserRepos
+                    , searchTerm = "Repos for user " ++ login
                     , errorMessage = ""
                     , page = SearchingPage
                 }

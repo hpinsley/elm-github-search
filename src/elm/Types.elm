@@ -9,6 +9,7 @@ init =
     (
         {
               page = SearchPage
+            , searchType = NotSearching
             , searchTerm = "angular-mashup"
             , searchUserLogin = ""
             , searchUserAvatarUrl = Nothing
@@ -32,6 +33,12 @@ type Page
     | ResultsPage
     | UserPage
 
+type SearchType
+    = NotSearching
+    | RepoQuery
+    | UserLookup
+    | UserRepos
+
 type alias SearchRequest =
     {
           searchTerm: String
@@ -47,6 +54,7 @@ type alias Link =
 type alias Model =
     {
           page: Page
+        , searchType: SearchType
         , searchTerm: String
         , searchUserLogin: String
         , searchUserAvatarUrl: Maybe String

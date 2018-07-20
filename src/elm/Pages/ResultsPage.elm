@@ -44,16 +44,25 @@ displayResultsTable model =
 
 displayLinks : Model -> Html Msg
 displayLinks model =
-    div [ class "buttonGroup" ] (List.map displayLink model.links)
+    div [ class "buttonGroup" ] (List.map (displayLink model) model.links)
 
 
-displayLink : Link -> Html Msg
-displayLink link =
-    button
-        [ class "btn btn-primary btn-lg"
-        , onClick (SearchReposViaUrl link.link)
-        ]
-        [ text <| Utils.initialCap link.rel ]
+displayLink : Model -> Link -> Html Msg
+displayLink model link =
+    let
+        clickMsg =
+            case model.searchType of
+                UserRepos ->
+                    --  Continue a user search with a link
+                     StartUserRepoSearch model.searchUserLogin link.link
+                _ ->
+                     SearchReposViaUrl link.link
+    in
+        button
+            [ class "btn btn-primary btn-lg"
+            , onClick clickMsg
+            ]
+            [ text <| Utils.initialCap link.rel ]
 
 
 tableBody : Model -> Html Msg

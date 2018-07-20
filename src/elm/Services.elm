@@ -80,17 +80,13 @@ responseToUserRepoQueryResult response =
     case response.status.code of
         200 ->
             let
-                decodedResponse = Json.Decode.decodeString userReposResultDecoder response.body
+                repoListResponse = Json.Decode.decodeString repoListDecoder response.body
             in
-                    case decodedResponse of
-                        Ok goodResponse ->
-                            let withLinks = {
-                                goodResponse
-                                    | linkHeader = extractLinks response}
-                            in
-                                Ok withLinks
-                        Err msg ->
-                                Err msg
+                case repoListResponse of
+                    Ok repoList ->
+                        Ok <| UserReposQueryResult repoList (extractLinks response)
+                    Err msg ->
+                        Err msg
 
         _ ->
             -- The error string ends up embedded in a HttpError.BadPayload
