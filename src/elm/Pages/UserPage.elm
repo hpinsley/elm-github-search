@@ -24,7 +24,7 @@ no_user =
 
 displayUser : Model -> User -> Html Msg
 displayUser model user =
-    div [class "userInfo"]
+    div [ class "userInfo" ]
         [ h1 [] [ text user.login ]
         , case user.avatar_url of
             Nothing ->
@@ -34,25 +34,23 @@ displayUser model user =
                 img [ src image_url, class "mediumAvatar" ] []
         , table [ class "userTable" ]
             [ tbody []
-                [
-                  userInfoRow "Url:" (a [href user.html_url][text <| user.login ++ "'s User Page"])
+                [ userInfoRow "Url:" (a [ href user.html_url ] [ text <| user.login ++ "'s User Page" ])
+                , userInfoRow "Repos Url:" (a [ href user.repos_url ] [ text <| user.login ++ "'s Repos (api)" ])
                 , userInfoRow "Bio:" (text <| Maybe.withDefault "" user.bio)
                 , userInfoRow "Repos:" (text user.repos_url)
                 , userInfoRow "Followers:" (text <| toString user.followers)
                 , userInfoRow "Following:" (text <| toString user.following)
                 , userInfoRow "Public Repos:" (text <| toString user.public_repos)
                 , userInfoRow "Public Gists:" (text <| toString user.public_gists)
-
-    --   login: String
-    -- , url: String
-    -- , avatar_url: Maybe String
-    -- , repos_url: String
-    -- , bio: Maybe String
-    -- , public_repos: Int
-    -- , public_gists: Int
-    -- , followers: Int
-    -- , following: Int
-
+                  --   login: String
+                  -- , url: String
+                  -- , avatar_url: Maybe String
+                  -- , repos_url: String
+                  -- , bio: Maybe String
+                  -- , public_repos: Int
+                  -- , public_gists: Int
+                  -- , followers: Int
+                  -- , following: Int
                 ]
             ]
         , displayAdditionalButtons model

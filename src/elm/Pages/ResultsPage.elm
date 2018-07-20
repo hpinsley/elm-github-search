@@ -81,6 +81,7 @@ getMainRepoItemRow item =
         tr []
             [ td [ class "repoName" ] [ text item.name ]
             , td [] [ text item.full_name ]
+            , td [] [ text <| if item.fork then "Yes" else "No" ]
             , td [ class "ownerLogin" ]
                 [ a [ onClick userLookupCmd ]
                     [ text item.owner.login ]
@@ -119,6 +120,7 @@ tableHeader model =
         [ tr []
             [ colHeader "Name"
             , colHeader "Full Name"
+            , colHeader "Fork"
             , colHeader "Owner"
             , colHeader "Avatar"
             , colHeader ""

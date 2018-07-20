@@ -36,6 +36,7 @@ type alias RepoItem =
         , name: String
         , full_name: String
         , private: Bool
+        , fork: Bool
         , url: String
         , html_url: String
         , owner: Owner
