@@ -48,6 +48,8 @@ repoItemDecoder =
         |> required "owner" ownerDecoder
         |> optional "description" (maybe string) Nothing
 
-repoListDecoder : Decoder (List RepoItem)
-repoListDecoder =
-    Json.Decode.list (repoItemDecoder)
+userReposResultDecoder : Decoder UserReposQueryResult
+userReposResultDecoder =
+    decode UserReposQueryResult
+        |> required "items" (Json.Decode.list repoItemDecoder)
+        |> optional "linkHeader" (maybe string) (Just "")

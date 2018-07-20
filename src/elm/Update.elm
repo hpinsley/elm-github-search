@@ -93,7 +93,7 @@ update msg model =
             case result of
                 Err httpError ->
                     { model
-                        | page = SearchPage
+                        | page  = SearchPage
                         , searching = False
                         , errorMessage = Utils.httpErrorMessage httpError
                         , matching_repos = []
@@ -102,10 +102,11 @@ update msg model =
                     }
                         ! []
 
-                Ok userRepoList ->
+                Ok result ->
                     { model
-                        | page = UserPage
-                        , userRepoList = userRepoList
+                        | page = ResultsPage
+                        , matching_repos = result.items
+                        , links = extractLinksFromHeader result.linkHeader
                         , searching = False
                         , errorMessage = ""
                     }

@@ -10,6 +10,12 @@ type alias RepoQueryResult =
         , linkHeader: Maybe String
     }
 
+type alias UserReposQueryResult =
+    {
+          items: List RepoItem
+        , linkHeader: Maybe String
+    }
+
 type alias Owner = {
       login: String
     , url: String

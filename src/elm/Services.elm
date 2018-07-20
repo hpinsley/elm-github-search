@@ -37,7 +37,7 @@ searchViaUrl url =
                               , authHeader
                         ]
                     --, expect = Http.expectJson repoSearchResultDecoder
-                    , expect = Http.expectStringResponse responseToResult
+                    , expect = Http.expectStringResponse responseToRepoQueryResult
                     , timeout = Nothing
                     , withCredentials = False
                     }
@@ -52,13 +52,35 @@ authHeader =
         in
             Http.header "Authorization" ("Basic " ++ encoded)
 
-responseToResult: Http.Response String -> Result String RepoQueryResult
-responseToResult response =
+responseToRepoQueryResult: Http.Response String -> Result String RepoQueryResult
+responseToRepoQueryResult response =
 
     case response.status.code of
         200 ->
             let
                 decodedResponse = Json.Decode.decodeString repoSearchResultDecoder response.body
+            in
+                    case decodedResponse of
+                        Ok goodResponse ->
+                            let withLinks = {
+                                goodResponse
+                                    | linkHeader = extractLinks response}
+                            in
+                                Ok withLinks
+                        Err msg ->
+                                Err msg
+
+        _ ->
+            -- The error string ends up embedded in a HttpError.BadPayload
+            Err response.status.message
+
+responseToUserRepoQueryResult: Http.Response String -> Result String UserReposQueryResult
+responseToUserRepoQueryResult response =
+
+    case response.status.code of
+        200 ->
+            let
+                decodedResponse = Json.Decode.decodeString userReposResultDecoder response.body
             in
                     case decodedResponse of
                         Ok goodResponse ->
@@ -114,7 +136,7 @@ searchUserRepos url =
                               , authHeader
                         ]
                     --, expect = Http.expectJson repoSearchResultDecoder
-                    , expect = Http.expectJson repoListDecoder
+                    , expect = Http.expectStringResponse responseToUserRepoQueryResult
                     , timeout = Nothing
                     , withCredentials = False
                     }

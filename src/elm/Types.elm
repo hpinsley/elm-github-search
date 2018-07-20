@@ -19,7 +19,6 @@ init =
             , matching_repos = []
             , links = []
             , user = Nothing
-            , userRepoList = []
         }
         ,  Cmd.none
     )
@@ -58,7 +57,6 @@ type alias Model =
         , matching_repos: List RepoItem
         , links: List Link
         , user: Maybe User
-        , userRepoList: List RepoItem
     }
 
 -- Messages
@@ -72,6 +70,6 @@ type Msg
     | StartUserSearch String String (Maybe String)
     | ProcessUserSearchResult (Result Http.Error User)
     | StartUserRepoSearch String String
-    | ProcessUserReposResult (Result Http.Error (List RepoItem))
+    | ProcessUserReposResult (Result Http.Error UserReposQueryResult)
     | ReturnToRepoSearchResults
 
