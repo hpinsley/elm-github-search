@@ -102,8 +102,8 @@ update msg model =
                                         Nothing -> ""
 
                         matchingRepos = {
-                              totalItems = 0
-                            , searchType = RepoQuery (UserRepoSearch userLogin)
+                              total_items = 0
+                            , searchType = UserRepoSearch userLogin
                             , items = result.items
                             , links = extractLinksFromHeader result.linkHeader
                         }
@@ -111,7 +111,7 @@ update msg model =
 
                     { model
                         | page = ResultsPage
-                        , userRepos = matchingRepos
+                        , userRepos = Just matchingRepos
                         , searchType = NotSearching
                         , errorMessage = ""
                     }
@@ -129,7 +129,7 @@ update msg model =
                     searchViaUrl url
             in
                 { model
-                    | searching = True
+                    | searchType = RepoQuery (GeneralRepoSearch model.searchTerm)
                     , errorMessage = ""
                     , page = SearchingPage
                 }
@@ -138,23 +138,27 @@ update msg model =
         ProcessRepoSearchResult results ->
             case results of
                 Ok searchResult ->
-                    { model
-                        | searching = False
-                        , page = ResultsPage
-                        , result_count = searchResult.total_count
-                        , matching_repos = searchResult.items
-                        , links = extractLinksFromHeader searchResult.linkHeader
-                    }
+                    let
+                        matchingRepos = {
+                              total_items = searchResult.total_count
+                            , searchType = GeneralRepoSearch model.searchTerm
+                            , items = searchResult.items
+                            , links = extractLinksFromHeader searchResult.linkHeader
+                        }
+                    in
+                        { model
+                            | searchType = NotSearching
+                            , page = ResultsPage
+                            , searchRepos = Just matchingRepos
+                        }
                         ! []
 
                 Err errorMessage ->
                     { model
                         | page = SearchPage
-                        , searching = False
+                        , searchType = NotSearching
                         , errorMessage = errorMessage
-                        , matching_repos = []
-                        , links = []
-                        , result_count = -1
+                        , searchRepos = Nothing
                     }
                         ! []
 
