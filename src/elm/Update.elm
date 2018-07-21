@@ -20,8 +20,8 @@ update msg model =
 
         StartNewSearch ->
             { model
-                | searching = False
-                , page = SearchPage
+                | page = SearchPage
+                , searchType = NotSearching
                 , errorMessage = ""
                 , searchTerm = ""
             }
@@ -30,11 +30,10 @@ update msg model =
         StartSearch ->
             let
                 cmd =
-                    searchRepos { searchTerm = model.searchTerm, items_per_page = model.items_per_page }
+                    searchRepos model.searchTerm model.items_per_page
             in
                 { model
-                    | searching = True
-                    , searchType = RepoQuery
+                    | searchType = RepoQuery (GeneralRepoSearch model.searchTerm)
                     , errorMessage = ""
                     , page = SearchingPage
                 }
@@ -42,19 +41,13 @@ update msg model =
 
         StartUserSearch login url avatar_url ->
             let
-                _ =
-                    Debug.log "StartUserSearch" ( login, url, avatar_url )
-
                 cmd =
                     searchUser login
             in
                 { model
-                    | searching = True
-                    , searchType = UserLookup
+                    | searchType = UserLookup login avatar_url
                     , errorMessage = ""
                     , page = SearchingForUserPage
-                    , searchUserLogin = login
-                    , searchUserAvatarUrl = avatar_url
                 }
                     ! [ cmd ]
 
@@ -63,8 +56,7 @@ update msg model =
                 cmd = searchUserRepos url
             in
                 { model
-                    | searching = True
-                    , searchType = UserRepos
+                    | searchType = RepoQuery (UserRepoSearch login)
                     , searchTerm = "Repos for user " ++ login
                     , errorMessage = ""
                     , page = SearchingPage
@@ -76,11 +68,9 @@ update msg model =
                 Err httpError ->
                     { model
                         | page = SearchPage
-                        , searching = False
+                        , searchType = NotSearching
                         , errorMessage = Utils.httpErrorMessage httpError
-                        , matching_repos = []
-                        , links = []
-                        , result_count = -1
+                        , user = Nothing
                     }
                         ! []
 
@@ -88,30 +78,41 @@ update msg model =
                     { model
                         | page = UserPage
                         , user = Just user
-                        , searching = False
+                        , searchType = NotSearching
                         , errorMessage = ""
                     }
                         ! []
 
+        -- UserReposQueryResult
         ProcessUserReposResult result ->
             case result of
                 Err httpError ->
                     { model
-                        | page  = SearchPage
-                        , searching = False
+                        | page = SearchPage
+                        , searchType = NotSearching
                         , errorMessage = Utils.httpErrorMessage httpError
-                        , matching_repos = []
-                        , links = []
-                        , result_count = -1
+                        , userRepos = Nothing
                     }
                         ! []
 
                 Ok result ->
+                    let
+                        userLogin = case model.user of
+                                        Just user -> user.login
+                                        Nothing -> ""
+
+                        matchingRepos = {
+                              totalItems = 0
+                            , searchType = RepoQuery (UserRepoSearch userLogin)
+                            , items = result.items
+                            , links = extractLinksFromHeader result.linkHeader
+                        }
+                    in
+
                     { model
                         | page = ResultsPage
-                        , matching_repos = result.items
-                        , links = extractLinksFromHeader result.linkHeader
-                        , searching = False
+                        , userRepos = matchingRepos
+                        , searchType = NotSearching
                         , errorMessage = ""
                     }
                         ! []

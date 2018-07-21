@@ -10,16 +10,12 @@ init =
         {
               page = SearchPage
             , searchType = NotSearching
-            , searchTerm = "angular-mashup"
-            , searchUserLogin = ""
-            , searchUserAvatarUrl = Nothing
+            , searchTerm = ""
             , items_per_page = 5
-            , searching = False
             , errorMessage = ""
-            , result_count = 0
-            , matching_repos = []
-            , links = []
             , user = Nothing
+            , userRepos = Nothing
+            , searchRepos = Nothing
         }
         ,  Cmd.none
     )
@@ -33,17 +29,18 @@ type Page
     | ResultsPage
     | UserPage
 
+type alias UserLogin = String
+type alias SearchTerm = String
+type alias UserAvatarUrl = String
+
+type RepoSearchType
+    = UserRepoSearch UserLogin
+    | GeneralRepoSearch SearchTerm
+
 type SearchType
     = NotSearching
-    | RepoQuery
-    | UserLookup
-    | UserRepos
-
-type alias SearchRequest =
-    {
-          searchTerm: String
-        , items_per_page: Int
-    }
+    | RepoQuery RepoSearchType
+    | UserLookup UserLogin (Maybe UserAvatarUrl)
 
 type alias Link =
     {
@@ -51,20 +48,24 @@ type alias Link =
         link: String
     }
 
+type alias MatchingRepos =
+    {
+          total_items: Int
+        , searchType: RepoSearchType
+        , items: List RepoItem
+        , links: List Link
+    }
+
 type alias Model =
     {
           page: Page
         , searchType: SearchType
         , searchTerm: String
-        , searchUserLogin: String
-        , searchUserAvatarUrl: Maybe String
         , items_per_page: Int
-        , searching: Bool
         , errorMessage: String
-        , result_count: Int
-        , matching_repos: List RepoItem
-        , links: List Link
         , user: Maybe User
+        , userRepos: Maybe MatchingRepos
+        , searchRepos: Maybe MatchingRepos
     }
 
 -- Messages
@@ -75,7 +76,7 @@ type Msg
     | SearchReposViaUrl String
     | ProcessRepoSearchResult (Result String RepoQueryResult)
     | StartNewSearch
-    | StartUserSearch String String (Maybe String)
+    | StartUserSearch String String (Maybe UserAvatarUrl)
     | ProcessUserSearchResult (Result Http.Error User)
     | StartUserRepoSearch String String
     | ProcessUserReposResult (Result Http.Error UserReposQueryResult)
