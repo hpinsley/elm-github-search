@@ -8,14 +8,14 @@ import GithubTypes exposing (..)
 import Utils
 
 
-view : Model -> Html Msg
-view model =
+view : Model -> MatchingRepos -> Html Msg
+view model matching_repos =
     div []
         [ h2 []
-            [ text <| "Result count " ++ (toString model.result_count)
+            [ text <| "Result count " ++ (toString matching_repos.total_items)
             ]
-        , displayResultsTable model
-        , displayLinks model
+        , displayResultsTable model matching_repos
+        , displayLinks model matching_repos
         , displayAdditionalButtons model
         ]
 
@@ -31,20 +31,20 @@ displayAdditionalButtons model =
         ]
 
 
-displayResultsTable : Model -> Html Msg
-displayResultsTable model =
+displayResultsTable : Model -> MatchingRepos -> Html Msg
+displayResultsTable model matching_repos =
     table
         [ id "repo-results-table"
         , class "table table-dark"
         ]
         [ tableHeader model
-        , tableBody model
+        , tableBody model matching_repos
         ]
 
 
-displayLinks : Model -> Html Msg
-displayLinks model =
-    div [ class "buttonGroup" ] (List.map (displayLink model) model.links)
+displayLinks : Model -> MatchingRepos -> Html Msg
+displayLinks model matching_repos =
+    div [ class "buttonGroup" ] (List.map (displayLink model) matching_repos.links)
 
 
 displayLink : Model -> Link -> Html Msg
@@ -52,11 +52,15 @@ displayLink model link =
     let
         clickMsg =
             case model.searchType of
-                UserRepos ->
-                    --  Continue a user search with a link
-                     StartUserRepoSearch model.searchUserLogin link.link
+                RepoQuery repoSearchType ->
+                    case repoSearchType of
+                        UserRepoSearch login ->
+                            --  Continue a user search with a link
+                            StartUserRepoSearch login link.link
+                        GeneralRepoSearch _ ->
+                            SearchReposViaUrl link.link
                 _ ->
-                     SearchReposViaUrl link.link
+                    NoOp
     in
         button
             [ class "btn btn-primary btn-lg"
@@ -65,10 +69,10 @@ displayLink model link =
             [ text <| Utils.initialCap link.rel ]
 
 
-tableBody : Model -> Html Msg
-tableBody model =
+tableBody : Model -> MatchingRepos -> Html Msg
+tableBody model matching_repos =
     tbody []
-        (model.matching_repos
+        (matching_repos.items
             |> List.map renderRepo
             |> List.concat
         )
