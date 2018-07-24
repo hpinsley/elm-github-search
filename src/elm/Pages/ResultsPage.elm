@@ -128,7 +128,7 @@ getDescriptionRepoItemRow item =
     tr
         []
         [ td
-            [ colspan 5 ]
+            [ colspan 6 ]
             [ text (Maybe.withDefault "(no description)" item.description) ]
         ]
 

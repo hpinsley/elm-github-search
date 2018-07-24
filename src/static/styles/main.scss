@@ -90,6 +90,10 @@ table.userTable {
             td {
                 padding-top: 10px;
 
+                a:hover {
+                    cursor: pointer;
+                }
+                
                 &:nth-child(1) {
                     font-weight: bold;
                     color: darkblue;
