@@ -10,7 +10,7 @@ init =
         {
               page = SearchPage
             , searchType = NotSearching
-            , searchTerm = ""
+            , searchTerm = "angular-mashup"
             , items_per_page = 5
             , errorMessage = ""
             , user = Nothing

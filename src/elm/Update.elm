@@ -24,6 +24,8 @@ update msg model =
                 , searchType = NotSearching
                 , errorMessage = ""
                 , searchTerm = ""
+                , searchRepos = Nothing
+                , userRepos = Nothing
             }
                 ! []
 
@@ -78,7 +80,6 @@ update msg model =
                     { model
                         | page = UserPage
                         , user = Just user
-                        , searchType = NotSearching
                         , errorMessage = ""
                     }
                         ! []
@@ -112,7 +113,6 @@ update msg model =
                     { model
                         | page = ResultsPage
                         , userRepos = Just matchingRepos
-                        , searchType = NotSearching
                         , errorMessage = ""
                     }
                         ! []
@@ -120,6 +120,7 @@ update msg model =
         ReturnToRepoSearchResults ->
             { model
                 | page = ResultsPage
+                , searchType = RepoQuery (GeneralRepoSearch model.searchTerm)
             }
                 ! []
 
@@ -147,8 +148,7 @@ update msg model =
                         }
                     in
                         { model
-                            | searchType = NotSearching
-                            , page = ResultsPage
+                            | page = ResultsPage
                             , searchRepos = Just matchingRepos
                         }
                         ! []

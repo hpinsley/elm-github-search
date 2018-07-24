@@ -11,40 +11,30 @@ import Utils
 view : Model -> MatchingRepos -> Html Msg
 view model matching_repos =
     div []
-        [ h2 []
-            [ text <| "Result count " ++ (toString matching_repos.total_items)
-            ]
-        , displayResultsTable model matching_repos
+        [ displayResultsTable model matching_repos
         , displayLinks model matching_repos
-        , displayAdditionalButtons model
         ]
-
-
-displayAdditionalButtons : Model -> Html Msg
-displayAdditionalButtons model =
-    div [ class "buttonGroup" ]
-        [ button
-            [ class "btn btn-primary btn-lg"
-            , onClick StartNewSearch
-            ]
-            [ text "New Search" ]
-        ]
-
 
 displayResultsTable : Model -> MatchingRepos -> Html Msg
 displayResultsTable model matching_repos =
-    table
-        [ id "repo-results-table"
-        , class "table table-dark"
-        ]
-        [ tableHeader model
-        , tableBody model matching_repos
+    div [ class "scrollingRegion" ]
+        [ table
+            [ id "repo-results-table"
+            , class "table table-dark"
+            ]
+            [ tableHeader model
+            , tableBody model matching_repos
+            ]
         ]
 
 
 displayLinks : Model -> MatchingRepos -> Html Msg
 displayLinks model matching_repos =
-    div [ class "buttonGroup" ] (List.map (displayLink model) matching_repos.links)
+    div [ class "buttonGroup" ]
+        (
+            List.map (displayLink model) matching_repos.links
+                ++ (displayAdditionalButtons model)
+        )
 
 
 displayLink : Model -> Link -> Html Msg
@@ -57,8 +47,10 @@ displayLink model link =
                         UserRepoSearch login ->
                             --  Continue a user search with a link
                             StartUserRepoSearch login link.link
+
                         GeneralRepoSearch _ ->
                             SearchReposViaUrl link.link
+
                 _ ->
                     NoOp
     in
@@ -68,6 +60,14 @@ displayLink model link =
             ]
             [ text <| Utils.initialCap link.rel ]
 
+displayAdditionalButtons : Model -> List (Html Msg)
+displayAdditionalButtons model =
+        [ button
+            [ class "btn btn-primary btn-lg"
+            , onClick StartNewSearch
+            ]
+            [ text "New Search" ]
+        ]
 
 tableBody : Model -> MatchingRepos -> Html Msg
 tableBody model matching_repos =
@@ -94,18 +94,24 @@ getMainRepoItemRow item =
         tr []
             [ td [ class "repoName" ] [ text item.name ]
             , td [] [ text item.full_name ]
-            , td [] [ text <| if item.fork then "Yes" else "No" ]
+            , td []
+                [ text <|
+                    if item.fork then
+                        "Yes"
+                    else
+                        "No"
+                ]
             , td [ class "ownerLogin" ]
                 [ a [ onClick userLookupCmd ]
                     [ text item.owner.login ]
                 ]
-            , td [ class "avatar"]
+            , td [ class "avatar" ]
                 [ case item.owner.avatar_url of
                     Nothing ->
                         text "Missing"
 
                     Just avatar_url ->
-                        a [onClick userLookupCmd]
+                        a [ onClick userLookupCmd ]
                             [ img
                                 [ class "avatar"
                                 , src avatar_url

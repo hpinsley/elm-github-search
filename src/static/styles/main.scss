@@ -19,9 +19,15 @@ img.mediumAvatar {
     height: 200px;
 }
 
+div.scrollingRegion {
+    height: 600px;
+    overflow-y: scroll;
+}
+
 table#repo-results-table {
 
     thead {
+
         tr {
             border-left: solid black 1px;
             border-right: solid black 1px;
