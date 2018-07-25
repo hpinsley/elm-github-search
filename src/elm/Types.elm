@@ -3,6 +3,7 @@ module Types exposing (..)
 import Http exposing (..)
 import GithubTypes exposing (..)
 import Http
+import Time
 
 init : ( Model, Cmd Msg )
 init =
@@ -16,6 +17,7 @@ init =
             , user = Nothing
             , userRepos = Nothing
             , searchRepos = Nothing
+            , currentTime = 0
         }
         ,  Cmd.none
     )
@@ -66,19 +68,21 @@ type alias Model =
         , user: Maybe User
         , userRepos: Maybe MatchingRepos
         , searchRepos: Maybe MatchingRepos
+        , currentTime: Time.Time
     }
 
 -- Messages
 type Msg
     = NoOp
     | OnSearchTermChange String
-    | StartSearch
+    | StartGeneralRepoSearch
     | SearchReposViaUrl String
     | ProcessRepoSearchResult (Result String RepoQueryResult)
-    | StartNewSearch
+    | ResetSearch
     | StartUserSearch String String (Maybe UserAvatarUrl)
     | ProcessUserSearchResult (Result Http.Error User)
     | StartUserRepoSearch String String
     | ProcessUserReposResult (Result Http.Error UserReposQueryResult)
     | ReturnToRepoSearchResults
+    | ProcessTime Time.Time
 

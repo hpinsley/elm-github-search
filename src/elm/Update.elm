@@ -4,7 +4,7 @@ import Types exposing (..)
 import Services exposing (..)
 import Regex
 import Utils
-
+import Time
 
 -- UPDATE
 
@@ -18,7 +18,10 @@ update msg model =
         OnSearchTermChange newSearchTerm ->
             { model | searchTerm = newSearchTerm } ! []
 
-        StartNewSearch ->
+        ProcessTime currentTime ->
+            { model | currentTime = currentTime } ! []
+
+        ResetSearch ->
             { model
                 | page = SearchPage
                 , searchType = NotSearching
@@ -29,7 +32,7 @@ update msg model =
             }
                 ! []
 
-        StartSearch ->
+        StartGeneralRepoSearch ->
             let
                 cmd =
                     searchRepos model.searchTerm model.items_per_page
@@ -120,7 +123,7 @@ update msg model =
         ReturnToRepoSearchResults ->
             { model
                 | page = ResultsPage
-                , searchType = RepoQuery (GeneralRepoSearch model.searchTerm)
+                , searchType = extractSearchTypeFromRepoResults model.searchRepos
             }
                 ! []
 
@@ -130,7 +133,7 @@ update msg model =
                     searchViaUrl url
             in
                 { model
-                    | searchType = RepoQuery (GeneralRepoSearch model.searchTerm)
+                    | searchType = extractSearchTypeFromRepoResults model.searchRepos
                     , errorMessage = ""
                     , page = SearchingPage
                 }
@@ -165,8 +168,8 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
+    -- Time.every (1 * Time.second) ProcessTime
     Sub.none
-
 
 extractLinksFromHeader : Maybe String -> List Link
 extractLinksFromHeader linkHeader =
@@ -206,3 +209,11 @@ extractLinkFromSingle linkText =
 
                     _ ->
                         Nothing
+
+extractSearchTypeFromRepoResults: (Maybe MatchingRepos) -> SearchType
+extractSearchTypeFromRepoResults matchingRepos =
+    case matchingRepos of
+        Just matching ->
+            RepoQuery matching.searchType
+        Nothing ->
+            NotSearching

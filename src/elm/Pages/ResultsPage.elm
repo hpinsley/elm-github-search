@@ -9,6 +9,7 @@ import Utils
 import FormatNumber exposing (format)
 import FormatNumber.Locales exposing (Locale, usLocale)
 
+
 view : Model -> MatchingRepos -> Html Msg
 view model matching_repos =
     div []
@@ -66,18 +67,25 @@ displayAdditionalButtons : Model -> List (Html Msg)
 displayAdditionalButtons model =
     [ button
         [ class "btn btn-primary btn-lg"
-        , onClick StartNewSearch
+        , onClick ResetSearch
         ]
         [ text "New Search" ]
+
+    -- Allow backing up to the general repo search if we drilled into an owner
     , case model.searchType of
         RepoQuery (UserRepoSearch _) ->
             case model.searchRepos of
                 Just matching_repos ->
-                    button [onClick ReturnToRepoSearchResults][
-                        text "Return"
-                    ]
+                    button
+                        [ class "btn btn-primary btn-lg"
+                        , onClick ReturnToRepoSearchResults
+                        ]
+                        [ text <| "Return to " ++ Utils.getRepoSearchTerm matching_repos.searchType
+                        ]
+
                 _ ->
                     text ""
+
         _ ->
             text ""
     ]
@@ -99,18 +107,22 @@ renderRepo item =
     , getDescriptionRepoItemRow item
     ]
 
-intFormat: Int -> String
+
+intFormat : Int -> String
 intFormat n =
     format { usLocale | decimals = 0 } (toFloat n)
+
 
 getMainRepoItemRow : RepoItem -> Html Msg
 getMainRepoItemRow item =
     let
         userLookupCmd =
             (StartUserSearch item.owner.login item.owner.url item.owner.avatar_url)
-        commaFormat = {
-            usLocale | decimals = 0
-        }
+
+        commaFormat =
+            { usLocale
+                | decimals = 0
+            }
     in
         tr []
             [ td [ class "repoName" ] [ text item.name ]
@@ -141,8 +153,8 @@ getMainRepoItemRow item =
                             ]
                 ]
             , td [] [ a [ href item.html_url ] [ text "View on Github" ] ]
-            , td [ class "stars"] [ text <| intFormat item.stargazers_count ]
-            , td [ class "watchers"] [ text <| intFormat item.watchers_count ]
+            , td [ class "stars" ] [ text <| intFormat item.stargazers_count ]
+            , td [ class "watchers" ] [ text <| intFormat item.watchers_count ]
             ]
 
 
@@ -178,8 +190,9 @@ colHeader col =
         [ text col
         ]
 
+
 colHeaderWithClass : String -> String -> Html Msg
 colHeaderWithClass col className =
-    th [class className]
+    th [ class className ]
         [ text col
         ]

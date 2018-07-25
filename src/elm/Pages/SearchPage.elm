@@ -4,7 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
-
+import Utils exposing (..)
 
 view : Model -> Html Msg
 view model =
@@ -21,6 +21,7 @@ view model =
                     ]
                 ]
             ]
+            , div [][text <| Utils.timeToFullDateDisplay model.currentTime]
         ]
 
 
@@ -29,7 +30,7 @@ getButtons model =
     div [ class "buttonGroup form-group" ]
         [ button
             [ class "btn btn-primary btn-lg"
-            , onClick StartSearch
+            , onClick StartGeneralRepoSearch
             ]
             [ text "Search" ]
         ]

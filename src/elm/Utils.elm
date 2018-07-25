@@ -2,12 +2,16 @@ module Utils exposing (..)
 
 import Http exposing (..)
 import Types exposing (..)
+import Date exposing (..)
+import Time exposing (..)
+import Date.Format exposing (format)
 
-initialCap: String -> String
+initialCap : String -> String
 initialCap input =
     (++)
-        (input|> String.left 1 |> String.toUpper)
+        (input |> String.left 1 |> String.toUpper)
         (String.dropLeft 1 input)
+
 
 httpErrorMessage : Http.Error -> String
 httpErrorMessage error =
@@ -16,7 +20,7 @@ httpErrorMessage error =
             "Bad Url " ++ url
 
         Http.Timeout ->
-             "Timeout"
+            "Timeout"
 
         Http.NetworkError ->
             "Network Error"
@@ -27,16 +31,31 @@ httpErrorMessage error =
         Http.BadPayload errmsg _ ->
             "Bad Payload: " ++ errmsg
 
-getSearchTerm: SearchType -> String
+
+getRepoSearchTerm : RepoSearchType -> String
+getRepoSearchTerm repoSearchType =
+    case repoSearchType of
+        UserRepoSearch login ->
+            login ++ "'s repositories..."
+
+        GeneralRepoSearch query ->
+            "repos matching " ++ query
+
+
+getSearchTerm : SearchType -> String
 getSearchTerm searchType =
     case searchType of
         NotSearching ->
             ""
-        RepoQuery (UserRepoSearch login) ->
-            login ++ "'s repositories..."
-
-        RepoQuery (GeneralRepoSearch query) ->
-            "repos matching " ++ query
 
         UserLookup login _ ->
             "user " ++ login
+
+        RepoQuery repoSearchType ->
+            getRepoSearchTerm repoSearchType
+
+timeToFullDateDisplay : Time -> String
+timeToFullDateDisplay time =
+    time
+        |> Date.fromTime
+        |> format "%A %B %d %Y %I:%M:%S %p"
