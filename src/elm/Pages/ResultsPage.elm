@@ -70,7 +70,13 @@ displayAdditionalButtons model =
         [ text "New Search" ]
     , case model.searchType of
         RepoQuery (UserRepoSearch _) ->
-            text "back here"
+            case model.searchRepos of
+                Just matching_repos ->
+                    button [onClick ReturnToRepoSearchResults][
+                        text "Return"
+                    ]
+                _ ->
+                    text ""
         _ ->
             text ""
     ]
