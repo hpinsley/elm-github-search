@@ -1,6 +1,7 @@
 module Utils exposing (..)
 
 import Http exposing (..)
+import Types exposing (..)
 
 initialCap: String -> String
 initialCap input =
@@ -25,3 +26,17 @@ httpErrorMessage error =
 
         Http.BadPayload errmsg _ ->
             "Bad Payload: " ++ errmsg
+
+getSearchTerm: SearchType -> String
+getSearchTerm searchType =
+    case searchType of
+        NotSearching ->
+            ""
+        RepoQuery (UserRepoSearch login) ->
+            login ++ "'s repositories..."
+
+        RepoQuery (GeneralRepoSearch query) ->
+            "repos matching " ++ query
+
+        UserLookup login _ ->
+            "user " ++ login
