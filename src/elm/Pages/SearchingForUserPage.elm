@@ -14,7 +14,7 @@ view model =
                 div [ class "row" ]
                     [ div [ class "col-xs-12" ]
                         [ h1 []
-                            [ text (model.searchTerm)
+                            [ text ("Searching for " ++ userLogin)
                             ]
                         , div
                             []

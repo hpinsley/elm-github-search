@@ -15,6 +15,7 @@ view model matching_repos =
         , displayLinks model matching_repos
         ]
 
+
 displayResultsTable : Model -> MatchingRepos -> Html Msg
 displayResultsTable model matching_repos =
     div [ class "scrollingRegion" ]
@@ -31,9 +32,8 @@ displayResultsTable model matching_repos =
 displayLinks : Model -> MatchingRepos -> Html Msg
 displayLinks model matching_repos =
     div [ class "buttonGroup" ]
-        (
-            List.map (displayLink model) matching_repos.links
-                ++ (displayAdditionalButtons model)
+        (List.map (displayLink model) matching_repos.links
+            ++ (displayAdditionalButtons model)
         )
 
 
@@ -60,19 +60,27 @@ displayLink model link =
             ]
             [ text <| Utils.initialCap link.rel ]
 
+
 displayAdditionalButtons : Model -> List (Html Msg)
 displayAdditionalButtons model =
-        [ button
-            [ class "btn btn-primary btn-lg"
-            , onClick StartNewSearch
-            ]
-            [ text "New Search" ]
+    [ button
+        [ class "btn btn-primary btn-lg"
+        , onClick StartNewSearch
         ]
+        [ text "New Search" ]
+    , case model.searchType of
+        RepoQuery (UserRepoSearch _) ->
+            text "back here"
+        _ ->
+            text ""
+    ]
+
 
 tableBody : Model -> MatchingRepos -> Html Msg
 tableBody model matching_repos =
     tbody []
         (matching_repos.items
+            |> List.filter (\r -> not r.fork)
             |> List.map renderRepo
             |> List.concat
         )
@@ -120,6 +128,8 @@ getMainRepoItemRow item =
                             ]
                 ]
             , td [] [ a [ href item.html_url ] [ text "View on Github" ] ]
+            , td [] [ text <| toString item.stargazers_count ]
+            , td [] [ text <| toString item.watchers_count ]
             ]
 
 
@@ -128,7 +138,7 @@ getDescriptionRepoItemRow item =
     tr
         []
         [ td
-            [ colspan 6 ]
+            [ colspan 8 ]
             [ text (Maybe.withDefault "(no description)" item.description) ]
         ]
 
@@ -143,6 +153,8 @@ tableHeader model =
             , colHeader "Owner"
             , colHeader "Avatar"
             , colHeader ""
+            , colHeader "Stars"
+            , colHeader "Watchers"
             ]
         ]
 
