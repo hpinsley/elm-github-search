@@ -6,7 +6,8 @@ import Html.Events exposing (..)
 import Types exposing (..)
 import GithubTypes exposing (..)
 import Utils
-
+import FormatNumber exposing (format)
+import FormatNumber.Locales exposing (Locale, usLocale)
 
 view : Model -> MatchingRepos -> Html Msg
 view model matching_repos =
@@ -98,12 +99,18 @@ renderRepo item =
     , getDescriptionRepoItemRow item
     ]
 
+intFormat: Int -> String
+intFormat n =
+    format { usLocale | decimals = 0 } (toFloat n)
 
 getMainRepoItemRow : RepoItem -> Html Msg
 getMainRepoItemRow item =
     let
         userLookupCmd =
             (StartUserSearch item.owner.login item.owner.url item.owner.avatar_url)
+        commaFormat = {
+            usLocale | decimals = 0
+        }
     in
         tr []
             [ td [ class "repoName" ] [ text item.name ]
@@ -134,8 +141,8 @@ getMainRepoItemRow item =
                             ]
                 ]
             , td [] [ a [ href item.html_url ] [ text "View on Github" ] ]
-            , td [] [ text <| toString item.stargazers_count ]
-            , td [] [ text <| toString item.watchers_count ]
+            , td [ class "stars"] [ text <| intFormat item.stargazers_count ]
+            , td [ class "watchers"] [ text <| intFormat item.watchers_count ]
             ]
 
 
@@ -159,8 +166,8 @@ tableHeader model =
             , colHeader "Owner"
             , colHeader "Avatar"
             , colHeader ""
-            , colHeader "Stars"
-            , colHeader "Watchers"
+            , colHeaderWithClass "Stars" "stars"
+            , colHeaderWithClass "Watchers" "watchers"
             ]
         ]
 
@@ -168,5 +175,11 @@ tableHeader model =
 colHeader : String -> Html Msg
 colHeader col =
     th []
+        [ text col
+        ]
+
+colHeaderWithClass : String -> String -> Html Msg
+colHeaderWithClass col className =
+    th [class className]
         [ text col
         ]

@@ -38,6 +38,9 @@ table#repo-results-table {
                 background-color: black;
                 color: gold;
                 border-bottom: solid black 1px;
+                &.stars, &.watchers {
+                    text-align: right;
+                }
             }
         }
     }
@@ -64,6 +67,10 @@ table#repo-results-table {
                             cursor: pointer;
                         }
                     }
+                }
+                &.stars, &.watchers {
+                    text-align: right;
+                    font-weight: bold;
                 }
             }
 
@@ -93,7 +100,7 @@ table.userTable {
                 a:hover {
                     cursor: pointer;
                 }
-                
+
                 &:nth-child(1) {
                     font-weight: bold;
                     color: darkblue;
