@@ -168,8 +168,8 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    -- Time.every (1 * Time.second) ProcessTime
-    Sub.none
+    Time.every (1 * Time.second) ProcessTime
+    -- Sub.none
 
 extractLinksFromHeader : Maybe String -> List Link
 extractLinksFromHeader linkHeader =
