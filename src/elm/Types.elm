@@ -4,6 +4,7 @@ import Http exposing (..)
 import GithubTypes exposing (..)
 import Http
 import Time
+import Task
 
 init : ( Model, Cmd Msg )
 init =
@@ -19,7 +20,7 @@ init =
             , searchRepos = Nothing
             , currentTime = 0
         }
-        ,  Cmd.none
+        ,  Task.perform ProcessTime Time.now
     )
 
 -- MODEL
