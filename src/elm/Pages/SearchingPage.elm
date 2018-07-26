@@ -5,12 +5,9 @@ import Html.Attributes exposing (..)
 import Types exposing (..)
 import Utils exposing (getSearchTerm)
 
+
 view : Model -> Html Msg
 view model =
-    div [ class "row" ]
-        [ div [ class "col-xs-12" ]
-            [ h1 []
-                [ text ("Searching for " ++ getSearchTerm model.searchType)
-                ]
-            ]
+    div [ class "banner" ]
+        [ div [class "bannerText"] [ text ("Searching for " ++ getSearchTerm model.searchType) ]
         ]
