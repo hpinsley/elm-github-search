@@ -64,7 +64,6 @@ update msg model =
             in
                 { model
                     | searchType = RepoQuery (UserRepoSearch login)
-                    , searchTerm = "Repos for user " ++ login
                     , errorMessage = ""
                     , page = SearchingPage
                 }
