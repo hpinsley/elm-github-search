@@ -4,6 +4,7 @@ import Types exposing (..)
 import Services exposing (..)
 import Regex
 import Utils
+import Time
 
 
 -- UPDATE
@@ -18,23 +19,27 @@ update msg model =
         OnSearchTermChange newSearchTerm ->
             { model | searchTerm = newSearchTerm } ! []
 
-        StartNewSearch ->
+        ProcessTime timeSource currentTime ->
+            { model | currentTime = currentTime, timeSource = timeSource } ! []
+
+        ResetSearch ->
             { model
-                | searching = False
-                , page = SearchPage
+                | page = SearchPage
+                , searchType = NotSearching
                 , errorMessage = ""
                 , searchTerm = ""
+                , searchRepos = Nothing
+                , userRepos = Nothing
             }
                 ! []
 
-        StartSearch ->
+        StartGeneralRepoSearch ->
             let
                 cmd =
-                    searchRepos { searchTerm = model.searchTerm, items_per_page = model.items_per_page }
+                    searchRepos model.searchTerm model.items_per_page
             in
                 { model
-                    | searching = True
-                    , searchType = RepoQuery
+                    | searchType = RepoQuery (GeneralRepoSearch model.searchTerm)
                     , errorMessage = ""
                     , page = SearchingPage
                 }
@@ -42,30 +47,23 @@ update msg model =
 
         StartUserSearch login url avatar_url ->
             let
-                _ =
-                    Debug.log "StartUserSearch" ( login, url, avatar_url )
-
                 cmd =
                     searchUser login
             in
                 { model
-                    | searching = True
-                    , searchType = UserLookup
+                    | searchType = UserLookup login avatar_url
                     , errorMessage = ""
                     , page = SearchingForUserPage
-                    , searchUserLogin = login
-                    , searchUserAvatarUrl = avatar_url
                 }
                     ! [ cmd ]
 
         StartUserRepoSearch login url ->
             let
-                cmd = searchUserRepos url
+                cmd =
+                    searchUserRepos url
             in
                 { model
-                    | searching = True
-                    , searchType = UserRepos
-                    , searchTerm = "Repos for user " ++ login
+                    | searchType = RepoQuery (UserRepoSearch login)
                     , errorMessage = ""
                     , page = SearchingPage
                 }
@@ -76,11 +74,9 @@ update msg model =
                 Err httpError ->
                     { model
                         | page = SearchPage
-                        , searching = False
+                        , searchType = NotSearching
                         , errorMessage = Utils.httpErrorMessage httpError
-                        , matching_repos = []
-                        , links = []
-                        , result_count = -1
+                        , user = Nothing
                     }
                         ! []
 
@@ -88,37 +84,50 @@ update msg model =
                     { model
                         | page = UserPage
                         , user = Just user
-                        , searching = False
                         , errorMessage = ""
                     }
                         ! []
 
+        -- UserReposQueryResult
         ProcessUserReposResult result ->
             case result of
                 Err httpError ->
                     { model
-                        | page  = SearchPage
-                        , searching = False
+                        | page = SearchPage
+                        , searchType = NotSearching
                         , errorMessage = Utils.httpErrorMessage httpError
-                        , matching_repos = []
-                        , links = []
-                        , result_count = -1
+                        , userRepos = Nothing
                     }
                         ! []
 
                 Ok result ->
-                    { model
-                        | page = ResultsPage
-                        , matching_repos = result.items
-                        , links = extractLinksFromHeader result.linkHeader
-                        , searching = False
-                        , errorMessage = ""
-                    }
-                        ! []
+                    let
+                        userLogin =
+                            case model.user of
+                                Just user ->
+                                    user.login
+
+                                Nothing ->
+                                    ""
+
+                        matchingRepos =
+                            { total_items = 0
+                            , searchType = UserRepoSearch userLogin
+                            , items = result.items
+                            , links = extractLinksFromHeader result.linkHeader
+                            }
+                    in
+                        { model
+                            | page = ResultsPage
+                            , userRepos = Just matchingRepos
+                            , errorMessage = ""
+                        }
+                            ! []
 
         ReturnToRepoSearchResults ->
             { model
                 | page = ResultsPage
+                , searchType = extractSearchTypeFromRepoResults model.searchRepos
             }
                 ! []
 
@@ -128,7 +137,7 @@ update msg model =
                     searchViaUrl url
             in
                 { model
-                    | searching = True
+                    | searchType = extractSearchTypeFromRepoResults model.searchRepos
                     , errorMessage = ""
                     , page = SearchingPage
                 }
@@ -137,30 +146,34 @@ update msg model =
         ProcessRepoSearchResult results ->
             case results of
                 Ok searchResult ->
-                    { model
-                        | searching = False
-                        , page = ResultsPage
-                        , result_count = searchResult.total_count
-                        , matching_repos = searchResult.items
-                        , links = extractLinksFromHeader searchResult.linkHeader
-                    }
-                        ! []
+                    let
+                        matchingRepos =
+                            { total_items = searchResult.total_count
+                            , searchType = GeneralRepoSearch model.searchTerm
+                            , items = searchResult.items
+                            , links = extractLinksFromHeader searchResult.linkHeader
+                            }
+                    in
+                        { model
+                            | page = ResultsPage
+                            , searchRepos = Just matchingRepos
+                        }
+                            ! []
 
                 Err errorMessage ->
                     { model
                         | page = SearchPage
-                        , searching = False
+                        , searchType = NotSearching
                         , errorMessage = errorMessage
-                        , matching_repos = []
-                        , links = []
-                        , result_count = -1
+                        , searchRepos = Nothing
                     }
                         ! []
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Time.every (60 * Time.second) (ProcessTime "Subscription")
+-- Sub.none
 
 
 extractLinksFromHeader : Maybe String -> List Link
@@ -201,3 +214,13 @@ extractLinkFromSingle linkText =
 
                     _ ->
                         Nothing
+
+
+extractSearchTypeFromRepoResults : Maybe MatchingRepos -> SearchType
+extractSearchTypeFromRepoResults matchingRepos =
+    case matchingRepos of
+        Just matching ->
+            RepoQuery matching.searchType
+
+        Nothing ->
+            NotSearching

@@ -11,11 +11,11 @@ import Base64
 
 import Secrets exposing (username, password)
 
-searchRepos : SearchRequest -> Cmd Msg
-searchRepos searchRequest =
+searchRepos : String -> Int -> Cmd Msg
+searchRepos searchTerm items_per_page =
     let
-        url = "https://api.github.com/search/repositories?q=" ++ searchRequest.searchTerm ++
-                    "&per_page=" ++ (toString searchRequest.items_per_page)
+        url = "https://api.github.com/search/repositories?q=" ++ searchTerm ++
+                    "&per_page=" ++ (toString items_per_page)
     in
         searchViaUrl url
 
@@ -121,12 +121,7 @@ searchUser user =
 searchUserRepos: String -> Cmd Msg
 searchUserRepos url =
     let
-        adjustedUrl =
-            if (String.contains url "per_page")
-                then
-                    url
-                else
-                    url ++ "?per_page=" ++ (toString 5)
+        adjustedUrl = url
         request =
             Http.request <|
                     { method = "GET"

@@ -31,8 +31,29 @@ displayPage model =
       SearchingPage ->
         Pages.SearchingPage.view model
       ResultsPage ->
-        Pages.ResultsPage.view model
+        callResultsPageWithRepoResult model
       SearchingForUserPage ->
         Pages.SearchingForUserPage.view model
       UserPage ->
         Pages.UserPage.view model
+
+callResultsPageWithRepoResult: Model -> Html Msg
+callResultsPageWithRepoResult model =
+  case model.searchType of
+    NotSearching -> text ""
+    UserLookup _ _ -> text ""
+
+    RepoQuery repoSearchType ->
+      case repoSearchType of
+
+        UserRepoSearch login ->
+          case model.userRepos of
+            Nothing -> text ""
+            Just userRepos ->
+              Pages.ResultsPage.view model userRepos
+
+        GeneralRepoSearch searchTerm ->
+          case model.searchRepos of
+            Nothing -> text ""
+            Just searchRepos ->
+              Pages.ResultsPage.view model searchRepos

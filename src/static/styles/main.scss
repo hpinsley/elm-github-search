@@ -19,9 +19,15 @@ img.mediumAvatar {
     height: 200px;
 }
 
+div.scrollingRegion {
+    height: 600px;
+    overflow-y: scroll;
+}
+
 table#repo-results-table {
 
     thead {
+
         tr {
             border-left: solid black 1px;
             border-right: solid black 1px;
@@ -32,6 +38,9 @@ table#repo-results-table {
                 background-color: black;
                 color: gold;
                 border-bottom: solid black 1px;
+                &.stars, &.watchers {
+                    text-align: right;
+                }
             }
         }
     }
@@ -59,6 +68,10 @@ table#repo-results-table {
                         }
                     }
                 }
+                &.stars, &.watchers {
+                    text-align: right;
+                    font-weight: bold;
+                }
             }
 
             &:nth-child(2n+1) {
@@ -84,6 +97,10 @@ table.userTable {
             td {
                 padding-top: 10px;
 
+                a:hover {
+                    cursor: pointer;
+                }
+
                 &:nth-child(1) {
                     font-weight: bold;
                     color: darkblue;
@@ -91,5 +108,25 @@ table.userTable {
                 }
             }
         }
+    }
+}
+
+div.banner {
+
+    $height: 40vh;
+
+    position: absolute;
+    left: 20vw;
+    top: 20vh;
+    width: 60vw;
+    height: $height;
+    background-color: rgb(90, 166, 233);
+    border-radius: 5px;
+
+    div.bannerText {
+        line-height: $height;
+        font-size: 20pt;
+        color: brown;
+        text-align: center;
     }
 }

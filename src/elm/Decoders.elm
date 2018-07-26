@@ -47,6 +47,8 @@ repoItemDecoder =
         |> required "html_url" string
         |> required "owner" ownerDecoder
         |> optional "description" (maybe string) Nothing
+        |> required "stargazers_count" int
+        |> required "watchers_count" int
 
 -- userReposResultDecoder : Decoder UserReposQueryResult
 -- userReposResultDecoder =
