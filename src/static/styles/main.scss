@@ -113,20 +113,21 @@ table.userTable {
 
 div.banner {
 
-    $height: 40vh;
+    $height: 20vh;
+    $width: 60vw;
 
     position: absolute;
-    left: 20vw;
-    top: 20vh;
-    width: 60vw;
+    left: (100vw - $width) / 2;
+    top: (100vh - $height) / 6;
+    width: $width;
     height: $height;
-    background-color: rgb(90, 166, 233);
+    background-color: black;
     border-radius: 5px;
 
     div.bannerText {
         line-height: $height;
         font-size: 20pt;
-        color: brown;
+        color: rgb(209, 183, 32);
         text-align: center;
     }
 }
