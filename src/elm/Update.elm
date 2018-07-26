@@ -6,6 +6,7 @@ import Regex
 import Utils
 import Time
 
+
 -- UPDATE
 
 
@@ -18,8 +19,8 @@ update msg model =
         OnSearchTermChange newSearchTerm ->
             { model | searchTerm = newSearchTerm } ! []
 
-        ProcessTime currentTime ->
-            { model | currentTime = currentTime } ! []
+        ProcessTime timeSource currentTime ->
+            { model | currentTime = currentTime, timeSource = timeSource } ! []
 
         ResetSearch ->
             { model
@@ -58,7 +59,8 @@ update msg model =
 
         StartUserRepoSearch login url ->
             let
-                cmd = searchUserRepos url
+                cmd =
+                    searchUserRepos url
             in
                 { model
                     | searchType = RepoQuery (UserRepoSearch login)
@@ -101,24 +103,27 @@ update msg model =
 
                 Ok result ->
                     let
-                        userLogin = case model.user of
-                                        Just user -> user.login
-                                        Nothing -> ""
+                        userLogin =
+                            case model.user of
+                                Just user ->
+                                    user.login
 
-                        matchingRepos = {
-                              total_items = 0
+                                Nothing ->
+                                    ""
+
+                        matchingRepos =
+                            { total_items = 0
                             , searchType = UserRepoSearch userLogin
                             , items = result.items
                             , links = extractLinksFromHeader result.linkHeader
-                        }
+                            }
                     in
-
-                    { model
-                        | page = ResultsPage
-                        , userRepos = Just matchingRepos
-                        , errorMessage = ""
-                    }
-                        ! []
+                        { model
+                            | page = ResultsPage
+                            , userRepos = Just matchingRepos
+                            , errorMessage = ""
+                        }
+                            ! []
 
         ReturnToRepoSearchResults ->
             { model
@@ -143,18 +148,18 @@ update msg model =
             case results of
                 Ok searchResult ->
                     let
-                        matchingRepos = {
-                              total_items = searchResult.total_count
+                        matchingRepos =
+                            { total_items = searchResult.total_count
                             , searchType = GeneralRepoSearch model.searchTerm
                             , items = searchResult.items
                             , links = extractLinksFromHeader searchResult.linkHeader
-                        }
+                            }
                     in
                         { model
                             | page = ResultsPage
                             , searchRepos = Just matchingRepos
                         }
-                        ! []
+                            ! []
 
                 Err errorMessage ->
                     { model
@@ -168,8 +173,9 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every (60 * Time.second) ProcessTime
-    -- Sub.none
+    Time.every (60 * Time.second) (ProcessTime "Subscription")
+-- Sub.none
+
 
 extractLinksFromHeader : Maybe String -> List Link
 extractLinksFromHeader linkHeader =
@@ -210,10 +216,12 @@ extractLinkFromSingle linkText =
                     _ ->
                         Nothing
 
-extractSearchTypeFromRepoResults: (Maybe MatchingRepos) -> SearchType
+
+extractSearchTypeFromRepoResults : Maybe MatchingRepos -> SearchType
 extractSearchTypeFromRepoResults matchingRepos =
     case matchingRepos of
         Just matching ->
             RepoQuery matching.searchType
+
         Nothing ->
             NotSearching

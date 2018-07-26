@@ -19,8 +19,9 @@ init =
             , userRepos = Nothing
             , searchRepos = Nothing
             , currentTime = 0
+            , timeSource = ""
         }
-        ,  Task.perform ProcessTime Time.now
+        ,  Task.perform (ProcessTime "Intial Cmd") Time.now
     )
 
 -- MODEL
@@ -70,6 +71,7 @@ type alias Model =
         , userRepos: Maybe MatchingRepos
         , searchRepos: Maybe MatchingRepos
         , currentTime: Time.Time
+        , timeSource: String
     }
 
 -- Messages
@@ -85,5 +87,5 @@ type Msg
     | StartUserRepoSearch String String
     | ProcessUserReposResult (Result Http.Error UserReposQueryResult)
     | ReturnToRepoSearchResults
-    | ProcessTime Time.Time
+    | ProcessTime String Time.Time
 

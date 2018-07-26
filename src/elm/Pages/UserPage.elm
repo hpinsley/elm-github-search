@@ -5,8 +5,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import GithubTypes exposing (..)
-import Services
-
 
 view : Model -> Html Msg
 view model =

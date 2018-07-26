@@ -6,6 +6,7 @@ import Html.Events exposing (..)
 import Types exposing (..)
 import Utils exposing (..)
 
+
 view : Model -> Html Msg
 view model =
     div [ class "row" ]
@@ -21,7 +22,11 @@ view model =
                     ]
                 ]
             ]
-            , div [][text <| Utils.timeToFullDateDisplay model.currentTime]
+        , div []
+            [ text <| Utils.timeToFullDateDisplay model.currentTime
+            , hr [] []
+            , text model.timeSource
+            ]
         ]
 
 
