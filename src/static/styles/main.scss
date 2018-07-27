@@ -2,6 +2,9 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap/_mixins.scss';
 @import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 
+$goldLike: rgb(209, 183, 32);
+$blueLike: #337ab7;
+
 // can add Boostrap overrides, additional Sass/CSS below...
 .buttonGroup {
     margin-top: 10px;
@@ -127,7 +130,37 @@ div.banner {
     div.bannerText {
         line-height: $height;
         font-size: 20pt;
-        color: rgb(209, 183, 32);
+        color: $goldLike;
         text-align: center;
+    }
+}
+
+div#searchPage {
+
+    h1 {
+        text-align: center;
+        width: 260px;
+        font-size: 2em;
+        margin-left: auto;
+        margin-right: auto;
+
+        color: $blueLike;
+        padding: 20pt;
+    }
+
+    label {
+        color: $blueLike;
+        font-size:20pt;
+    }
+
+    input[type='text'] {
+        font-size: 50pt;
+        height: 100px;
+    }
+
+    div#timeDisplay {
+        text-align: right;
+        font-size: 14pt;
+        margin-right: 20px;
     }
 }

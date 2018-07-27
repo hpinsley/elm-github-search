@@ -9,22 +9,21 @@ import Utils exposing (..)
 
 view : Model -> Html Msg
 view model =
-    div [ class "row" ]
+    div [ id "searchPage", class "row" ]
         [ div [ class "col-xs-12" ]
             [ h1 []
-                [ text "GitHub Search"
-                , h2 []
-                    [ text <| model.errorMessage
-                    ]
-                , Html.div []
-                    [ getSearchTerm model
-                    , getButtons model
-                    ]
+                [ text "GitHub Search" ]
+            , h2 []
+                [ text <| model.errorMessage
+                ]
+            , div []
+                [ getSearchTerm model
+                , getButtons model
                 ]
             ]
-        , div []
+        , div [ id "timeDisplay" ]
             [ text <| Utils.timeToFullDateDisplay model.currentTime
-            , hr [] []
+            , br [] []
             , text model.timeSource
             ]
         ]
@@ -44,10 +43,10 @@ getButtons model =
 getSearchTerm : Model -> Html Msg
 getSearchTerm model =
     div [ class "form-group" ]
-        [ label [] [ text "Search term:" ]
-        , input
+        [ input
             [ type_ "text"
             , class "form-control"
+            , placeholder "Search term"
             , value model.searchTerm
             , onInput OnSearchTermChange
             ]
