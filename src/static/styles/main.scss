@@ -51,11 +51,12 @@ table#repo-results-table {
         tr {
             border-left: solid black 1px;
             border-right: solid black 1px;
+            border-bottom: none;
+            border-top: none;
 
             td {
-                border: none;
                 &.repoName {
-                    color: darkslateblue;
+                    color: $blueLike;
                     font-weight: bold;
                     font-size: 1.5em;
                 }
@@ -77,14 +78,14 @@ table#repo-results-table {
                 }
             }
 
-            &:nth-child(2n+1) {
-                border-top: solid black 1px;
+            &:nth-child(2n) td {
+                border-bottom: solid black 1px;
             }
             &:nth-child(4n), &:nth-child(4n-1) {
                 background-color: white;
             }
             &:nth-child(4n-2), &:nth-child(4n-3) {
-                background-color: azure;
+                background-color: rgb(202, 202, 202);
             }
         }
     }

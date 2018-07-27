@@ -13,11 +13,12 @@ init =
               page = SearchPage
             , searchType = NotSearching
             , searchTerm = "angular-mashup"
-            , items_per_page = 5
+            , items_per_page = 10
             , errorMessage = ""
             , user = Nothing
             , userRepos = Nothing
             , searchRepos = Nothing
+            , sortBy = Nothing
             , currentTime = 0
             , timeSource = ""
         }
@@ -52,6 +53,14 @@ type alias Link =
         link: String
     }
 
+type SortOrder = Ascending | Descending
+
+type alias SortBy =
+    {
+        column: String,
+        order: SortOrder
+    }
+
 type alias MatchingRepos =
     {
           total_items: Int
@@ -70,6 +79,7 @@ type alias Model =
         , user: Maybe User
         , userRepos: Maybe MatchingRepos
         , searchRepos: Maybe MatchingRepos
+        , sortBy: Maybe SortBy
         , currentTime: Time.Time
         , timeSource: String
     }
@@ -88,4 +98,5 @@ type Msg
     | ProcessUserReposResult (Result Http.Error UserReposQueryResult)
     | ReturnToRepoSearchResults
     | ProcessTime String Time.Time
+    | SortClick String
 

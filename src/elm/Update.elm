@@ -169,10 +169,16 @@ update msg model =
                     }
                         ! []
 
+        SortClick columnClicked ->
+            (sortModel model columnClicked) ! []
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Time.every (60 * Time.second) (ProcessTime "Subscription")
+
+
+
 -- Sub.none
 
 
@@ -224,3 +230,30 @@ extractSearchTypeFromRepoResults matchingRepos =
 
         Nothing ->
             NotSearching
+
+sortModel: Model -> String -> Model
+sortModel model columnClicked =
+    let
+        _ = Debug.log "sortBy" columnClicked
+        newSortOrder = getNewSortOrder model.sortBy columnClicked
+    in
+        { model
+            | sortBy = newSortOrder
+        }
+
+getNewSortOrder: Maybe SortBy -> String -> Maybe SortBy
+getNewSortOrder oldSortOrder columnClicked =
+    case oldSortOrder of
+        Nothing ->
+            Just (SortBy columnClicked Descending)
+
+        Just oldSortOrder ->
+            if (oldSortOrder.column == columnClicked)
+            then
+                Just (SortBy oldSortOrder.column (reverseSortOrder oldSortOrder.order))
+            else
+                Just (SortBy columnClicked Descending)
+
+reverseSortOrder: SortOrder -> SortOrder
+reverseSortOrder order =
+    if order == Ascending then Descending else Ascending

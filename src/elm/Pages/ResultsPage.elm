@@ -70,8 +70,7 @@ displayAdditionalButtons model =
         , onClick ResetSearch
         ]
         [ text "New Search" ]
-
-    -- Allow backing up to the general repo search if we drilled into an owner
+      -- Allow backing up to the general repo search if we drilled into an owner
     , case model.searchType of
         RepoQuery (UserRepoSearch _) ->
             case model.searchRepos of
@@ -178,8 +177,8 @@ tableHeader model =
             , colHeader "Owner"
             , colHeader "Avatar"
             , colHeader ""
-            , colHeaderWithClass "Stars" "stars"
-            , colHeaderWithClass "Watchers" "watchers"
+            , colHeaderWithClass "Stars" "stars" True
+            , colHeaderWithClass "Watchers" "watchers" True
             ]
         ]
 
@@ -191,8 +190,22 @@ colHeader col =
         ]
 
 
-colHeaderWithClass : String -> String -> Html Msg
-colHeaderWithClass col className =
-    th [ class className ]
-        [ text col
-        ]
+colHeaderWithClass : String -> String -> Bool -> Html Msg
+colHeaderWithClass col className sortable =
+    let
+        classes =
+            if sortable then
+                className ++ " sortable"
+            else
+                className
+    in
+        th
+            [ class classes
+            , onClick <|
+                if sortable then
+                    SortClick (String.toLower col)
+                else
+                    NoOp
+            ]
+            [ text col
+            ]
