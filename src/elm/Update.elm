@@ -239,6 +239,8 @@ sortModel model columnClicked =
     in
         { model
             | sortBy = newSortOrder
+            , searchRepos = applySortOrder model.searchRepos newSortOrder
+            , userRepos = applySortOrder model.userRepos newSortOrder
         }
 
 getNewSortOrder: Maybe SortBy -> String -> Maybe SortBy
@@ -257,3 +259,21 @@ getNewSortOrder oldSortOrder columnClicked =
 reverseSortOrder: SortOrder -> SortOrder
 reverseSortOrder order =
     if order == Ascending then Descending else Ascending
+
+applySortOrder: Maybe MatchingRepos -> Maybe SortBy -> Maybe MatchingRepos
+applySortOrder matches sortBy =
+    case sortBy of
+        Nothing ->
+            Nothing
+        Just sb ->
+            Maybe.map (applySortOrderToMatch sb) matches
+
+applySortOrderToMatch: SortBy -> MatchingRepos -> MatchingRepos
+applySortOrderToMatch sortBy matches =
+    let
+        sortedItems =
+            matches.items
+                -- |> List.sortBy .stargazers_count
+                |> List.reverse
+    in
+        { matches | items = sortedItems }
