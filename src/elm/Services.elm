@@ -110,7 +110,6 @@ searchUser user =
                                 Http.header "Accept" "application/json"
                               , authHeader
                         ]
-                    --, expect = Http.expectJson repoSearchResultDecoder
                     , expect = Http.expectJson userDecoder
                     , timeout = Nothing
                     , withCredentials = False

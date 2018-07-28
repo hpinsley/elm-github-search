@@ -51,12 +51,6 @@ repoItemDecoder =
         |> required "size" int
         |> optional "language" string ""
 
--- userReposResultDecoder : Decoder UserReposQueryResult
--- userReposResultDecoder =
---     decode UserReposQueryResult
---         |> required "items" (Json.Decode.list repoItemDecoder)
---         |> optional "linkHeader" (maybe string) (Just "")
-
 repoListDecoder: Decoder (List RepoItem)
 repoListDecoder =
     Json.Decode.list repoItemDecoder
