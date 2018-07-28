@@ -271,9 +271,15 @@ applySortOrder matches sortBy =
 applySortOrderToMatch: SortBy -> MatchingRepos -> MatchingRepos
 applySortOrderToMatch sortBy matches =
     let
+        comparableFunc =
+            case sortBy.column of
+                "stars" -> .stargazers_count
+                "size" -> .size
+                _ -> .stargazers_count
+
         sortedItems =
             matches.items
-                -- |> List.sortBy .stargazers_count
-                |> List.reverse
+                |> List.sortBy comparableFunc
+                |> (if sortBy.order == Descending then List.reverse else identity)
     in
         { matches | items = sortedItems }

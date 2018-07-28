@@ -48,5 +48,6 @@ type alias RepoItem =
         , owner: Owner
         , description: Maybe String
         , stargazers_count: Int
-        , watchers_count: Int
+        , size: Int
+        , language: String
     }

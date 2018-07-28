@@ -153,7 +153,8 @@ getMainRepoItemRow item =
                 ]
             , td [] [ a [ href item.html_url ] [ text "View on Github" ] ]
             , td [ class "stars" ] [ text <| intFormat item.stargazers_count ]
-            , td [ class "watchers" ] [ text <| intFormat item.watchers_count ]
+            , td [ class "size" ] [ text <| intFormat item.size ]
+            , td [ class "language"] [ text item.language ]
             ]
 
 
@@ -162,7 +163,7 @@ getDescriptionRepoItemRow item =
     tr
         []
         [ td
-            [ colspan 8 ]
+            [ colspan 9 ]
             [ text (Maybe.withDefault "(no description)" item.description) ]
         ]
 
@@ -178,7 +179,8 @@ tableHeader model =
             , colHeader "Avatar"
             , colHeader ""
             , colHeaderWithClass "Stars" "stars" True
-            , colHeaderWithClass "Watchers" "watchers" True
+            , colHeaderWithClass "Size" "size" True
+            , colHeader "Language"
             ]
         ]
 

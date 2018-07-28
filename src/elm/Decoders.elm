@@ -48,7 +48,8 @@ repoItemDecoder =
         |> required "owner" ownerDecoder
         |> optional "description" (maybe string) Nothing
         |> required "stargazers_count" int
-        |> required "watchers_count" int
+        |> required "size" int
+        |> optional "language" string ""
 
 -- userReposResultDecoder : Decoder UserReposQueryResult
 -- userReposResultDecoder =
