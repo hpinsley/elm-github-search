@@ -172,6 +172,15 @@ update msg model =
         SortClick columnClicked ->
             (sortModel model columnClicked) ! []
 
+        OnItemsPerPageChanged strPerPage ->
+            let itemsPerPage =
+                case String.toInt strPerPage of
+                    Err _ ->
+                        5
+                    Ok n -> n
+            in
+                {model | items_per_page = itemsPerPage} ! []
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

@@ -19,6 +19,7 @@ view model =
             , div []
                 [ getSearchTerm model
                 , getButtons model
+                , getItemsPerPageEntry model
                 ]
             ]
         , div [ id "timeDisplay" ]
@@ -40,11 +41,25 @@ getButtons model =
         ]
 
 
+getItemsPerPageEntry : Model -> Html Msg
+getItemsPerPageEntry model =
+    div [ class "form-group" ]
+        [ input
+            [ type_ "text"
+            , class "form-control"
+            , placeholder "Items per page"
+            , value (toString model.items_per_page)
+            , onInput OnItemsPerPageChanged
+            ]
+            []
+        ]
+
 getSearchTerm : Model -> Html Msg
 getSearchTerm model =
     div [ class "form-group" ]
         [ input
             [ type_ "text"
+            , id "searchTermInput"
             , class "form-control"
             , placeholder "Search term"
             , value model.searchTerm

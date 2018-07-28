@@ -99,4 +99,5 @@ type Msg
     | ReturnToRepoSearchResults
     | ProcessTime String Time.Time
     | SortClick String
+    | OnItemsPerPageChanged String
 
