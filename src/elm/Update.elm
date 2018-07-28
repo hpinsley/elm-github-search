@@ -36,7 +36,7 @@ update msg model =
         StartGeneralRepoSearch ->
             let
                 cmd =
-                    searchRepos model.searchTerm model.items_per_page
+                    searchRepos model.searchTerm model.items_per_page model.language
             in
                 { model
                     | searchType = RepoQuery (GeneralRepoSearch model.searchTerm)
@@ -180,6 +180,9 @@ update msg model =
                     Ok n -> n
             in
                 {model | items_per_page = itemsPerPage} ! []
+
+        OnLanguageChanged language ->
+            { model | language = language } ! []
 
 
 subscriptions : Model -> Sub Msg

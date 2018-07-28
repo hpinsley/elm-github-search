@@ -163,15 +163,25 @@ div#searchPage {
         height: 100px;
     }
 
-    div#itemsPerPageForm {
-        label {
-            font-size: 10pt;
-        }
+    div#filters {
+        div.filter {
+            float: left;
 
-        input#itemsPerPageInput {
-            font-size: 12pt;
-            color: green;
-            width: 100px;
+            margin-left: 20px;
+
+            &:first-child {
+                margin-left: 0px;
+            }
+
+            label {
+                font-size: 10pt;
+            }
+
+            input {
+                font-size: 12pt;
+                color: green;
+                width: 100px;
+            }
         }
     }
 

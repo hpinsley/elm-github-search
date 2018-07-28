@@ -19,7 +19,7 @@ view model =
             , div []
                 [ getSearchTerm model
                 , getButtons model
-                , getItemsPerPageEntry model
+                , getFilters model
                 ]
             ]
         , div [ id "timeDisplay" ]
@@ -41,10 +41,19 @@ getButtons model =
         ]
 
 
-getItemsPerPageEntry : Model -> Html Msg
-getItemsPerPageEntry model =
+getFilters : Model -> Html Msg
+getFilters model =
+    div [ id "filters" ]
+        [
+              getItemsPerPageFilter model
+            , getLanguageFilter model
+        ]
+
+
+getItemsPerPageFilter : Model -> Html Msg
+getItemsPerPageFilter model =
     div
-        [ class "form-group"
+        [ class "form-group filter"
         , id "itemsPerPageForm"
         ]
         [ label [ for "itemsPerPageInput" ]
@@ -61,6 +70,25 @@ getItemsPerPageEntry model =
             []
         ]
 
+getLanguageFilter : Model -> Html Msg
+getLanguageFilter model =
+    div
+        [ class "form-group filter"
+        , id "language"
+        ]
+        [ label [ for "languageInput" ]
+            [ text "Language:"
+            ]
+        , input
+            [ type_ "text"
+            , id "languageInput"
+            , class "form-control"
+            , placeholder "Language"
+            , value model.language
+            , onInput OnLanguageChanged
+            ]
+            []
+        ]
 
 getSearchTerm : Model -> Html Msg
 getSearchTerm model =

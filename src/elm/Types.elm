@@ -13,6 +13,7 @@ init =
               page = SearchPage
             , searchType = NotSearching
             , searchTerm = "angular-mashup"
+            , language = "javascript"
             , items_per_page = 10
             , errorMessage = ""
             , user = Nothing
@@ -74,6 +75,7 @@ type alias Model =
           page: Page
         , searchType: SearchType
         , searchTerm: String
+        , language: String
         , items_per_page: Int
         , errorMessage: String
         , user: Maybe User
@@ -100,4 +102,4 @@ type Msg
     | ProcessTime String Time.Time
     | SortClick String
     | OnItemsPerPageChanged String
-
+    | OnLanguageChanged String

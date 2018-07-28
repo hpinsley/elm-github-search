@@ -11,10 +11,14 @@ import Base64
 
 import Secrets exposing (username, password)
 
-searchRepos : String -> Int -> Cmd Msg
-searchRepos searchTerm items_per_page =
+searchRepos : String -> Int -> String -> Cmd Msg
+searchRepos searchTerm items_per_page language =
     let
-        url = "https://api.github.com/search/repositories?q=" ++ searchTerm ++
+        qTerm = case language of
+                "" -> searchTerm
+                lang -> searchTerm ++ "+language:" ++ lang
+
+        url = "https://api.github.com/search/repositories?q=" ++ qTerm ++
                     "&per_page=" ++ (toString items_per_page)
     in
         searchViaUrl url
