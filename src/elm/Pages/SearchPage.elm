@@ -43,9 +43,16 @@ getButtons model =
 
 getItemsPerPageEntry : Model -> Html Msg
 getItemsPerPageEntry model =
-    div [ class "form-group" ]
-        [ input
+    div
+        [ class "form-group"
+        , id "itemsPerPageForm"
+        ]
+        [ label [ for "itemsPerPageInput" ]
+            [ text "Items per page:"
+            ]
+        , input
             [ type_ "text"
+            , id "itemsPerPageInput"
             , class "form-control"
             , placeholder "Items per page"
             , value (toString model.items_per_page)
@@ -53,6 +60,7 @@ getItemsPerPageEntry model =
             ]
             []
         ]
+
 
 getSearchTerm : Model -> Html Msg
 getSearchTerm model =
