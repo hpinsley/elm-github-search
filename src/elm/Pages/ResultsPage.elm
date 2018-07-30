@@ -154,7 +154,7 @@ getMainRepoItemRow item =
             , td [] [ a [ href item.html_url ] [ text "View on Github" ] ]
             , td [ class "stars" ] [ text <| intFormat item.stargazers_count ]
             , td [ class "size" ] [ text <| intFormat item.size ]
-            , td [ class "language"] [ text item.language ]
+            , td [ class "language" ] [ text item.language ]
             ]
 
 
@@ -164,7 +164,39 @@ getDescriptionRepoItemRow item =
         []
         [ td
             [ colspan 9 ]
-            [ text (Maybe.withDefault "(no description)" item.description) ]
+            [ getHighlights "and" (Maybe.withDefault "(no description)" item.description) ]
+        ]
+
+
+getHighlights : String -> String -> Html Msg
+getHighlights highlightWord str =
+    let
+        indexes = String.indexes highlightWord str
+    in
+        case indexes of
+            [] ->
+                text str
+            i::_ ->
+                let
+                    l = String.length highlightWord
+                    left = String.slice 0 i str
+                    h = String.slice i (i + l) str
+                    right = String.dropLeft (i + l) str
+                in
+                    span []
+                    [
+                          text left
+                        , highlight h
+                        , getHighlights highlightWord right
+                    ]
+
+
+highlight : String -> Html Msg
+highlight str =
+    span
+        [ class "highlight"
+        ]
+        [ text str
         ]
 
 
