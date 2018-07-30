@@ -13,9 +13,18 @@ import FormatNumber.Locales exposing (Locale, usLocale)
 view : Model -> MatchingRepos -> Html Msg
 view model matching_repos =
     div []
-        [ displayResultsTable model matching_repos
-        , displayLinks model matching_repos
+        [
+              displayTextFilter model
+            , displayResultsTable model matching_repos
+            , displayLinks model matching_repos
         ]
+
+displayTextFilter: Model -> Html Msg
+displayTextFilter model =
+    div [id "textFilter"]
+    [
+        text "Text filter here"
+    ]
 
 
 displayResultsTable : Model -> MatchingRepos -> Html Msg
@@ -164,7 +173,7 @@ getDescriptionRepoItemRow item =
         []
         [ td
             [ colspan 9 ]
-            [ getHighlights "and" (Maybe.withDefault "(no description)" item.description) ]
+            [ getHighlights "" (Maybe.withDefault "(no description)" item.description) ]
         ]
 
 

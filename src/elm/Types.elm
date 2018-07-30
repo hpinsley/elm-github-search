@@ -22,6 +22,7 @@ init =
             , sortBy = Nothing
             , currentTime = 0
             , timeSource = ""
+            , highlightText = ""
         }
         ,  Task.perform (ProcessTime "Intial Cmd") Time.now
     )
@@ -84,6 +85,7 @@ type alias Model =
         , sortBy: Maybe SortBy
         , currentTime: Time.Time
         , timeSource: String
+        , highlightText: String
     }
 
 -- Messages
