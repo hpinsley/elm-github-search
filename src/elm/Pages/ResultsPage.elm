@@ -13,18 +13,24 @@ import FormatNumber.Locales exposing (Locale, usLocale)
 view : Model -> MatchingRepos -> Html Msg
 view model matching_repos =
     div []
-        [
-              displayTextFilter model
-            , displayResultsTable model matching_repos
-            , displayLinks model matching_repos
+        [ displayTextFilter model
+        , displayResultsTable model matching_repos
+        , displayLinks model matching_repos
         ]
 
-displayTextFilter: Model -> Html Msg
+
+displayTextFilter : Model -> Html Msg
 displayTextFilter model =
-    div [id "textFilter"]
-    [
-        text "Text filter here"
-    ]
+    div [ id "textFilter" ]
+        [ input
+            [ type_ "text"
+            , class "form-control"
+            , placeholder "(highlight)"
+            , value model.highlightText
+            , onInput OnHighlightTextChanged
+            ]
+            []
+        ]
 
 
 displayResultsTable : Model -> MatchingRepos -> Html Msg
@@ -104,15 +110,15 @@ tableBody model matching_repos =
     tbody []
         (matching_repos.items
             |> List.filter (\r -> not r.fork)
-            |> List.map renderRepo
+            |> List.map (renderRepo model)
             |> List.concat
         )
 
 
-renderRepo : RepoItem -> List (Html Msg)
-renderRepo item =
+renderRepo : Model -> RepoItem -> List (Html Msg)
+renderRepo model item =
     [ getMainRepoItemRow item
-    , getDescriptionRepoItemRow item
+    , getDescriptionRepoItemRow model item
     ]
 
 
@@ -167,37 +173,45 @@ getMainRepoItemRow item =
             ]
 
 
-getDescriptionRepoItemRow : RepoItem -> Html Msg
-getDescriptionRepoItemRow item =
+getDescriptionRepoItemRow : Model -> RepoItem -> Html Msg
+getDescriptionRepoItemRow model item =
     tr
         []
         [ td
             [ colspan 9 ]
-            [ getHighlights "" (Maybe.withDefault "(no description)" item.description) ]
+            [ getHighlights model.highlightText (Maybe.withDefault "(no description)" item.description) ]
         ]
 
 
 getHighlights : String -> String -> Html Msg
 getHighlights highlightWord str =
     let
-        indexes = String.indexes highlightWord str
+        indexes =
+            String.indexes (String.toLower highlightWord) (String.toLower str)
     in
         case indexes of
             [] ->
                 text str
-            i::_ ->
+
+            i :: _ ->
                 let
-                    l = String.length highlightWord
-                    left = String.slice 0 i str
-                    h = String.slice i (i + l) str
-                    right = String.dropLeft (i + l) str
+                    l =
+                        String.length highlightWord
+
+                    left =
+                        String.slice 0 i str
+
+                    h =
+                        String.slice i (i + l) str
+
+                    right =
+                        String.dropLeft (i + l) str
                 in
                     span []
-                    [
-                          text left
+                        [ text left
                         , highlight h
                         , getHighlights highlightWord right
-                    ]
+                        ]
 
 
 highlight : String -> Html Msg

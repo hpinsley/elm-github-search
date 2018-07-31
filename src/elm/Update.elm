@@ -184,7 +184,9 @@ update msg model =
         OnLanguageChanged language ->
             { model | language = language } ! []
 
-
+        OnHighlightTextChanged text ->
+            { model | highlightText = text } ! []
+            
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Time.every (60 * Time.second) (ProcessTime "Subscription")

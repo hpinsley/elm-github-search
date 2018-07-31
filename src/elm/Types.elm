@@ -12,9 +12,9 @@ init =
         {
               page = SearchPage
             , searchType = NotSearching
-            , searchTerm = "angular-mashup"
-            , language = "javascript"
-            , items_per_page = 10
+            , searchTerm = ""
+            , language = ""
+            , items_per_page = 100
             , errorMessage = ""
             , user = Nothing
             , userRepos = Nothing
@@ -105,3 +105,4 @@ type Msg
     | SortClick String
     | OnItemsPerPageChanged String
     | OnLanguageChanged String
+    | OnHighlightTextChanged String

@@ -197,6 +197,9 @@ span.highlight {
 }
 
 div#textFilter {
-    color: yellow;
-    font-size: 18pt;
+    background-color: tan;
+    input {
+        color: red;
+        font-size: 18pt;
+    }
 }
