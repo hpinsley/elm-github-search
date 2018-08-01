@@ -284,11 +284,15 @@ reverseSortOrder order =
 
 applySortOrder: Maybe MatchingRepos -> Maybe SortBy -> Maybe MatchingRepos
 applySortOrder matches sortBy =
-    case sortBy of
+    case matches of
         Nothing ->
             Nothing
-        Just sb ->
-            Maybe.map (applySortOrderToMatch sb) matches
+        Just _ ->
+            case sortBy of
+                Nothing ->
+                    matches
+                Just sb ->
+                    Maybe.map (applySortOrderToMatch sb) matches
 
 applySortOrderToMatch: SortBy -> MatchingRepos -> MatchingRepos
 applySortOrderToMatch sortBy matches =
