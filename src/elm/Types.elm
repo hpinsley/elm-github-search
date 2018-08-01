@@ -12,9 +12,9 @@ init =
         {
               page = SearchPage
             , searchType = NotSearching
-            , searchTerm = ""
+            , searchTerm = "elm"
             , language = ""
-            , items_per_page = 100
+            , items_per_page = 20
             , errorMessage = ""
             , user = Nothing
             , userRepos = Nothing
@@ -23,6 +23,7 @@ init =
             , currentTime = 0
             , timeSource = ""
             , highlightText = ""
+            , filterText = ""
         }
         ,  Task.perform (ProcessTime "Intial Cmd") Time.now
     )
@@ -86,6 +87,7 @@ type alias Model =
         , currentTime: Time.Time
         , timeSource: String
         , highlightText: String
+        , filterText: String
     }
 
 -- Messages
@@ -106,3 +108,5 @@ type Msg
     | OnItemsPerPageChanged String
     | OnLanguageChanged String
     | OnHighlightTextChanged String
+    | OnFilterTextChanged String
+    | ClearFiltersAndHighlights

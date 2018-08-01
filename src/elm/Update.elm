@@ -186,7 +186,14 @@ update msg model =
 
         OnHighlightTextChanged text ->
             { model | highlightText = text } ! []
-            
+
+        OnFilterTextChanged text ->
+            { model | filterText = text } ! []
+
+        ClearFiltersAndHighlights ->
+            { model | highlightText = "", filterText = "" } ! []
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Time.every (60 * Time.second) (ProcessTime "Subscription")

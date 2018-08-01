@@ -22,14 +22,29 @@ view model matching_repos =
 displayTextFilter : Model -> Html Msg
 displayTextFilter model =
     div [ id "textFilter" ]
-        [ input
+        [ label [] [ text "Filter:" ]
+        , input
             [ type_ "text"
+            , id "globalFilter"
             , class "form-control"
-            , placeholder "(highlight)"
+            , value model.filterText
+            , onInput OnFilterTextChanged
+            ]
+            []
+        , label [] [ text "Highlight:" ]
+        , input
+            [ type_ "text"
+            , id "hightlightInput"
+            , class "form-control"
             , value model.highlightText
             , onInput OnHighlightTextChanged
             ]
             []
+        , button
+            [ class "btn btn-primary"
+            , onClick ClearFiltersAndHighlights
+            ]
+            [ text "Clear" ]
         ]
 
 
@@ -110,9 +125,29 @@ tableBody model matching_repos =
     tbody []
         (matching_repos.items
             |> List.filter (\r -> not r.fork)
+            |> List.filter (\r -> doesRepoMatchFilter model r)
             |> List.map (renderRepo model)
             |> List.concat
         )
+
+
+doesRepoMatchFilter : Model -> RepoItem -> Bool
+doesRepoMatchFilter model item =
+    if (model.filterText == "") then
+        True
+    else
+        List.any
+            (doesFieldMatch item model.filterText)
+            [ .name
+            , .full_name
+            , .url
+            , .html_url
+            , .language
+            ]
+
+doesFieldMatch : RepoItem -> String -> (RepoItem -> String) -> Bool
+doesFieldMatch item text fieldAccessor =
+    String.contains (String.toLower text) (String.toLower <| fieldAccessor item)
 
 
 renderRepo : Model -> RepoItem -> List (Html Msg)

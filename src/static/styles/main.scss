@@ -41,7 +41,7 @@ table#repo-results-table {
                 background-color: black;
                 color: gold;
                 border-bottom: solid black 1px;
-                &.stars, &.size {
+                &.stars, &.s    ize {
                     text-align: right;
                 }
             }
@@ -197,9 +197,20 @@ span.highlight {
 }
 
 div#textFilter {
-    background-color: tan;
-    input {
+    $fontSize: 16pt;
+
+    label {
+        font-size: $fontSize;
+        margin-right: 5px;
+        &:not(:first-child) {
+            margin-left: 100px;
+        }
+    }
+
+    input[type='text'] {
+        display: inline-block;
         color: red;
-        font-size: 18pt;
+        font-size: $fontSize;
+        width: 200px;
     }
 }
