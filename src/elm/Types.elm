@@ -12,7 +12,7 @@ init =
         {
               page = SearchPage
             , searchType = NotSearching
-            , searchTerm = "elm"
+            , searchTerm = ""
             , language = ""
             , items_per_page = 20
             , errorMessage = ""

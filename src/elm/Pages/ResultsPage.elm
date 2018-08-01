@@ -45,6 +45,8 @@ displayTextFilter model =
             , onClick ClearFiltersAndHighlights
             ]
             [ text "Clear" ]
+
+        , getSortDescription model
         ]
 
 
@@ -316,3 +318,18 @@ colHeader model col =
             ]
             [ text col
             ]
+
+getSortDescription: Model -> Html Msg
+getSortDescription model =
+    let
+        description = case model.sortBy of
+                        Nothing -> ""
+                        Just sortBy ->
+                            "Sorted by " ++
+                            (if sortBy.order == Ascending then "Ascending" else "Descending")
+                            ++ " " ++ sortBy.column
+    in
+        span [id "sortDescription"]
+        [
+            text description
+        ]

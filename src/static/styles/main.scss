@@ -222,4 +222,10 @@ div#textFilter {
         font-size: $fontSize;
         width: 200px;
     }
+
+    span#sortDescription {
+        display: inline-block;
+        font-size: $fontSize;
+        margin-left: 100px;
+    }
 }

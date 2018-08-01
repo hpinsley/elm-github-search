@@ -34,7 +34,9 @@ getButtons : Model -> Html Msg
 getButtons model =
     div [ class "buttonGroup form-group" ]
         [ button
-            [ class "btn btn-primary btn-lg"
+            [
+              class "btn btn-primary btn-lg"
+            , disabled (model.searchTerm == "")
             , onClick StartGeneralRepoSearch
             ]
             [ text "Search" ]

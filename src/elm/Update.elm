@@ -30,6 +30,9 @@ update msg model =
                 , searchTerm = ""
                 , searchRepos = Nothing
                 , userRepos = Nothing
+                , filterText = ""
+                , highlightText = ""
+                , sortBy = Nothing
             }
                 ! []
 
