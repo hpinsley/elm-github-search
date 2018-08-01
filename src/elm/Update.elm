@@ -153,10 +153,11 @@ update msg model =
                             , items = searchResult.items
                             , links = extractLinksFromHeader searchResult.linkHeader
                             }
+                        searchRepos = applySortOrder (Just matchingRepos) model.sortBy
                     in
                         { model
                             | page = ResultsPage
-                            , searchRepos = Just matchingRepos
+                            , searchRepos = searchRepos
                         }
                             ! []
 

@@ -262,34 +262,49 @@ tableHeader : Model -> Html Msg
 tableHeader model =
     thead []
         [ tr []
-            [ colHeader "Name"
-            , colHeader "Full Name"
-            , colHeader "Fork"
-            , colHeader "Owner"
-            , colHeader "Avatar"
-            , colHeader ""
-            , colHeaderWithClass "Stars" "stars" True
-            , colHeaderWithClass "Size" "size" True
-            , colHeader "Language"
+            [ colHeader model "Name"
+            , colHeader model "Full Name"
+            , colHeader model "Fork"
+            , colHeader model "Owner"
+            , colHeader model "Avatar"
+            , colHeader model ""
+            , colHeader model "Stars"
+            , colHeader model "Size"
+            , colHeader model "Language"
             ]
         ]
 
 
-colHeader : String -> Html Msg
-colHeader col =
-    th []
-        [ text col
-        ]
-
-
-colHeaderWithClass : String -> String -> Bool -> Html Msg
-colHeaderWithClass col className sortable =
+colHeader : Model -> String -> Html Msg
+colHeader model col =
     let
-        classes =
+        testColumn = String.toLower col
+        sortable = case testColumn of
+                    "stars" -> True
+                    "size" -> True
+                    _ -> False
+
+        sortableClass =
             if sortable then
-                className ++ " sortable"
+                "sortable"
             else
-                className
+                "notsortable"
+
+        sortDirectionClass =
+            case model.sortBy of
+                Nothing -> "notsorted"
+                Just s ->
+                    if (s.column == testColumn)
+                    then
+                        if (s.order == Ascending)
+                        then
+                            "sorted-ascending"
+                        else
+                            "sorted-descending"
+                    else
+                        "notsorted"
+
+        classes = sortableClass ++ " " ++ sortDirectionClass
     in
         th
             [ class classes

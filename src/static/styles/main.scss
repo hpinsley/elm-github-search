@@ -41,8 +41,17 @@ table#repo-results-table {
                 background-color: black;
                 color: gold;
                 border-bottom: solid black 1px;
-                &.stars, &.s    ize {
+
+                &.sortable {
+                    color: green;
                     text-align: right;
+                    cursor: pointer;
+                    &.sorted-ascending {
+                        color: blue;
+                    }
+                    &.sorted-descending {
+                        color: red;
+                    }
                 }
             }
         }
