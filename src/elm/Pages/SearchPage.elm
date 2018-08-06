@@ -25,9 +25,9 @@ view model =
             ]
 
         , statusBar
-            [ { contents = text (toString model.searchCount), alignment = Left }
-            , { contents = text <| Utils.timeToFullDateDisplay model.currentTime, alignment = Center }
-            , { contents = text model.timeSource, alignment = Right }
+            [ { label = "Search count:", text = (toString model.searchCount), alignment = Left }
+            , { label = "Time:", text = Utils.timeToFullDateDisplay model.currentTime, alignment = Center }
+            , { label = "Time Source:", text = model.timeSource, alignment = Right }
             ]
         ]
 

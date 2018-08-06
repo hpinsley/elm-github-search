@@ -232,7 +232,7 @@ div#textFilter {
 
 div.statusBar {
     clear: both;
-    font-size: 10pt;
+    font-size: 12pt;
     background: rgb(100, 100, 100);
 
     div.statusBarSection {
@@ -242,6 +242,12 @@ div.statusBar {
         border: 2px solid white;
         padding: 10px;
         color: gold;
+
+        label {
+            font-weight: bold;
+            color: orange;
+            margin-right: 10px;
+        }
     }
 }
 
