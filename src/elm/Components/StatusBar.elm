@@ -2,7 +2,6 @@ module Components.StatusBar exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import String
 
 type Align = Left | Center | Right
 
@@ -15,9 +14,10 @@ type alias Section a =
 -- hello component
 statusBar : List (Section a) -> Html a
 statusBar sections =
-  div
-    [ class "statusBar" ]
-    <| (List.map renderSection sections) ++ [clear]
+    sections
+        |> List.map (renderSection <| List.length sections)
+        |> \l -> l ++ [clear]
+        |> div [ class "statusBar" ]
 
 clear: Html a
 clear =
@@ -26,21 +26,26 @@ clear =
     ]
     []
 
-renderSection: (Section a) -> Html a
-renderSection section =
+renderSection: Int -> (Section a) -> Html a
+renderSection sectionCount section =
     div [
           class "statusBarSection"
-        , buildStyle section
+        , buildStyle sectionCount section
     ]
     [
         section.contents
     ]
 
-buildStyle: (Section a) -> Html.Attribute a
-buildStyle section =
-    style [
-        ("text-align", case section.alignment of
-                        Left -> "left"
-                        Center -> "center"
-                        Right -> "right")
+buildStyle: Int -> (Section a) -> Html.Attribute a
+buildStyle sectionCount section =
+    let
+        width = 100.0 / (toFloat sectionCount)
+        strWidth = toString width ++ "%"
+    in
+        style [
+              ("text-align", case section.alignment of
+                            Left -> "left"
+                            Center -> "center"
+                            Right -> "right")
+            , ("width", strWidth)
     ]

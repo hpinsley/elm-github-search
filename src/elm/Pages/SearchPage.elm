@@ -21,20 +21,13 @@ view model =
                 [ getSearchTerm model
                 , getButtons model
                 , getFilters model
-                , getSearchStats model
                 ]
             ]
 
         , statusBar
-            [ { contents = text "left", alignment = Left }
-            , { contents = text "middle", alignment = Center }
-            , { contents = text "right", alignment = Right }
-            ]
-
-        , div [ id "timeDisplay" ]
-            [ text <| Utils.timeToFullDateDisplay model.currentTime
-            , br [] []
-            , text model.timeSource
+            [ { contents = text (toString model.searchCount), alignment = Left }
+            , { contents = text <| Utils.timeToFullDateDisplay model.currentTime, alignment = Center }
+            , { contents = text model.timeSource, alignment = Right }
             ]
         ]
 

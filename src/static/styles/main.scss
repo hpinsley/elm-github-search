@@ -162,10 +162,10 @@ div#searchPage {
         padding: 20pt;
     }
 
-    label {
-        color: $blueLike;
-        font-size:20pt;
-    }
+    // label {
+    //     color: $blueLike;
+    //     font-size:20pt;
+    // }
 
     input#searchTermInput {
         font-size: 50pt;
@@ -191,14 +191,6 @@ div#searchPage {
                 color: green;
                 width: 100px;
             }
-        }
-    }
-
-    div#searchStats {
-        clear: both;
-        font-size: 20pt;
-        label {
-            margin-right: 10px;
         }
     }
 
@@ -240,14 +232,16 @@ div#textFilter {
 
 div.statusBar {
     clear: both;
-    font-size: 20pt;
-    background: yellowgreen;
+    font-size: 10pt;
+    background: rgb(100, 100, 100);
 
     div.statusBarSection {
-        float: left;
-        color: teal;
-        border: 1px solid tan;
-        padding: 2px;
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid white;
+        padding: 10px;
+        color: gold;
     }
 }
 
