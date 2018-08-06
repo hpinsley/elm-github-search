@@ -6,28 +6,6 @@ import Http
 import Time
 import Task
 
-init : ( Model, Cmd Msg )
-init =
-    (
-        {
-              page = SearchPage
-            , searchType = NotSearching
-            , searchTerm = ""
-            , language = ""
-            , items_per_page = 20
-            , errorMessage = ""
-            , user = Nothing
-            , userRepos = Nothing
-            , searchRepos = Nothing
-            , sortBy = Nothing
-            , currentTime = 0
-            , timeSource = ""
-            , highlightText = ""
-            , filterText = ""
-        }
-        ,  Task.perform (ProcessTime "Intial Cmd") Time.now
-    )
-
 -- MODEL
 
 type Page
@@ -88,6 +66,7 @@ type alias Model =
         , timeSource: String
         , highlightText: String
         , filterText: String
+        , searchCount: Int
     }
 
 -- Messages
@@ -110,3 +89,26 @@ type Msg
     | OnHighlightTextChanged String
     | OnFilterTextChanged String
     | ClearFiltersAndHighlights
+
+init : ( Model, Cmd Msg )
+init =
+    (
+        {
+              page = SearchPage
+            , searchType = NotSearching
+            , searchTerm = ""
+            , language = ""
+            , items_per_page = 20
+            , errorMessage = ""
+            , user = Nothing
+            , userRepos = Nothing
+            , searchRepos = Nothing
+            , sortBy = Nothing
+            , currentTime = 0
+            , timeSource = ""
+            , highlightText = ""
+            , filterText = ""
+            , searchCount = 0
+        }
+        ,  Task.perform (ProcessTime "Intial Cmd") Time.now
+    )

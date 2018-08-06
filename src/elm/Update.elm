@@ -161,6 +161,7 @@ update msg model =
                         { model
                             | page = ResultsPage
                             , searchRepos = searchRepos
+                            , searchCount = model.searchCount + 1
                         }
                             ! []
 

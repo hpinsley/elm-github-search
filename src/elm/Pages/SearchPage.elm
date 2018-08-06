@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import Utils exposing (..)
+import Components.StatusBar exposing (..)
 
 
 view : Model -> Html Msg
@@ -20,8 +21,16 @@ view model =
                 [ getSearchTerm model
                 , getButtons model
                 , getFilters model
+                , getSearchStats model
                 ]
             ]
+
+        , statusBar
+            [ { contents = text "left", alignment = Left }
+            , { contents = text "middle", alignment = Center }
+            , { contents = text "right", alignment = Right }
+            ]
+
         , div [ id "timeDisplay" ]
             [ text <| Utils.timeToFullDateDisplay model.currentTime
             , br [] []
@@ -34,8 +43,7 @@ getButtons : Model -> Html Msg
 getButtons model =
     div [ class "buttonGroup form-group" ]
         [ button
-            [
-              class "btn btn-primary btn-lg"
+            [ class "btn btn-primary btn-lg"
             , disabled (model.searchTerm == "")
             , onClick StartGeneralRepoSearch
             ]
@@ -46,9 +54,16 @@ getButtons model =
 getFilters : Model -> Html Msg
 getFilters model =
     div [ id "filters" ]
-        [
-              getItemsPerPageFilter model
-            , getLanguageFilter model
+        [ getItemsPerPageFilter model
+        , getLanguageFilter model
+        ]
+
+
+getSearchStats : Model -> Html Msg
+getSearchStats model =
+    div [ id "searchStats" ]
+        [ label [] [ text "Searches:" ]
+        , text (toString model.searchCount)
         ]
 
 
@@ -72,6 +87,7 @@ getItemsPerPageFilter model =
             []
         ]
 
+
 getLanguageFilter : Model -> Html Msg
 getLanguageFilter model =
     div
@@ -91,6 +107,7 @@ getLanguageFilter model =
             ]
             []
         ]
+
 
 getSearchTerm : Model -> Html Msg
 getSearchTerm model =

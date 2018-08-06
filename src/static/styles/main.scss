@@ -194,6 +194,14 @@ div#searchPage {
         }
     }
 
+    div#searchStats {
+        clear: both;
+        font-size: 20pt;
+        label {
+            margin-right: 10px;
+        }
+    }
+
     div#timeDisplay {
         text-align: right;
         font-size: 14pt;
@@ -228,4 +236,21 @@ div#textFilter {
         font-size: $fontSize;
         margin-left: 100px;
     }
+}
+
+div.statusBar {
+    clear: both;
+    font-size: 20pt;
+    background: yellowgreen;
+
+    div.statusBarSection {
+        float: left;
+        color: teal;
+        border: 1px solid tan;
+        padding: 2px;
+    }
+}
+
+div.clear {
+    clear: both;
 }
