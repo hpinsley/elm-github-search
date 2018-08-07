@@ -16,15 +16,19 @@ type alias Section msg =
     , alignment : Align
     }
 
-
+type alias StatusBarLayout msg =
+    {
+          fontSize: String
+        , sections: List (Section msg)
+    }
 
 -- hello component
 
 
-statusBar : List (Section msg) -> Html msg
-statusBar sections =
-    sections
-        |> List.map (renderSection <| List.length sections)
+statusBar : StatusBarLayout msg -> Html msg
+statusBar layout =
+    layout.sections
+        |> List.map (renderSection <| List.length layout.sections)
         |> \l ->
             l
                 ++ [ clear ]
@@ -35,7 +39,7 @@ statusBar sections =
                         , ( "position", "absolute" )
                         , ( "bottom", "20px" )
                         , ( "width", "80%" )
-                        , ( "font-size", "10pt" )
+                        , ( "font-size", layout.fontSize )
                         , ( "background", "rgb(100, 100, 100)" )
                         ]
                     ]

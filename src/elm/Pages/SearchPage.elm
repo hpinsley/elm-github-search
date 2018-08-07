@@ -10,7 +10,7 @@ import Components.StatusBar exposing (..)
 
 view : Model -> Html Msg
 view model =
-    div [ id "searchPage", class "row"]
+    div [ id "searchPage", class "row" ]
         [ div [ class "col-xs-12" ]
             [ h1 []
                 [ text "GitHub Search" ]
@@ -23,23 +23,26 @@ view model =
                 , getFilters model
                 ]
             ]
-
         , buildStatusBar model
         ]
 
 
-buildStatusBar: Model -> Html Msg
+buildStatusBar : Model -> Html Msg
 buildStatusBar model =
     let
-        btn = button [][text "Clear"]
+        btn =
+            button [] [ text "Clear" ]
     in
+        statusBar
+            { fontSize = "10pt"
+            , sections =
+                [ { label = "Search count:", content = text (toString model.searchCount), alignment = Left }
+                , { label = "Button:", content = btn, alignment = Center }
+                , { label = "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center }
+                , { label = "Time Source:", content = text model.timeSource, alignment = Right }
+                ]
+            }
 
-    statusBar
-        [ { label = "Search count:", content = text (toString model.searchCount), alignment = Left }
-        , { label = "Button:", content = btn, alignment = Center }
-        , { label = "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center }
-        , { label = "Time Source:", content = text model.timeSource, alignment = Right }
-        ]
 
 getButtons : Model -> Html Msg
 getButtons model =
