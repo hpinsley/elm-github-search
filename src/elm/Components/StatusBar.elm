@@ -11,16 +11,18 @@ type Align
 
 
 type alias Section msg =
-    { label : String
+    { label : Maybe String
     , content : Html msg
     , alignment : Align
     }
 
+
 type alias StatusBarLayout msg =
-    {
-          fontSize: String
-        , sections: List (Section msg)
+    { fontSize : String
+    , sections : List (Section msg)
     }
+
+
 
 -- hello component
 
@@ -58,14 +60,19 @@ renderSection sectionCount section =
     div
         [ buildStyle sectionCount section
         ]
-        [ label
-            [ style
-                [ ( "font-weight", "bold" )
-                , ( "color", "orange" )
-                , ( "margin-right", "10px" )
-                ]
-            ]
-            [ text section.label ]
+        [ case section.label of
+            Nothing ->
+                text ""
+
+            Just labelText ->
+                label
+                    [ style
+                        [ ( "font-weight", "bold" )
+                        , ( "color", "orange" )
+                        , ( "margin-right", "10px" )
+                        ]
+                    ]
+                    [ text labelText ]
         , span [] [ section.content ]
         ]
 

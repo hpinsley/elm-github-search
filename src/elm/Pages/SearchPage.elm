@@ -34,12 +34,12 @@ buildStatusBar model =
             button [] [ text "Clear" ]
     in
         statusBar
-            { fontSize = "10pt"
+            { fontSize = "12pt"
             , sections =
-                [ { label = "Search count:", content = text (toString model.searchCount), alignment = Left }
-                , { label = "Button:", content = btn, alignment = Center }
-                , { label = "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center }
-                , { label = "Time Source:", content = text model.timeSource, alignment = Right }
+                [ { label = Just "Search count:", content = text (toString model.searchCount), alignment = Left }
+                , { label = Nothing, content = btn, alignment = Center }
+                , { label = Just "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center }
+                , { label = Just "Time Source:", content = text model.timeSource, alignment = Right }
                 ]
             }
 
