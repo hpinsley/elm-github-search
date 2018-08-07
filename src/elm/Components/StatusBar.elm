@@ -10,9 +10,9 @@ type Align
     | Right
 
 
-type alias Section =
+type alias Section msg =
     { label : String
-    , text : String
+    , content : Html msg
     , alignment : Align
     }
 
@@ -21,14 +21,24 @@ type alias Section =
 -- hello component
 
 
-statusBar : List Section -> Html a
+statusBar : List (Section msg) -> Html msg
 statusBar sections =
     sections
         |> List.map (renderSection <| List.length sections)
         |> \l ->
             l
                 ++ [ clear ]
-                |> div [ class "statusBar" ]
+                |> div
+                    [ style
+                        [ ( "clear", "both" )
+                        , ( "box-shadow", "1em 0.5em 1em" )
+                        , ( "position", "absolute" )
+                        , ( "bottom", "20px" )
+                        , ( "width", "80%" )
+                        , ( "font-size", "10pt" )
+                        , ( "background", "rgb(100, 100, 100)" )
+                        ]
+                    ]
 
 
 clear : Html a
@@ -39,18 +49,24 @@ clear =
         []
 
 
-renderSection : Int -> Section -> Html a
+renderSection : Int -> Section msg -> Html msg
 renderSection sectionCount section =
     div
-        [ class "statusBarSection"
-        , buildStyle sectionCount section
+        [ buildStyle sectionCount section
         ]
-        [ label [] [ text section.label ]
-        , span [] [ text section.text ]
+        [ label
+            [ style
+                [ ( "font-weight", "bold" )
+                , ( "color", "orange" )
+                , ( "margin-right", "10px" )
+                ]
+            ]
+            [ text section.label ]
+        , span [] [ section.content ]
         ]
 
 
-buildStyle : Int -> Section -> Html.Attribute a
+buildStyle : Int -> Section msg -> Html.Attribute msg
 buildStyle sectionCount section =
     let
         width =
@@ -72,4 +88,10 @@ buildStyle sectionCount section =
                         "right"
               )
             , ( "width", strWidth )
+            , ( "display", "inline-block" )
+            , ( "margin-left", "auto" )
+            , ( "margin-right", "auto" )
+            , ( "border", "2px solid white" )
+            , ( "padding", "10px" )
+            , ( "color", "gold" )
             ]

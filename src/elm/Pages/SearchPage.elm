@@ -24,13 +24,22 @@ view model =
                 ]
             ]
 
-        , statusBar
-            [ { label = "Search count:", text = (toString model.searchCount), alignment = Left }
-            , { label = "Time:", text = Utils.timeToFullDateDisplay model.currentTime, alignment = Center }
-            , { label = "Time Source:", text = model.timeSource, alignment = Right }
-            ]
+        , buildStatusBar model
         ]
 
+
+buildStatusBar: Model -> Html Msg
+buildStatusBar model =
+    let
+        btn = button [][text "Clear"]
+    in
+
+    statusBar
+        [ { label = "Search count:", content = text (toString model.searchCount), alignment = Left }
+        , { label = "Button:", content = btn, alignment = Center }
+        , { label = "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center }
+        , { label = "Time Source:", content = text model.timeSource, alignment = Right }
+        ]
 
 getButtons : Model -> Html Msg
 getButtons model =
