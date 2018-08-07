@@ -36,10 +36,10 @@ buildStatusBar model =
         statusBar
             { fontSize = "12pt"
             , sections =
-                [ { label = Just "Search count:", content = text (toString model.searchCount), alignment = Left }
-                , { label = Nothing, content = btn, alignment = Center }
-                , { label = Just "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center }
-                , { label = Just "Time Source:", content = text model.timeSource, alignment = Right }
+                [ { label = Just "Search count:", content = text (toString model.searchCount), alignment = Left, fontSize = Nothing }
+                , { label = Nothing, content = btn, alignment = Center, fontSize = Nothing }
+                , { label = Just "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center, fontSize = Just "6pt" }
+                , { label = Just "Time Source:", content = text model.timeSource, alignment = Right, fontSize = Nothing }
                 ]
             }
 

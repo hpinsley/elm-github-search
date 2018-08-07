@@ -14,6 +14,7 @@ type alias Section msg =
     { label : Maybe String
     , content : Html msg
     , alignment : Align
+    , fontSize: Maybe String
     }
 
 
@@ -87,7 +88,7 @@ buildStyle sectionCount section =
             toString width ++ "%"
     in
         style
-            [ ( "text-align"
+            <| [ ( "text-align"
               , case section.alignment of
                     Left ->
                         "left"
@@ -106,3 +107,6 @@ buildStyle sectionCount section =
             , ( "padding", "10px" )
             , ( "color", "gold" )
             ]
+            ++ case section.fontSize of
+                Nothing -> []
+                Just fx -> [("font-size", fx)]
