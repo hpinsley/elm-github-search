@@ -10,7 +10,7 @@ import Components.StatusBar exposing (..)
 
 view : Model -> Html Msg
 view model =
-    div [ id "searchPage", class "row" ]
+    div [ id "searchPage", class "row"]
         [ div [ class "col-xs-12" ]
             [ h1 []
                 [ text "GitHub Search" ]

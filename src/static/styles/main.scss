@@ -151,6 +151,7 @@ div.banner {
 
 div#searchPage {
 
+    height: 97vh;
     h1 {
         text-align: center;
         width: 260px;
@@ -232,8 +233,14 @@ div#textFilter {
 
 div.statusBar {
     clear: both;
+    box-shadow: 1em 0.5em 1em;
+    position: absolute;
+    bottom: 20px;
+    width: 80%;
     font-size: 12pt;
     background: rgb(100, 100, 100);
+    // position: absolute;
+    // bottom: 10px;
 
     div.statusBarSection {
         display: inline-block;
