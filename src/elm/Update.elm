@@ -198,6 +198,8 @@ update msg model =
         ClearFiltersAndHighlights ->
             { model | highlightText = "", filterText = "" } ! []
 
+        ClearSearchPageFilters ->
+            { model | language = "", items_per_page = defaultItemsPerPage } ! []
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

@@ -2,6 +2,7 @@ module View exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Types exposing (..)
 import Pages.SearchPage exposing (view)
 import Pages.SearchingPage exposing (view)
@@ -54,6 +55,7 @@ buildStatusBar model =
                     ("margin", "0px")
                     , ("padding", "6px")
                   ]
+                  , onClick ClearSearchPageFilters
                 ]
                 [ text "Clear Filters" ]
     in

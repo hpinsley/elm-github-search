@@ -89,6 +89,7 @@ type Msg
     | OnHighlightTextChanged String
     | OnFilterTextChanged String
     | ClearFiltersAndHighlights
+    | ClearSearchPageFilters
 
 init : ( Model, Cmd Msg )
 init =
@@ -98,7 +99,7 @@ init =
             , searchType = NotSearching
             , searchTerm = ""
             , language = ""
-            , items_per_page = 20
+            , items_per_page = defaultItemsPerPage
             , errorMessage = ""
             , user = Nothing
             , userRepos = Nothing
@@ -112,3 +113,5 @@ init =
         }
         ,  Task.perform (ProcessTime "Intial Cmd") Time.now
     )
+
+defaultItemsPerPage = 20
