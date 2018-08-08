@@ -48,14 +48,17 @@ buildStatusBar : Model -> Html Msg
 buildStatusBar model =
     let
         btn =
-            button [] [ text "Clear" ]
+            button [style [
+              ("margin", "0px"),
+              ("padding", "0px")
+            ]] [ text "Clear" ]
     in
         statusBar
             { fontSize = "12pt"
             , sections =
                 [ { label = Just "Search count:", content = text (toString model.searchCount), alignment = Left, fontSize = Nothing }
                 , { label = Nothing, content = btn, alignment = Center, fontSize = Nothing }
-                , { label = Just "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center, fontSize = Just "12pt" }
+                , { label = Just "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center, fontSize = Just "10pt" }
                 , { label = Just "Time Source:", content = text model.timeSource, alignment = Right, fontSize = Nothing }
                 ]
             }

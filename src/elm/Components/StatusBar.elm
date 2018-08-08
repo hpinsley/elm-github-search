@@ -38,13 +38,13 @@ statusBar layout =
                 |> div
                     [ style
                         [ ( "clear", "both" )
-                        , ( "box-shadow", "0.5em -0.5em 1em" )
+                        --  , ( "box-shadow", "0.5em -0.5em 1em" )
                         , ( "position", "absolute" )
                         , ( "bottom", "0px" )
                         , ( "width", "100vw" )
                         , ( "font-size", layout.fontSize )
                         , ( "color", "white")
-                        , ( "background", blackboard )
+                        , ( "background", Colors.blackboard )
                         ]
                     ]
 
@@ -103,7 +103,7 @@ buildStyle sectionCount section =
             , ( "display", "inline-block" )
             , ( "margin-left", "auto" )
             , ( "margin-right", "auto" )
-            , ( "border", "2px solid white" )
+            -- , ( "border", "2px solid white" )
             , ( "padding", "10px" )
             ]
             ++ case section.fontSize of

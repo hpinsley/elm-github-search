@@ -2,8 +2,6 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap/_mixins.scss';
 @import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 
-$goldLike: rgb(209, 183, 32);
-
 $grain: #d7cec7;
 $blackboard: #565656;
 $oxblood: #76323f;
@@ -13,6 +11,7 @@ $tan: #c09f80;
 $blueLike: $oxblood;
 
 body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: $grain;
     button {
         background-color: $oxblood!important;
@@ -212,7 +211,7 @@ div#searchPage {
             input {
                 font-size: 12pt;
                 color: green;
-                width: 100px;
+                width: 120px;
             }
         }
     }
