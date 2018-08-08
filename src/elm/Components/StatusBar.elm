@@ -2,7 +2,7 @@ module Components.StatusBar exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-
+import Colors exposing (..)
 
 type Align
     = Left
@@ -38,12 +38,13 @@ statusBar layout =
                 |> div
                     [ style
                         [ ( "clear", "both" )
-                        , ( "box-shadow", "1em 0.5em 1em" )
+                        , ( "box-shadow", "0.5em -0.5em 1em" )
                         , ( "position", "absolute" )
-                        , ( "bottom", "20px" )
-                        , ( "width", "80%" )
+                        , ( "bottom", "0px" )
+                        , ( "width", "100vw" )
                         , ( "font-size", layout.fontSize )
-                        , ( "background", "rgb(100, 100, 100)" )
+                        , ( "color", "white")
+                        , ( "background", blackboard )
                         ]
                     ]
 
@@ -68,9 +69,8 @@ renderSection sectionCount section =
             Just labelText ->
                 label
                     [ style
-                        [ ( "font-weight", "bold" )
-                        , ( "color", "orange" )
-                        , ( "margin-right", "10px" )
+                        [
+                            ( "margin-right", "10px" )
                         ]
                     ]
                     [ text labelText ]
@@ -105,7 +105,6 @@ buildStyle sectionCount section =
             , ( "margin-right", "auto" )
             , ( "border", "2px solid white" )
             , ( "padding", "10px" )
-            , ( "color", "gold" )
             ]
             ++ case section.fontSize of
                 Nothing -> []

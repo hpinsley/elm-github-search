@@ -5,8 +5,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import Utils exposing (..)
-import Components.StatusBar exposing (..)
-
 
 view : Model -> Html Msg
 view model =
@@ -23,25 +21,7 @@ view model =
                 , getFilters model
                 ]
             ]
-        , buildStatusBar model
         ]
-
-
-buildStatusBar : Model -> Html Msg
-buildStatusBar model =
-    let
-        btn =
-            button [] [ text "Clear" ]
-    in
-        statusBar
-            { fontSize = "12pt"
-            , sections =
-                [ { label = Just "Search count:", content = text (toString model.searchCount), alignment = Left, fontSize = Nothing }
-                , { label = Nothing, content = btn, alignment = Center, fontSize = Nothing }
-                , { label = Just "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center, fontSize = Just "6pt" }
-                , { label = Just "Time Source:", content = text model.timeSource, alignment = Right, fontSize = Nothing }
-                ]
-            }
 
 
 getButtons : Model -> Html Msg

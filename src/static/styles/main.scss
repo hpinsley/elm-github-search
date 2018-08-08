@@ -3,7 +3,27 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 
 $goldLike: rgb(209, 183, 32);
-$blueLike: #337ab7;
+
+$grain: #d7cec7;
+$blackboard: #565656;
+$oxblood: #76323f;
+$tan: #c09f80;
+
+// $blueLike: #337ab7;
+$blueLike: $oxblood;
+
+body {
+    background-color: $grain;
+    button {
+        background-color: $oxblood!important;
+    }
+}
+
+div#page {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
 
 // can add Boostrap overrides, additional Sass/CSS below...
 .buttonGroup {
@@ -138,13 +158,13 @@ div.banner {
     top: (100vh - $height) / 6;
     width: $width;
     height: $height;
-    background-color: black;
+    background-color: $grain;
     border-radius: 5px;
 
     div.bannerText {
         line-height: $height;
         font-size: 20pt;
-        color: $goldLike;
+        color: $oxblood;
         text-align: center;
     }
 }
@@ -171,6 +191,8 @@ div#searchPage {
     input#searchTermInput {
         font-size: 50pt;
         height: 100px;
+        background-color: $blackboard;
+        color: white;
     }
 
     div#filters {
@@ -193,12 +215,6 @@ div#searchPage {
                 width: 100px;
             }
         }
-    }
-
-    div#timeDisplay {
-        text-align: right;
-        font-size: 14pt;
-        margin-right: 20px;
     }
 }
 
