@@ -24,10 +24,6 @@ type alias StatusBarLayout msg =
     }
 
 
-
--- hello component
-
-
 statusBar : StatusBarLayout msg -> Html msg
 statusBar layout =
     layout.sections
@@ -42,6 +38,7 @@ statusBar layout =
                         , ( "position", "absolute" )
                         , ( "bottom", "0px" )
                         , ( "width", "100vw" )
+                        , ( "height", "8vh")
                         , ( "font-size", layout.fontSize )
                         , ( "color", "white")
                         , ( "background", Colors.blackboard )
@@ -71,6 +68,7 @@ renderSection sectionCount section =
                     [ style
                         [
                             ( "margin-right", "10px" )
+                            , ("font-weight", "normal")
                         ]
                     ]
                     [ text labelText ]
@@ -103,7 +101,6 @@ buildStyle sectionCount section =
             , ( "display", "inline-block" )
             , ( "margin-left", "auto" )
             , ( "margin-right", "auto" )
-            -- , ( "border", "2px solid white" )
             , ( "padding", "10px" )
             ]
             ++ case section.fontSize of
