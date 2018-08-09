@@ -34,7 +34,7 @@ update msg model =
                 , highlightText = ""
                 , sortBy = Nothing
             }
-                ! []
+                ! [focusSearchInput]
 
         StartGeneralRepoSearch ->
             let
@@ -199,19 +199,25 @@ update msg model =
             { model | highlightText = "", filterText = "" } ! []
 
         ClearSearchPageFilters ->
-            let
-                focusCmd = UserInterfaceHelpers.setFocusToElement { id = "searchTermInput", delay = 250 }
-            in
-                { model | language = "", items_per_page = defaultItemsPerPage } ! [focusCmd]
+            { model | language = "", items_per_page = defaultItemsPerPage } ! [focusSearchInput]
+
+        SetFocusedElement focusedElement ->
+            { model | searchTerm = model.searchTerm ++ " " ++ focusedElement } ! []
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every (60 * Time.second) (ProcessTime "Subscription")
+    Sub.batch [
+          Time.every (60 * Time.second) (ProcessTime "Subscription")
+        , UserInterfaceHelpers.setFocusToElementResult SetFocusedElement
+    ]
 
 
 
 -- Sub.none
 
+focusSearchInput : Cmd Msg
+focusSearchInput =
+    UserInterfaceHelpers.setFocusToElement { id = "searchTermInput", delay = 250 }
 
 extractLinksFromHeader : Maybe String -> List Link
 extractLinksFromHeader linkHeader =

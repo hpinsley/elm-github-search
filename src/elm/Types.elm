@@ -90,6 +90,7 @@ type Msg
     | OnFilterTextChanged String
     | ClearFiltersAndHighlights
     | ClearSearchPageFilters
+    | SetFocusedElement String
 
 init : ( Model, Cmd Msg )
 init =

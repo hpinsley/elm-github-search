@@ -16,6 +16,7 @@ app.ports.setFocusToElement.subscribe(({id, delay}) => {
         if (element) {
             console.log(`Setting focus to ${id}`);
             element.focus();
+            app.ports.setFocusToElementResult.send(id);
         }
     }, delay);
 });
