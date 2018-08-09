@@ -5,7 +5,7 @@ import Services exposing (..)
 import Regex
 import Utils
 import Time
-
+import Ports.UserInterfaceHelpers as UserInterfaceHelpers
 
 -- UPDATE
 
@@ -199,7 +199,10 @@ update msg model =
             { model | highlightText = "", filterText = "" } ! []
 
         ClearSearchPageFilters ->
-            { model | language = "", items_per_page = defaultItemsPerPage } ! []
+            let
+                focusCmd = UserInterfaceHelpers.setFocusToElement { id = "searchTermInput", delay = 250 }
+            in
+                { model | language = "", items_per_page = defaultItemsPerPage } ! [focusCmd]
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
