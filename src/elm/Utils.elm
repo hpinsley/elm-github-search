@@ -59,3 +59,9 @@ timeToFullDateDisplay time =
     time
         |> Date.fromTime
         |> format "%A %B %d %Y %I:%M:%S %p"
+
+shortTimeDisplay : Time -> String
+shortTimeDisplay time =
+    time
+        |> Date.fromTime
+        |> format "%I:%M:%S %p"

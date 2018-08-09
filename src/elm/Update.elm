@@ -202,7 +202,7 @@ update msg model =
             { model | language = "", items_per_page = defaultItemsPerPage } ! [focusSearchInput]
 
         SetFocusedElement focusedElement ->
-            { model | searchTerm = model.searchTerm ++ " " ++ focusedElement } ! []
+            { model | lastFocusedElement = focusedElement } ! []
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

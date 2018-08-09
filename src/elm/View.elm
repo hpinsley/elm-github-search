@@ -74,7 +74,8 @@ buildStatusBar model =
                   , alignment = Center
                   , fontSize = Nothing
                   }
-                , { label = Just "Time:", content = text (Utils.timeToFullDateDisplay model.currentTime), alignment = Center, fontSize = Just "10pt" }
+                , { label = Just "Focus:", content = text model.lastFocusedElement, alignment = Center, fontSize = Just "10pt" }
+                , { label = Just "Time:", content = text (Utils.shortTimeDisplay model.currentTime), alignment = Center, fontSize = Just "10pt" }
                 , { label = Just "Time Source:", content = text model.timeSource, alignment = Right, fontSize = Nothing }
                 ]
             }

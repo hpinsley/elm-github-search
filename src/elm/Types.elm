@@ -67,6 +67,7 @@ type alias Model =
         , highlightText: String
         , filterText: String
         , searchCount: Int
+        , lastFocusedElement: String
     }
 
 -- Messages
@@ -111,6 +112,7 @@ init =
             , highlightText = ""
             , filterText = ""
             , searchCount = 0
+            , lastFocusedElement = ""
         }
         ,  Task.perform (ProcessTime "Intial Cmd") Time.now
     )
