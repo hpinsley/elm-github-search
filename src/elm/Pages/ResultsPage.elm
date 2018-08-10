@@ -12,7 +12,7 @@ import FormatNumber.Locales exposing (Locale, usLocale)
 
 view : Model -> MatchingRepos -> Html Msg
 view model matching_repos =
-    div []
+    div [id "resultsPage"]
         [ displayTextFilter model
         , displayResultsTable model matching_repos
         , displayLinks model matching_repos

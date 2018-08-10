@@ -10,34 +10,33 @@ import Components.StatusBar exposing (..)
 view : Model -> Html Msg
 view model =
     div
-        [ id "graph"
-        , style
-            [ ( "position", "relative" )
-            ]
-        ]
-        [ text "Graph Here"
-        , buildStatusBar model
+        [ id "graphPage" ]
+        [ graphContent model
+        , navButtons model
         ]
 
 
-buildStatusBar : Model -> Html Msg
-buildStatusBar model =
-    statusBar
-        { fontSize = "12pt"
-        , sections =
-            [ { label = Nothing, content = returnBtn model, alignment = Center, fontSize = Nothing }
-            ]
-        }
+graphContent : Model -> Html Msg
+graphContent model =
+    div [ id "graphContent" ]
+        [ text "content here"
+        ]
+
+
+navButtons : Model -> Html Msg
+navButtons model =
+    div
+        [ id "graphNavButtons"
+        ]
+        [ returnBtn model
+        ]
 
 
 returnBtn : Model -> Html Msg
 returnBtn model =
     button
-        [ class "btn"
-        , style
-            [ ( "margin", "0px" )
-            , ( "padding", "6px" )
-            ]
+        [ id "returnFromGraphPageBtn"
+        , class "btn btn-primary btn-lg"
         , onClick (NavigateToPage SearchPage)
         ]
         [ text "Return to Search" ]

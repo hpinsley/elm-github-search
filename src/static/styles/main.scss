@@ -20,8 +20,38 @@ body {
 
 div#page {
     margin-top: 10px;
+}
+
+div#searchPage {
     margin-left: 20px;
     margin-right: 20px;
+}
+
+div#resultsPage {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+div#graphPage {
+    margin-left: 20px;
+    margin-right: 20px;
+
+    div#graphContent {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
+        height: 500px;
+        width: 800px;
+        border: 1px solid black;
+    }
+
+    div#graphNavButtons {
+        width: 80vw;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
 }
 
 // can add Boostrap overrides, additional Sass/CSS below...
