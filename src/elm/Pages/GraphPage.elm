@@ -28,15 +28,24 @@ navButtons model =
     div
         [ id "graphNavButtons"
         ]
-        [ returnBtn model
+        [ renderBtn model
+        , returnBtn model
         ]
 
 
 returnBtn : Model -> Html Msg
 returnBtn model =
     button
-        [ id "returnFromGraphPageBtn"
-        , class "btn btn-primary btn-lg"
+        [ class "btn btn-primary btn-lg"
         , onClick (NavigateToPage SearchPage)
         ]
         [ text "Return to Search" ]
+
+
+renderBtn : Model -> Html Msg
+renderBtn model =
+    button
+        [ class "btn btn-primary btn-lg"
+        , onClick (NavigateToPage SearchPage)
+        ]
+        [ text "Render" ]
