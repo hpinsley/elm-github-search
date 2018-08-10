@@ -14,6 +14,7 @@ type Page
     | SearchingForUserPage
     | ResultsPage
     | UserPage
+    | GraphPage
 
 type alias UserLogin = String
 type alias SearchTerm = String
@@ -92,6 +93,7 @@ type Msg
     | ClearFiltersAndHighlights
     | ClearSearchPageFilters
     | SetFocusedElement String
+    | NavigateToPage Page
 
 init : ( Model, Cmd Msg )
 init =

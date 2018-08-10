@@ -204,6 +204,9 @@ update msg model =
         SetFocusedElement focusedElement ->
             { model | lastFocusedElement = focusedElement } ! []
 
+        NavigateToPage page ->
+            { model | page = page } ! []
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch [

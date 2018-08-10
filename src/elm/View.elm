@@ -9,6 +9,7 @@ import Pages.SearchingPage exposing (view)
 import Pages.ResultsPage exposing (view)
 import Pages.SearchingForUserPage exposing (view)
 import Pages.UserPage exposing (view)
+import Pages.GraphPage exposing (view)
 import Components.StatusBar exposing (..)
 import Utils exposing (..)
 
@@ -44,42 +45,54 @@ displayPage model =
         UserPage ->
             Pages.UserPage.view model
 
+        GraphPage ->
+            Pages.GraphPage.view model
 
 buildStatusBar : Model -> Html Msg
 buildStatusBar model =
-    let
-        btn =
+    statusBar
+        { fontSize = "12pt"
+        , sections =
+            [ { label = Just "Search count:", content = text (toString model.searchCount), alignment = Left, fontSize = Nothing }
+            , { label = Nothing, content = plotBtn model, alignment = Center, fontSize = Nothing }
+            , { label = Nothing, content = clearBtn model, alignment = Center, fontSize = Nothing }
+            , { label = Just "Focus:", content = text model.lastFocusedElement, alignment = Center, fontSize = Just "10pt" }
+            , { label = Just "Time:", content = text (Utils.shortTimeDisplay model.currentTime), alignment = Center, fontSize = Just "10pt" }
+            , { label = Just "Time Source:", content = text model.timeSource, alignment = Right, fontSize = Nothing }
+            ]
+        }
+
+plotBtn: Model -> Html Msg
+plotBtn model =
+    case model.page of
+        SearchPage ->
             button
                 [ class "btn"
-                  , style [
+                    , style [
                     ("margin", "0px")
                     , ("padding", "6px")
-                  ]
-                  , onClick ClearSearchPageFilters
+                    ]
+                    , onClick (NavigateToPage GraphPage)
+                ]
+                [ text "Graph" ]
+        _ ->
+            text ""
+
+clearBtn: Model -> Html Msg
+clearBtn model =
+    case model.page of
+        SearchPage ->
+            button
+                [ class "btn"
+                    , style [
+                    ("margin", "0px")
+                    , ("padding", "6px")
+                    ]
+                    , onClick ClearSearchPageFilters
                 ]
                 [ text "Clear Filters" ]
-    in
-        statusBar
-            { fontSize = "12pt"
-            , sections =
-                [ { label = Just "Search count:", content = text (toString model.searchCount), alignment = Left, fontSize = Nothing }
-                , { label = Nothing
-                  , content =
-                        case model.page of
-                            SearchPage ->
-                                btn
-
-                            _ ->
-                                text ""
-                  , alignment = Center
-                  , fontSize = Nothing
-                  }
-                , { label = Just "Focus:", content = text model.lastFocusedElement, alignment = Center, fontSize = Just "10pt" }
-                , { label = Just "Time:", content = text (Utils.shortTimeDisplay model.currentTime), alignment = Center, fontSize = Just "10pt" }
-                , { label = Just "Time Source:", content = text model.timeSource, alignment = Right, fontSize = Nothing }
-                ]
-            }
-
+        _ ->
+            text ""
 
 callResultsPageWithRepoResult : Model -> Html Msg
 callResultsPageWithRepoResult model =
