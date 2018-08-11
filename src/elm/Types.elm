@@ -94,6 +94,7 @@ type Msg
     | ClearSearchPageFilters
     | SetFocusedElement String
     | NavigateToPage Page
+    | RenderGraph String
 
 init : ( Model, Cmd Msg )
 init =

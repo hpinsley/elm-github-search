@@ -4,8 +4,6 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
-import Components.StatusBar exposing (..)
-
 
 view : Model -> Html Msg
 view model =
@@ -16,11 +14,11 @@ view model =
         ]
 
 
+-- Content is filled in by JavaScript port and D3
 graphContent : Model -> Html Msg
 graphContent model =
     div [ id "graphContent" ]
-        [ text "content here"
-        ]
+        []
 
 
 navButtons : Model -> Html Msg
@@ -46,6 +44,6 @@ renderBtn : Model -> Html Msg
 renderBtn model =
     button
         [ class "btn btn-primary btn-lg"
-        , onClick (NavigateToPage SearchPage)
+        , onClick (RenderGraph "My Title")
         ]
         [ text "Render" ]

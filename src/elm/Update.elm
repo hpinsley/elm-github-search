@@ -6,9 +6,7 @@ import Regex
 import Utils
 import Time
 import Ports.UserInterfaceHelpers as UserInterfaceHelpers
-
--- UPDATE
-
+import Ports.D3 as D3
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -206,6 +204,15 @@ update msg model =
 
         NavigateToPage page ->
             { model | page = page } ! []
+
+        RenderGraph title ->
+            let
+                graphInit = {
+                    title = "My Title"
+                }
+                cmd = D3.render graphInit
+            in
+                model ! [cmd]
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
