@@ -1,10 +1,12 @@
 import * as d3 from "d3";
+import * as $ from "jQuery"
 
 function renderGraph(title) {
     console.log(`In render graph with title ${title}`);
 
-    // rootElement = $('#graphContent');
-    // rootElement.append('<h1>This is from JavaScript</h1>');
+    var rootElement = $('#graphContent');
+    rootElement.append('<h1>This is from JavaScript</h1>');
+    
     var sampleSVG = d3.select("#graphContent")
         .append("svg")
         .attr("width", 100)
