@@ -6,8 +6,10 @@ import Regex
 import Utils
 import Time
 import Ports.UserInterfaceHelpers as UserInterfaceHelpers
-
--- UPDATE
+import Ports.D3 as D3
+import Encoders
+import Json.Encode
+import Debug
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -34,7 +36,7 @@ update msg model =
                 , highlightText = ""
                 , sortBy = Nothing
             }
-                ! [focusSearchInput]
+                ! [ focusSearchInput ]
 
         StartGeneralRepoSearch ->
             let
@@ -156,7 +158,9 @@ update msg model =
                             , items = searchResult.items
                             , links = extractLinksFromHeader searchResult.linkHeader
                             }
-                        searchRepos = applySortOrder (Just matchingRepos) model.sortBy
+
+                        searchRepos =
+                            applySortOrder (Just matchingRepos) model.sortBy
                     in
                         { model
                             | page = ResultsPage
@@ -178,13 +182,16 @@ update msg model =
             (sortModel model columnClicked) ! []
 
         OnItemsPerPageChanged strPerPage ->
-            let itemsPerPage =
-                case String.toInt strPerPage of
-                    Err _ ->
-                        5
-                    Ok n -> n
+            let
+                itemsPerPage =
+                    case String.toInt strPerPage of
+                        Err _ ->
+                            5
+
+                        Ok n ->
+                            n
             in
-                {model | items_per_page = itemsPerPage} ! []
+                { model | items_per_page = itemsPerPage } ! []
 
         OnLanguageChanged language ->
             { model | language = language } ! []
@@ -199,7 +206,7 @@ update msg model =
             { model | highlightText = "", filterText = "" } ! []
 
         ClearSearchPageFilters ->
-            { model | language = "", items_per_page = defaultItemsPerPage } ! [focusSearchInput]
+            { model | language = "", items_per_page = defaultItemsPerPage } ! [ focusSearchInput ]
 
         SetFocusedElement focusedElement ->
             { model | lastFocusedElement = focusedElement } ! []
@@ -207,20 +214,47 @@ update msg model =
         NavigateToPage page ->
             { model | page = page } ! []
 
+        RenderGraph ->
+            let
+                encoded =
+                    Encoders.encodeMonthValueList model.graphData.months
+
+                graphInit =
+                    { title = model.graphData.title
+                    , monthData = Json.Encode.encode 0 encoded
+                    }
+
+                cmd =
+                    D3.render graphInit
+            in
+                model ! [ cmd ]
+
+        ChangeMonthValue month newVal ->
+            { model
+                | graphData =
+                    { title = model.graphData.title
+                    , months = updateMonthValue month newVal model.graphData.months
+                    }
+            }
+                ! []
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch [
-          Time.every (60 * Time.second) (ProcessTime "Subscription")
+    Sub.batch
+        [ Time.every (60 * Time.second) (ProcessTime "Subscription")
         , UserInterfaceHelpers.setFocusToElementResult SetFocusedElement
-    ]
+        ]
 
 
 
 -- Sub.none
 
+
 focusSearchInput : Cmd Msg
 focusSearchInput =
     UserInterfaceHelpers.setFocusToElement { id = "searchTermInput", delay = 250 }
+
 
 extractLinksFromHeader : Maybe String -> List Link
 extractLinksFromHeader linkHeader =
@@ -271,11 +305,15 @@ extractSearchTypeFromRepoResults matchingRepos =
         Nothing ->
             NotSearching
 
-sortModel: Model -> String -> Model
+
+sortModel : Model -> String -> Model
 sortModel model columnClicked =
     let
-        _ = Debug.log "sortBy" columnClicked
-        newSortOrder = getNewSortOrder model.sortBy columnClicked
+        _ =
+            Debug.log "sortBy" columnClicked
+
+        newSortOrder =
+            getNewSortOrder model.sortBy columnClicked
     in
         { model
             | sortBy = newSortOrder
@@ -283,47 +321,79 @@ sortModel model columnClicked =
             , userRepos = applySortOrder model.userRepos newSortOrder
         }
 
-getNewSortOrder: Maybe SortBy -> String -> Maybe SortBy
+
+getNewSortOrder : Maybe SortBy -> String -> Maybe SortBy
 getNewSortOrder oldSortOrder columnClicked =
     case oldSortOrder of
         Nothing ->
             Just (SortBy columnClicked Descending)
 
         Just oldSortOrder ->
-            if (oldSortOrder.column == columnClicked)
-            then
+            if (oldSortOrder.column == columnClicked) then
                 Just (SortBy oldSortOrder.column (reverseSortOrder oldSortOrder.order))
             else
                 Just (SortBy columnClicked Descending)
 
-reverseSortOrder: SortOrder -> SortOrder
-reverseSortOrder order =
-    if order == Ascending then Descending else Ascending
 
-applySortOrder: Maybe MatchingRepos -> Maybe SortBy -> Maybe MatchingRepos
+reverseSortOrder : SortOrder -> SortOrder
+reverseSortOrder order =
+    if order == Ascending then
+        Descending
+    else
+        Ascending
+
+
+applySortOrder : Maybe MatchingRepos -> Maybe SortBy -> Maybe MatchingRepos
 applySortOrder matches sortBy =
     case matches of
         Nothing ->
             Nothing
+
         Just _ ->
             case sortBy of
                 Nothing ->
                     matches
+
                 Just sb ->
                     Maybe.map (applySortOrderToMatch sb) matches
 
-applySortOrderToMatch: SortBy -> MatchingRepos -> MatchingRepos
+
+applySortOrderToMatch : SortBy -> MatchingRepos -> MatchingRepos
 applySortOrderToMatch sortBy matches =
     let
         comparableFunc =
             case sortBy.column of
-                "stars" -> .stargazers_count
-                "size" -> .size
-                _ -> .stargazers_count
+                "stars" ->
+                    .stargazers_count
+
+                "size" ->
+                    .size
+
+                _ ->
+                    .stargazers_count
 
         sortedItems =
             matches.items
                 |> List.sortBy comparableFunc
-                |> (if sortBy.order == Descending then List.reverse else identity)
+                |> (if sortBy.order == Descending then
+                        List.reverse
+                    else
+                        identity
+                   )
     in
         { matches | items = sortedItems }
+
+
+updateMonthValue : String -> String -> List MonthValue -> List MonthValue
+updateMonthValue month newVal months =
+    months
+        |> List.map
+            (\m ->
+                if (m.month == month) then
+                    {
+                          month = month
+                        , val = Result.withDefault 0 (String.toInt newVal)
+                    }
+                else
+                    m
+            )

@@ -20,6 +20,18 @@ type alias UserLogin = String
 type alias SearchTerm = String
 type alias UserAvatarUrl = String
 
+type alias MonthValue =
+    {
+          month: String
+        , val: Int
+    }
+
+type alias GraphData =
+    {
+        title: String,
+        months: List MonthValue
+    }
+
 type RepoSearchType
     = UserRepoSearch UserLogin
     | GeneralRepoSearch SearchTerm
@@ -69,6 +81,7 @@ type alias Model =
         , filterText: String
         , searchCount: Int
         , lastFocusedElement: String
+        , graphData: GraphData
     }
 
 -- Messages
@@ -94,29 +107,51 @@ type Msg
     | ClearSearchPageFilters
     | SetFocusedElement String
     | NavigateToPage Page
+    | RenderGraph
+    | ChangeMonthValue String String
 
 init : ( Model, Cmd Msg )
 init =
-    (
-        {
-              page = SearchPage
-            , searchType = NotSearching
-            , searchTerm = ""
-            , language = ""
-            , items_per_page = defaultItemsPerPage
-            , errorMessage = ""
-            , user = Nothing
-            , userRepos = Nothing
-            , searchRepos = Nothing
-            , sortBy = Nothing
-            , currentTime = 0
-            , timeSource = ""
-            , highlightText = ""
-            , filterText = ""
-            , searchCount = 0
-            , lastFocusedElement = ""
+    let
+        graphData = {
+            title = "Days of the Month",
+            months = [
+                      MonthValue "Jan" 31
+                    , MonthValue "Feb" 28
+                    , MonthValue "Mar" 31
+                    , MonthValue "Apr" 30
+                    , MonthValue "May" 31
+                    , MonthValue "Jun" 30
+                    , MonthValue "Jul" 31
+                    , MonthValue "Aug" 31
+                    , MonthValue "Sep" 30
+                    , MonthValue "Oct" 31
+                    , MonthValue "Nov" 30
+                    , MonthValue "Dec" 31
+                    ]
         }
-        ,  Task.perform (ProcessTime "Intial Cmd") Time.now
-    )
+    in
+        (
+            {
+                page = SearchPage
+                , searchType = NotSearching
+                , searchTerm = ""
+                , language = ""
+                , items_per_page = defaultItemsPerPage
+                , errorMessage = ""
+                , user = Nothing
+                , userRepos = Nothing
+                , searchRepos = Nothing
+                , sortBy = Nothing
+                , currentTime = 0
+                , timeSource = ""
+                , highlightText = ""
+                , filterText = ""
+                , searchCount = 0
+                , lastFocusedElement = ""
+                , graphData = graphData
+            }
+            ,  Task.perform (ProcessTime "Intial Cmd") Time.now
+        )
 
 defaultItemsPerPage = 20

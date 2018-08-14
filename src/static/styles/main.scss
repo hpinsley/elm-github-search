@@ -35,14 +35,53 @@ div#resultsPage {
 div#graphPage {
     margin-left: 20px;
     margin-right: 20px;
+    border: 1px solid yellow;
 
-    div#graphContent {
+    div#graphGroup {
+        $groupHeight: 72vh;
+        padding-top: 20px;
+        color: blue;
+        border: 1px solid red;
         margin-left: auto;
         margin-right: auto;
-        margin-top: 50px;
-        height: 500px;
-        width: 800px;
-        border: 1px solid black;
+        width: 90vw;
+
+        div#graphDataDisplay {
+            float: left;
+            width: 15vw;
+            height: $groupHeight;
+            color: green;
+            border: 1px solid green;
+
+            h1 {
+                color: black;
+                font-size: 14pt;
+            }
+
+            div.monthValue {
+                margin-top: 5px;
+                font-size: 14pt;
+
+                label {
+                    color: $oxblood;
+                    width: 40px;
+                }
+                input[type='number'] {
+                    width: 100px;
+                    background-color: inherit;
+                    margin-left: 6px;
+                }
+            }
+        }
+
+        div#graphContent {
+            float: left;
+            margin-left: auto;
+            margin-right: auto;
+            height: $groupHeight;
+            width: 70vw;
+            border: 1px solid black;
+        }
     }
 
     div#graphNavButtons {
