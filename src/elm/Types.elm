@@ -108,6 +108,7 @@ type Msg
     | SetFocusedElement String
     | NavigateToPage Page
     | RenderGraph
+    | ChangeMonthValue String String
 
 init : ( Model, Cmd Msg )
 init =

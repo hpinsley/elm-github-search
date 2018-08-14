@@ -49,6 +49,7 @@ displayMonthValue month =
         , input
             [ type_ "number"
             , value (toString month.val)
+            , onInput (ChangeMonthValue month.month)
             ]
             []
         ]
