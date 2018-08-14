@@ -20,14 +20,37 @@ graphGroupDisplay model =
     div [ id "graphGroup" ]
         [ graphDataDisplay model
         , graphContent model
-        , div [class "clear"][]
+        , div [ class "clear" ] []
         ]
 
 
 graphDataDisplay : Model -> Html Msg
 graphDataDisplay model =
     div [ id "graphDataDisplay" ]
-        [ text model.graphData.title
+        [ h1 []
+            [ text model.graphData.title
+            ]
+        , displayMonthValues model
+        ]
+
+
+displayMonthValues : Model -> Html Msg
+displayMonthValues model =
+    div [] <|
+        List.map displayMonthValue model.graphData.months
+
+
+displayMonthValue : MonthValue -> Html Msg
+displayMonthValue month =
+    div [ class "monthValue" ]
+        [ label []
+            [ text month.month
+            ]
+        , input
+            [ type_ "number"
+            , value (toString month.val)
+            ]
+            []
         ]
 
 

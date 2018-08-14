@@ -5,7 +5,6 @@ import GithubTypes exposing (..)
 import Http
 import Time
 import Task
-import Dict exposing (..)
 
 -- MODEL
 
@@ -21,10 +20,16 @@ type alias UserLogin = String
 type alias SearchTerm = String
 type alias UserAvatarUrl = String
 
+type alias MonthValue =
+    {
+          month: String
+        , val: Int
+    }
+
 type alias GraphData =
     {
         title: String,
-        data: List (String, Float)
+        months: List MonthValue
     }
 
 type RepoSearchType
@@ -109,7 +114,20 @@ init =
     let
         graphData = {
             title = "Months",
-            data = [("Jan", 1.0), ("Feb", 2.0)]
+            months = [
+                      MonthValue "Jan" 31
+                    , MonthValue "Feb" 28
+                    , MonthValue "Mar" 31
+                    , MonthValue "Apr" 30
+                    , MonthValue "May" 31
+                    , MonthValue "Jun" 30
+                    , MonthValue "Jul" 31
+                    , MonthValue "Aug" 31
+                    , MonthValue "Sep" 30
+                    , MonthValue "Oct" 31
+                    , MonthValue "Nov" 30
+                    , MonthValue "Dec" 31
+                    ]
         }
     in
         (

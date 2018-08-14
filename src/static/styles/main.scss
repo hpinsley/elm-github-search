@@ -37,6 +37,7 @@ div#graphPage {
     margin-right: 20px;
     border: 1px solid yellow;
     div#graphGroup {
+        $groupHeight: 72vh;
         padding-top: 20px;
         color: blue;
         border: 1px solid red;
@@ -46,17 +47,32 @@ div#graphPage {
 
         div#graphDataDisplay {
             float: left;
-            width: 270px;
-            height: 520px;
+            width: 15vw;
+            height: $groupHeight;
             color: green;
             border: 1px solid green;
+
+            div.monthValue {
+                margin-top: 5px;
+                font-size: 14pt;
+
+                label {
+                    color: $oxblood;
+                    width: 40px;
+                }
+                input[type='number'] {
+                    width: 100px;
+                    background-color: inherit;
+                    margin-left: 6px;
+                }
+            }
         }
 
         div#graphContent {
             float: left;
             margin-left: auto;
             margin-right: auto;
-            height: 520px;
+            height: $groupHeight;
             width: 70vw;
             border: 1px solid black;
         }
