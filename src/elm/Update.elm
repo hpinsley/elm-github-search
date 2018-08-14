@@ -221,7 +221,7 @@ update msg model =
 
                 graphInit =
                     { title = model.graphData.title
-                    , monthData = Json.Encode.encode 5 encoded
+                    , monthData = Json.Encode.encode 0 encoded
                     }
 
                 cmd =
