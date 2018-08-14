@@ -87,6 +87,6 @@ renderBtn : Model -> Html Msg
 renderBtn model =
     button
         [ class "btn btn-primary btn-lg"
-        , onClick (RenderGraph "My Title")
+        , onClick RenderGraph
         ]
         [ text "Render" ]

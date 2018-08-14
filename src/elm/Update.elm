@@ -207,7 +207,7 @@ update msg model =
         NavigateToPage page ->
             { model | page = page } ! []
 
-        RenderGraph title ->
+        RenderGraph ->
             let
                 encoded = Encoders.encodeMonthValueList model.graphData.months
                 graphInit = {

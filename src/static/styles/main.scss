@@ -36,6 +36,7 @@ div#graphPage {
     margin-left: 20px;
     margin-right: 20px;
     border: 1px solid yellow;
+
     div#graphGroup {
         $groupHeight: 72vh;
         padding-top: 20px;
@@ -51,6 +52,11 @@ div#graphPage {
             height: $groupHeight;
             color: green;
             border: 1px solid green;
+
+            h1 {
+                color: black;
+                font-size: 14pt;
+            }
 
             div.monthValue {
                 margin-top: 5px;

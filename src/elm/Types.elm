@@ -107,13 +107,13 @@ type Msg
     | ClearSearchPageFilters
     | SetFocusedElement String
     | NavigateToPage Page
-    | RenderGraph String
+    | RenderGraph
 
 init : ( Model, Cmd Msg )
 init =
     let
         graphData = {
-            title = "Months",
+            title = "Days of the Month",
             months = [
                       MonthValue "Jan" 31
                     , MonthValue "Feb" 28
