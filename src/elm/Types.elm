@@ -5,6 +5,7 @@ import GithubTypes exposing (..)
 import Http
 import Time
 import Task
+import Dict exposing (..)
 
 -- MODEL
 
@@ -19,6 +20,12 @@ type Page
 type alias UserLogin = String
 type alias SearchTerm = String
 type alias UserAvatarUrl = String
+
+type alias GraphData =
+    {
+        title: String,
+        data: List (String, Float)
+    }
 
 type RepoSearchType
     = UserRepoSearch UserLogin
@@ -69,6 +76,7 @@ type alias Model =
         , filterText: String
         , searchCount: Int
         , lastFocusedElement: String
+        , graphData: GraphData
     }
 
 -- Messages
@@ -98,26 +106,33 @@ type Msg
 
 init : ( Model, Cmd Msg )
 init =
-    (
-        {
-              page = SearchPage
-            , searchType = NotSearching
-            , searchTerm = ""
-            , language = ""
-            , items_per_page = defaultItemsPerPage
-            , errorMessage = ""
-            , user = Nothing
-            , userRepos = Nothing
-            , searchRepos = Nothing
-            , sortBy = Nothing
-            , currentTime = 0
-            , timeSource = ""
-            , highlightText = ""
-            , filterText = ""
-            , searchCount = 0
-            , lastFocusedElement = ""
+    let
+        graphData = {
+            title = "Months",
+            data = [("Jan", 1.0), ("Feb", 2.0)]
         }
-        ,  Task.perform (ProcessTime "Intial Cmd") Time.now
-    )
+    in
+        (
+            {
+                page = SearchPage
+                , searchType = NotSearching
+                , searchTerm = ""
+                , language = ""
+                , items_per_page = defaultItemsPerPage
+                , errorMessage = ""
+                , user = Nothing
+                , userRepos = Nothing
+                , searchRepos = Nothing
+                , sortBy = Nothing
+                , currentTime = 0
+                , timeSource = ""
+                , highlightText = ""
+                , filterText = ""
+                , searchCount = 0
+                , lastFocusedElement = ""
+                , graphData = graphData
+            }
+            ,  Task.perform (ProcessTime "Intial Cmd") Time.now
+        )
 
 defaultItemsPerPage = 20
