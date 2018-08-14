@@ -7,6 +7,8 @@ import Utils
 import Time
 import Ports.UserInterfaceHelpers as UserInterfaceHelpers
 import Ports.D3 as D3
+import Encoders
+import Json.Encode
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -207,8 +209,10 @@ update msg model =
 
         RenderGraph title ->
             let
+                encoded = Encoders.encodeMonthValueList model.graphData.months
                 graphInit = {
-                    title = "My Title"
+                      title = model.graphData.title
+                    , monthData = Json.Encode.encode 5 encoded
                 }
                 cmd = D3.render graphInit
             in

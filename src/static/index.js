@@ -17,6 +17,6 @@ app.ports.setFocusToElement.subscribe(({id, delay}) => {
     }, delay);
 });
 
-app.ports.render.subscribe(({title}) => {
-    renderGraph(title);
+app.ports.render.subscribe(({title, monthData}) => {
+    renderGraph(title, monthData);
 });

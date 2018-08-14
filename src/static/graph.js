@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import * as $ from "jQuery"
 
-function renderGraph(title) {
-    console.log(`In render graph with title ${title}`);
+function renderGraph(title, monthData) {
+    console.log(`In render graph with title ${title} and monthData ${monthData}`);
 
     var rootElement = $('#graphContent');
     rootElement.append('<h1>This is from JavaScript</h1>');
